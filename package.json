@@ -1,0 +1,26 @@
+{
+  "name": "lazy-enumerable",
+  "version": "0.0.1",
+  "description": "A linq-like lazy-evaluation enumarable library that aims to support browser, node & deno",
+  "main": "dist/mod.ts",
+  "repository": "luvies/lazy-enumerable",
+  "author": "luvies",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "tsc --project ./tsconfig.json"
+  },
+  "devDependencies": {
+    "deno_ls_plugin": "^0.1.0",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.3.3"
+  },
+  "keywords": [
+    "browser",
+    "linq",
+    "lazy",
+    "deno",
+    "enumerable"
+  ]
+}

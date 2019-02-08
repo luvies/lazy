@@ -1,0 +1,95 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "interface-name": false,
+    "semicolon": true,
+    "object-literal-sort-keys": false,
+    "no-console": {
+      "severity": "warn"
+    },
+    "ordered-imports": {
+      "severity": "warn"
+    },
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always"
+      }
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-rest-spread",
+      "check-type",
+      "check-typecase",
+      "check-type-operator",
+      "check-preblock"
+    ],
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "no-return-await": true,
+    "no-unnecessary-type-assertion": true,
+    "await-promise": true,
+    "ban-comma-operator": true,
+    "no-floating-promises": true,
+    "no-void-expression": [
+      true,
+      "ignore-arrow-function-shorthand"
+    ],
+    "prefer-object-spread": true,
+    "eofline": true,
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "no-irregular-whitespace": true,
+    "one-line": [
+      true,
+      "check-catch",
+      "check-finally",
+      "check-else",
+      "check-open-brace",
+      "check-whitespace"
+    ],
+    "prefer-template": true,
+    "return-undefined": true,
+    "no-inferrable-types": true,
+    "member-access": [
+      true,
+      "check-accessor",
+      "check-constructor",
+      "check-parameter-property"
+    ],
+    "no-trailing-whitespace": true,
+    "space-within-parens": false,
+    "space-before-function-paren": false,
+    "object-curly-spacing": [
+      true,
+      "always"
+    ],
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ]
+  },
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**/*.ts"
+    ]
+  }
+}
