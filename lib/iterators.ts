@@ -3,6 +3,7 @@ import * as aggregates from './aggregates.ts';
 // Helpers types.
 
 type MapFn<TSource, TResult> = aggregates.MapFn<TSource, TResult>;
+type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
 type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
 type IndexPredicate<TSource> = (value: TSource, index: number) => boolean;
@@ -395,16 +396,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Projects the elements of the iterable into a new form.
    * @param selector The transformation function to use for each element.
    */
-  public select<TResult>(selector: MapFn<TElement, TResult>) {
+  public select<TResult>(selector: IndexMapFn<TElement, TResult>) {
     return new LazySelect(this, selector);
   }
 
   /**
    * Projects the elements of the iterable into a new form, and flattens the iterable of iterables
    * into a single iterable.
-   * @param selector The transformation function to use for each element.
+   * @param selector The transformation function to use for each element. The index parameter
+   * is the index that the element was at in the source iterable, *not* the resulting one.
    */
-  public selectMany<TResult>(selector: MapFn<TElement, Iterable<TResult>>) {
+  public selectMany<TResult>(selector: IndexMapFn<TElement, Iterable<TResult>>) {
     return new LazySelectMany(this, selector);
   }
 
@@ -706,14 +708,16 @@ class LazyReverse<TElement> extends Lazy<TElement> {
 class LazySelect<TSource, TResult> extends Lazy<TResult> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
-    private readonly _selector: MapFn<TSource, TResult>,
+    private readonly _selector: IndexMapFn<TSource, TResult>,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TResult> {
+    let index = 0;
     for (const value of this._iterable) {
-      yield this._selector(value);
+      yield this._selector(value, index);
+      index++;
     }
   }
 }
@@ -721,16 +725,18 @@ class LazySelect<TSource, TResult> extends Lazy<TResult> {
 class LazySelectMany<TSource, TResult> extends Lazy<TResult> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
-    private readonly _selector: MapFn<TSource, Iterable<TResult>>,
+    private readonly _selector: IndexMapFn<TSource, Iterable<TResult>>,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TResult> {
+    let index = 0;
     for (const outer of this._iterable) {
-      for (const inner of this._selector(outer)) {
+      for (const inner of this._selector(outer, index)) {
         yield inner;
       }
+      index++;
     }
   }
 }

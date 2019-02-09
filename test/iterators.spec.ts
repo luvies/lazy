@@ -158,7 +158,7 @@ test(function reverse() {
 });
 
 test(function select() {
-  const orig = [
+  let orig = [
     { value: 1 },
     { value: 2 },
     { value: 3 },
@@ -166,10 +166,25 @@ test(function select() {
     { value: 5 },
   ];
   assert.equal(lazy.from(orig).select(v => v.value).toArray(), [1, 2, 3, 4, 5]);
+
+  orig = [
+    { value: 5 },
+    { value: 4 },
+    { value: 3 },
+    { value: 2 },
+    { value: 1 },
+  ];
+  assert.equal(lazy.from(orig).select((v, i) => ({ v: v.value, i })).toArray(), [
+    { v: 5, i: 0 },
+    { v: 4, i: 1 },
+    { v: 3, i: 2 },
+    { v: 2, i: 3 },
+    { v: 1, i: 4 },
+  ]);
 });
 
 test(function selectMany() {
-  const orig = [
+  let orig = [
     { value: [1] },
     { value: [2] },
     { value: [3] },
@@ -177,6 +192,24 @@ test(function selectMany() {
     { value: [5] },
   ];
   assert.equal(lazy.from(orig).selectMany(v => v.value).toArray(), [1, 2, 3, 4, 5]);
+
+  orig = [
+    { value: [5, 6] },
+    { value: [4] },
+    { value: [3] },
+    { value: [2] },
+    { value: [1] },
+  ];
+  assert.equal(lazy.from(orig).selectMany(
+    (v, i) => lazy.from(v.value).select(v2 => ({ v: v2, i })),
+  ).toArray(), [
+    { v: 5, i: 0 },
+    { v: 6, i: 0 },
+    { v: 4, i: 1 },
+    { v: 3, i: 2 },
+    { v: 2, i: 3 },
+    { v: 1, i: 4 },
+    ]);
 
   const arrarr = [
     [1, 2, 3],
@@ -266,7 +299,7 @@ test(function where() {
     { key: 4, value: 'd' },
     { key: 5, value: 'e' },
   ]).where(v => v.value === 'a' || v.value === 'e').toArray(), [
-    { key: 1, value: 'a' },
-    { key: 5, value: 'e' },
-  ]);
+      { key: 1, value: 'a' },
+      { key: 5, value: 'e' },
+    ]);
 });
