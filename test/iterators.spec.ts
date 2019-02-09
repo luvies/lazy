@@ -1,5 +1,5 @@
 import { assert, test } from 'https://deno.land/x/std@v0.2.8/testing/mod.ts';
-import * as lazy from '../lib/mod.ts';
+import lazy from '../lib/mod.ts';
 
 test(function append() {
   let orig = [1, 2, 3, 4];

@@ -40,6 +40,14 @@ export function repeat<TElement>(value: TElement, count: number) {
   return new LazyRepeat(value, count);
 }
 
+export default {
+  Lazy,
+  empty,
+  from,
+  range,
+  repeat,
+};
+
 class LazyEmpty<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     // Don't yield anything for an empty enumerable.

@@ -1,5 +1,5 @@
 import { assert, test } from 'https://deno.land/x/std@v0.2.8/testing/mod.ts';
-import * as lazy from '../lib/mod.ts';
+import lazy from '../lib/mod.ts';
 
 test(function aggregate() {
   assert.equal(lazy.from([1, 2, 3]).aggregate((acc, curr) => acc + curr, 0), 1 + 2 + 3);
