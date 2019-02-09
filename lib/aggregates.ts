@@ -1,17 +1,28 @@
 /*
-  Iterable aggregate functions.
+  Iterable aggregation functions.
   All of these function cause the iterable to be iterated.
 */
 
+// Error messages.
+enum Errors {
+  Empty = 'Empty iterable',
+  NonNumber = 'Cannot perform function on a non-number value',
+}
+
 // Function types.
 
+export type MapFn<TSource, TResult> = (source: TSource) => TResult;
 export type AggFn<T, U> = (acc: U, next: T) => U;
 export type BoolPredicate<T> = (source: T) => boolean;
 export type ComparerFn<T> = (a: T, b: T) => boolean;
 
 // Aggregation functions.
 
-export function aggregate<T, U>(iterable: Iterable<T>, agg: AggFn<T, U>, seed: U): U {
+export function aggregate<TSource, TAcc>(
+  iterable: Iterable<TSource>,
+  agg: AggFn<TSource, TAcc>,
+  seed: TAcc,
+): TAcc {
   let acc = seed;
   for (const value of iterable) {
     acc = agg(acc, value);
@@ -19,16 +30,10 @@ export function aggregate<T, U>(iterable: Iterable<T>, agg: AggFn<T, U>, seed: U
   return acc;
 }
 
-export function any<T>(iterable: Iterable<T>, predicate: BoolPredicate<T>): boolean {
-  for (const value of iterable) {
-    if (predicate(value)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-export function all<T>(iterable: Iterable<T>, predicate: BoolPredicate<T>): boolean {
+export function all<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+): boolean {
   for (const value of iterable) {
     if (!predicate(value)) {
       return false;
@@ -37,20 +42,45 @@ export function all<T>(iterable: Iterable<T>, predicate: BoolPredicate<T>): bool
   return true;
 }
 
-export function average<T>(iterable: Iterable<T>): T extends number ? number : never {
-  let total = 0;
-  let count = 0;
-  for (const value of iterable) {
-    if (typeof value !== 'number') {
-      throw new TypeError('Cannot average a non-number value');
+export function any<TElement>(
+  iterable: Iterable<TElement>,
+  predicate?: BoolPredicate<TElement>,
+): boolean {
+  if (predicate) {
+    for (const value of iterable) {
+      if (predicate(value)) {
+        return true;
+      }
     }
-    total += value;
-    count++;
+    return false;
+  } else {
+    return !iterable[Symbol.iterator]().next().done;
   }
-  return total / count as any;
 }
 
-export function contains<T>(iterable: Iterable<T>, value: T, comparer?: ComparerFn<T>): boolean {
+export function average<TElement>(
+  iterable: Iterable<TElement>,
+): TElement extends number ? number : never {
+  let total = 0;
+  let ccount = 0;
+  for (const value of iterable) {
+    if (typeof value !== 'number') {
+      throw new TypeError(Errors.NonNumber);
+    }
+    total += value;
+    ccount++;
+  }
+  if (ccount === 0) {
+    throw new Error(Errors.Empty);
+  }
+  return total / ccount as any;
+}
+
+export function contains<TElement>(
+  iterable: Iterable<TElement>,
+  value: TElement,
+  comparer?: ComparerFn<TElement>,
+): boolean {
   for (const ivalue of iterable) {
     if (comparer ? comparer(value, ivalue) : value === ivalue) {
       return true;
@@ -59,7 +89,18 @@ export function contains<T>(iterable: Iterable<T>, value: T, comparer?: Comparer
   return false;
 }
 
-function getElementAt<T>(iterable: Iterable<T>, index: number): { found: false } | { found: true, value: T } {
+export function count<TElement>(iterable: Iterable<TElement>): number {
+  let ccount = 0;
+  for (const _ of iterable) {
+    ccount++;
+  }
+  return ccount;
+}
+
+function getElementAt<TElement>(
+  iterable: Iterable<TElement>,
+  index: number,
+): { found: false } | { found: true, value: TElement } {
   let cindex = 0;
   for (const value of iterable) {
     if (cindex === index) {
@@ -70,8 +111,12 @@ function getElementAt<T>(iterable: Iterable<T>, index: number): { found: false }
   return { found: false };
 }
 
-export function elementAt<T>(iterable: Iterable<T>, index: number): T {
+export function elementAt<TElement>(
+  iterable: Iterable<TElement>,
+  index: number,
+): TElement {
   const res = getElementAt(iterable, index);
+
   if (res.found) {
     return res.value;
   } else {
@@ -79,8 +124,13 @@ export function elementAt<T>(iterable: Iterable<T>, index: number): T {
   }
 }
 
-export function elementAtOrDefault<T>(iterable: Iterable<T>, index: number, defaultValue: T): T {
+export function elementAtOrDefault<TElement>(
+  iterable: Iterable<TElement>,
+  index: number,
+  defaultValue: TElement,
+): TElement {
   const res = getElementAt(iterable, index);
+
   if (res.found) {
     return res.value;
   } else {
@@ -88,17 +138,22 @@ export function elementAtOrDefault<T>(iterable: Iterable<T>, index: number, defa
   }
 }
 
-export function first<T>(iterable: Iterable<T>): T {
+export function first<TElement>(
+  iterable: Iterable<TElement>,
+): TElement {
   const res = iterable[Symbol.iterator]().next();
 
   if (!res.done) {
     return res.value;
   } else {
-    throw new Error('No elements in iterable');
+    throw new Error(Errors.Empty);
   }
 }
 
-export function firstOrDefault<T>(iterable: Iterable<T>, defaultValue: T): T {
+export function firstOrDefault<TElement>(
+  iterable: Iterable<TElement>,
+  defaultValue: TElement,
+): TElement {
   const res = iterable[Symbol.iterator]().next();
 
   if (!res.done) {
@@ -108,6 +163,174 @@ export function firstOrDefault<T>(iterable: Iterable<T>, defaultValue: T): T {
   }
 }
 
+function getLast<TElement>(
+  iterable: Iterable<TElement>,
+): { items: false } | { items: true, value: TElement } {
+  let items = false;
+  let latest: TElement;
+  for (const value of iterable) {
+    latest = value;
+    items = true;
+  }
+  if (items) {
+    return { items: true, value: latest! };
+  } else {
+    return { items: false };
+  }
+}
+
+export function last<TElement>(iterable: Iterable<TElement>): TElement {
+  const res = getLast(iterable);
+  if (res.items) {
+    return res.value;
+  } else {
+    throw new Error(Errors.Empty);
+  }
+}
+
+export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultValue: TElement): TElement {
+  const res = getLast(iterable);
+  if (res.items) {
+    return res.value;
+  } else {
+    return defaultValue;
+  }
+}
+
+export function max<TElement>(
+  iterable: Iterable<TElement>,
+): TElement extends number ? number : never {
+  let cmax = -Infinity;
+  let items = false;
+  for (const value of iterable) {
+    if (typeof value !== 'number') {
+      throw new TypeError(Errors.NonNumber);
+    }
+    if (value > cmax) {
+      cmax = value;
+    }
+    items = true;
+  }
+  if (!items) {
+    throw new Error(Errors.Empty);
+  }
+  return cmax as any;
+}
+
+export function min<TElement>(
+  iterable: Iterable<TElement>,
+): TElement extends number ? number : never {
+  let cmin = +Infinity;
+  let items = false;
+  for (const value of iterable) {
+    if (typeof value !== 'number') {
+      throw new TypeError(Errors.NonNumber);
+    }
+    if (value < cmin) {
+      cmin = value;
+    }
+    items = true;
+  }
+  if (!items) {
+    throw new Error(Errors.Empty);
+  }
+  return cmin as any;
+}
+
+export function sequenceEquals<TElement>(
+  firstIterable: Iterable<TElement>,
+  secondIterable: Iterable<TElement>,
+  comparer: ComparerFn<TElement> = (a, b) => a === b,
+): boolean {
+  let done = false;
+  const firstIter = firstIterable[Symbol.iterator]();
+  let firstMove: IteratorResult<TElement>;
+  const secondIter = secondIterable[Symbol.iterator]();
+  let secondMove: IteratorResult<TElement>;
+  do {
+    firstMove = firstIter.next();
+    secondMove = secondIter.next();
+
+    if (firstMove.done !== secondMove.done) {
+      return false;
+    } else if (firstMove.done && secondMove.done) {
+      done = true;
+    } else if (!comparer(firstMove.value, secondMove.value)) {
+      return false;
+    }
+  } while (!done);
+  return true;
+}
+
+function getSingle<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+): { found: false } | { found: true, value: TElement } {
+  for (const value of iterable) {
+    if (predicate(value)) {
+      return { found: true, value };
+    }
+  }
+  return { found: false };
+}
+
+export function single<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+): TElement {
+  const res = getSingle(iterable, predicate);
+  if (res.found) {
+    return res.value;
+  } else {
+    throw new Error(Errors.Empty);
+  }
+}
+
+export function singleOrDefault<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+  defaultValue: TElement,
+): TElement {
+  const res = getSingle(iterable, predicate);
+  if (res.found) {
+    return res.value;
+  } else {
+    return defaultValue;
+  }
+}
+
+export function sum<TElement>(iterable: Iterable<TElement>): TElement extends number ? number : never {
+  let total = 0;
+  let items = false;
+  for (const value of iterable) {
+    if (typeof value !== 'number') {
+      throw new TypeError(Errors.NonNumber);
+    }
+    total += value;
+    items = true;
+  }
+  if (!items) {
+    throw new Error(Errors.Empty);
+  }
+  return total as any;
+}
+
 export function toArray<T>(iterable: Iterable<T>): T[] {
   return Array.from(iterable);
+}
+
+export function toMap<TSource, TKey, TElement = TSource>(
+  iterable: Iterable<TSource>,
+  keyFn: MapFn<TSource, TKey>,
+  valueFn: MapFn<TSource, TElement> = ((value: TSource) => value) as any,
+): Map<TKey, TElement> {
+  const map = new Map<TKey, TElement>();
+  for (const value of iterable) {
+    const key = keyFn(value);
+    if (map.has(key)) {
+      throw new Error('Duplicate key found');
+    }
+    map.set(key, valueFn(value));
+  }
+  return map;
 }

@@ -2,11 +2,11 @@ import { Lazy } from './iterators.ts';
 
 export { Lazy };
 
-export function empty<T>() {
-  return new LazyEmpty<T>();
+export function empty<TElement>() {
+  return new LazyEmpty<TElement>();
 }
 
-export function from<T>(iterable: Iterable<T>) {
+export function from<TElement>(iterable: Iterable<TElement>) {
   return new LazyEnumerator(iterable);
 }
 
@@ -14,40 +14,62 @@ export function range(start: number, end: number) {
   return new LazyRange(start, end);
 }
 
-class LazyEmpty<T> extends Lazy<T> {
-  public *[Symbol.iterator](): Iterator<T> {
+export function repeat<TElement>(value: TElement, count: number) {
+  return new LazyRepeat(value, count);
+}
+
+class LazyEmpty<TElement> extends Lazy<TElement> {
+  public *[Symbol.iterator](): Iterator<TElement> {
     // Don't yield anything for an empty enumerable.
   }
 }
 
-class LazyEnumerator<T> extends Lazy<T> {
+class LazyEnumerator<TElement> extends Lazy<TElement> {
   public constructor(
-    private readonly iterable: Iterable<T>,
+    private readonly _iterable: Iterable<TElement>,
   ) {
     super();
   }
 
-  public [Symbol.iterator]() {
-    return this.iterable[Symbol.iterator]();
+  public [Symbol.iterator](): Iterator<TElement> {
+    return this._iterable[Symbol.iterator]();
   }
 }
 
 class LazyRange extends Lazy<number> {
   public constructor(
-    private readonly start: number,
-    private readonly end: number,
+    private readonly _start: number,
+    private readonly _end: number,
   ) {
     super();
   }
 
-  public *[Symbol.iterator]() {
-    const direction = this.end - this.start < 0 ? -1 : 1;
+  public *[Symbol.iterator](): Iterator<number> {
+    const direction = this._end - this._start < 0 ? -1 : 1;
     for (
-      let i = this.start;
-      direction === 1 ? i < this.end : i > this.end;
+      let i = this._start;
+      direction === 1 ? i < this._end : i > this._end;
       i += direction
     ) {
       yield i;
+    }
+  }
+}
+
+class LazyRepeat<TElement> extends Lazy<TElement> {
+  public constructor(
+    private readonly _element: TElement,
+    private readonly _count: number,
+  ) {
+    super();
+    if (_count < 0) {
+      throw new Error('Count cannot be < 0');
+    }
+  }
+
+  public *[Symbol.iterator](): Iterator<TElement> {
+    for (let i = 0; i < this._count; i++) {
+      yield this._element;
     }
   }
 }
