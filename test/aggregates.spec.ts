@@ -101,6 +101,24 @@ test(function forEach() {
   ]);
 });
 
+test(function last() {
+  assert.equal(lazy.from([1]).last(), 1);
+  assert.equal(lazy.from([1, 2]).last(), 2);
+  assert.equal(lazy.from([1, 2, 3]).last(), 3);
+  assert.equal(lazy.from([1, 2, 3, 4]).last(), 4);
+  assert.equal(lazy.from([1, 2, 3, 4, 5]).last(), 5);
+  assert.throws(() => lazy.from([]).last());
+});
+
+test(function lastOrDefault() {
+  assert.equal(lazy.from([1]).lastOrDefault(9), 1);
+  assert.equal(lazy.from([1, 2]).lastOrDefault(9), 2);
+  assert.equal(lazy.from([1, 2, 3]).lastOrDefault(9), 3);
+  assert.equal(lazy.from([1, 2, 3, 4]).lastOrDefault(9), 4);
+  assert.equal(lazy.from([1, 2, 3, 4, 5]).lastOrDefault(9), 5);
+  assert.equal(lazy.from<number>([]).lastOrDefault(9), 9);
+});
+
 test(function max() {
   assert.equal(lazy.from([1, 2, 3, 4, 5]).max(), 5);
   assert.equal(lazy.from([1, 2, 3, 4]).max(), 4);
