@@ -7,7 +7,6 @@
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "node",
-    "rootDir": "lib",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -25,9 +24,14 @@
         "name": "deno_ls_plugin"
       },
     ],
+    "paths": {
+      "http://*": ["../../../../.deno/deps/http/*"],
+      "https://*": ["../../../../.deno/deps/https/*"],
+    },
   },
   "include": [
-    "lib/**/*.ts"
+    "lib/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
