@@ -1,9 +1,9 @@
 {
-  "name": "lazy-enumerable",
-  "version": "0.0.1",
-  "description": "A linq-like lazy-evaluation enumarable module that aims to support browser, node & deno",
+  "name": "@luvies/lazy",
+  "version": "1.0.0",
+  "description": "A linq-like lazy-evaluation iteration module that aims to support browser, node & deno",
   "main": "dist/mod.js",
-  "repository": "luvies/lazy-enumerable",
+  "repository": "luvies/lazy",
   "author": "luvies",
   "license": "MIT",
   "scripts": {
@@ -23,6 +23,10 @@
     "lazy",
     "deno",
     "denoland",
-    "enumerable"
+    "enumerable",
+    "iteration",
+    "iterator",
+    "enumerator",
+    "enumeration"
   ]
 }
