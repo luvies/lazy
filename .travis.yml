@@ -10,6 +10,7 @@ before_install:
 
 install:
   - curl -L https://deno.land/x/install/install.sh | sh -s v0.2.10
+  - yarn
 
 script:
   - yarn test
