@@ -7,7 +7,7 @@
   "author": "luvies",
   "license": "MIT",
   "scripts": {
-    "prepare": "tsc --project ./tsconfig.json",
+    "prepare": "node ./scripts/prebuild.js && tsc --project ./tsconfig.build.json",
     "test": "deno ./test/run_tests.ts"
   },
   "devDependencies": {
