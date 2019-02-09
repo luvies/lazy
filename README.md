@@ -16,7 +16,7 @@ function repeat<TElement>(value: TElement, count: number): Lazy<TElement>;
 The `Lazy` class is the root of the module, all things come from it and are derived off it, but it doesn't provide iteration by itself. In order to start using the module, you need to do something like the following:
 
 ```ts
-import lazy from 'lazy-enumerable';
+import lazy from '@luvies/lazy';
 
 const iterable = lazy.from([1, 2, 3, 4, 5]);
 ```
