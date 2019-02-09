@@ -1,5 +1,7 @@
 import { Lazy } from './iterators.ts';
 
+export { Lazy };
+
 export function empty<T>() {
   return new LazyEmpty<T>();
 }

@@ -5,71 +5,71 @@ type MapFn<T, U> = (source: T) => U;
 export abstract class Lazy<T> implements Iterable<T> {
   // Aggregates.
   public aggregate<U>(agg: aggregates.AggFn<T, U>, seed: U) {
-    return aggregates.aggregate<T, U>(this, agg, seed);
+    return aggregates.aggregate(this, agg, seed);
   }
 
   public all(predicate: aggregates.BoolPredicate<T>) {
-    return aggregates.all<T>(this, predicate);
+    return aggregates.all(this, predicate);
   }
 
   public any(predicate: aggregates.BoolPredicate<T>) {
-    return aggregates.any<T>(this, predicate);
+    return aggregates.any(this, predicate);
   }
 
   public average() {
-    return aggregates.average<T>(this);
+    return aggregates.average(this);
   }
 
   public contains(value: T, comparer?: aggregates.ComparerFn<T>) {
-    return aggregates.contains<T>(this, value, comparer);
+    return aggregates.contains(this, value, comparer);
   }
 
   public elementAt(index: number) {
-    return aggregates.elementAt<T>(this, index);
+    return aggregates.elementAt(this, index);
   }
 
   public elementAtOrDefault(index: number, defaultValue: T) {
-    return aggregates.elementAtOrDefault<T>(this, index, defaultValue);
+    return aggregates.elementAtOrDefault(this, index, defaultValue);
   }
 
   public first() {
-    return aggregates.first<T>(this);
+    return aggregates.first(this);
   }
 
   public firstOrDefault(defaultValue: T) {
-    return aggregates.firstOrDefault<T>(this, defaultValue);
+    return aggregates.firstOrDefault(this, defaultValue);
   }
 
   public toArray() {
-    return aggregates.toArray<T>(this);
+    return aggregates.toArray(this);
   }
 
   // Iterators.
   public append(element: T) {
-    return new LazyAppend<T>(this, element);
+    return new LazyAppend(this, element);
   }
 
   public concat(iterable: Iterable<T>) {
-    return new LazyConcat<T>(this, iterable);
+    return new LazyConcat(this, iterable);
   }
 
   public defaultIfEmpty(defaultValue: T) {
-    return new LazyDefaultIfEmpty<T>(this, defaultValue);
+    return new LazyDefaultIfEmpty(this, defaultValue);
   }
 
   public distinct<U>(compareOn?: MapFn<T, U>) {
-    return new LazyDistinct<T, U>(this, compareOn);
+    return new LazyDistinct(this, compareOn);
   }
 
   public except<U>(second: Iterable<T>, compareOn?: MapFn<T, U>) {
-    return new LazyExcept<T, U>(this, second, compareOn);
+    return new LazyExcept(this, second, compareOn);
   }
 
   public select<U>(selector: MapFn<T, U>) {
-    return new LazySelect<T, U>(this, selector);
+    return new LazySelect(this, selector);
   }
 
-  public abstract [Symbol.iterator](): Iterator<any>;
+  public abstract [Symbol.iterator](): Iterator<T>;
 }
 
 /*
@@ -183,7 +183,7 @@ class LazyExcept<T, U> extends Lazy<T> {
   }
 }
 
-class LazySelect<T, U> extends Lazy<T> {
+class LazySelect<T, U> extends Lazy<U> {
   public constructor(
     private readonly iterable: Iterable<T>,
     private readonly selector: MapFn<T, U>,
