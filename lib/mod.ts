@@ -1,11 +1,21 @@
 import { Lazy } from './iterators.ts';
 
+export function empty<T>() {
+  return new LazyEmpty<T>();
+}
+
 export function from<T>(iterable: Iterable<T>) {
   return new LazyEnumerator(iterable);
 }
 
 export function range(start: number, end: number) {
   return new LazyRange(start, end);
+}
+
+class LazyEmpty<T> extends Lazy<T> {
+  public *[Symbol.iterator](): Iterator<T> {
+    // Don't yield anything for an empty enumerable.
+  }
 }
 
 class LazyEnumerator<T> extends Lazy<T> {

@@ -35,3 +35,41 @@ test(function average() {
   orig = [1, 2, 3, 4, 9, 8, 6];
   assert.equal(lazy.from(orig).average(), avg(orig));
 });
+
+test(function contains() {
+  const orig = [1, 2, 3, 4, 5];
+  assert.equal(lazy.from(orig).contains(1), true);
+  assert.equal(lazy.from(orig).contains(2), true);
+  assert.equal(lazy.from(orig).contains(3), true);
+  assert.equal(lazy.from(orig).contains(4), true);
+  assert.equal(lazy.from(orig).contains(5), true);
+  assert.equal(lazy.from(orig).contains(6), false);
+  assert.equal(lazy.from(orig).contains(7), false);
+});
+
+test(function elementAt() {
+  let orig = [1, 2, 3, 4, 5];
+  assert.equal(lazy.from(orig).elementAt(0), 1);
+  assert.equal(lazy.from(orig).elementAt(1), 2);
+  assert.equal(lazy.from(orig).elementAt(2), 3);
+  assert.equal(lazy.from(orig).elementAt(3), 4);
+  assert.equal(lazy.from(orig).elementAt(4), 5);
+  assert.throws(() => lazy.from(orig).elementAt(5));
+
+  orig = [];
+  assert.throws(() => lazy.from(orig).elementAt(0));
+});
+
+test(function first() {
+  assert.equal(lazy.from([1, 2, 3]).first(), 1);
+  assert.equal(lazy.from([2, 3, 1]).first(), 2);
+  assert.equal(lazy.from([3, 2, 1]).first(), 3);
+  assert.throws(() => lazy.from([]).first());
+});
+
+test(function first() {
+  assert.equal(lazy.from([1, 2, 3]).firstOrDefault(9), 1);
+  assert.equal(lazy.from([2, 3, 1]).firstOrDefault(9), 2);
+  assert.equal(lazy.from([3, 2, 1]).firstOrDefault(9), 3);
+  assert.equal(lazy.from<number>([]).firstOrDefault(9), 9);
+});
