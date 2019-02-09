@@ -166,17 +166,18 @@ class LazyExcept<T, U> extends Lazy<T> {
   public *[Symbol.iterator](): Iterator<T> {
     const compareOn: MapFn<T, U> = this.compareOn ? this.compareOn : ((value: T) => value) as any;
 
-    const secondValues = new Map<U, T>();
+    const set = new Set<U>();
     for (const value of this.secondIterable) {
       const key = compareOn(value);
-      if (!secondValues.has(key)) {
-        secondValues.set(key, value);
+      if (!set.has(key)) {
+        set.add(key);
       }
     }
 
     for (const value of this.firstIterable) {
       const key = compareOn(value);
-      if (!secondValues.has(key)) {
+      if (!set.has(key)) {
+        set.add(key);
         yield value;
       }
     }
