@@ -1,0 +1,10 @@
+sudo: false
+
+before_install:
+  - export PATH=$HOME/.deno/bin:$PATH
+
+install:
+  - curl -L https://deno.land/x/install/install.sh | sh -s v0.2.10
+
+script:
+  - yarn test
