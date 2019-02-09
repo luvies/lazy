@@ -17,3 +17,12 @@ test(function range() {
   assert.equal(lazy.range(1, 0).toArray(), [1]);
   assert.equal(lazy.range(5, 0).toArray(), [5, 4, 3, 2, 1]);
 });
+
+test(function repeat() {
+  assert.equal(lazy.repeat('a', 1).toArray(), ['a']);
+  assert.equal(lazy.repeat('a', 2).toArray(), ['a', 'a']);
+  assert.equal(lazy.repeat('a', 3).toArray(), ['a', 'a', 'a']);
+  assert.equal(lazy.repeat('a', 4).toArray(), ['a', 'a', 'a', 'a']);
+  assert.equal(lazy.repeat('a', 5).toArray(), ['a', 'a', 'a', 'a', 'a']);
+  assert.throws(() => lazy.repeat('a', -1));
+});
