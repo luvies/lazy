@@ -695,10 +695,11 @@ class LazyReverse<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public [Symbol.iterator](): Iterator<TElement> {
+  public *[Symbol.iterator](): Iterator<TElement> {
     const arr = aggregates.toArray(this._iterable);
-    arr.reverse();
-    return arr[Symbol.iterator]();
+    for (let i = arr.length - 1; i >= 0; i--) {
+      yield arr[i];
+    }
   }
 }
 
