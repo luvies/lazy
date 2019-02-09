@@ -1,8 +1,8 @@
 {
   "name": "lazy-enumerable",
   "version": "0.0.1",
-  "description": "A linq-like lazy-evaluation enumarable library that aims to support browser, node & deno",
-  "main": "dist/mod.ts",
+  "description": "A linq-like lazy-evaluation enumarable module that aims to support browser, node & deno",
+  "main": "dist/mod.js",
   "repository": "luvies/lazy-enumerable",
   "author": "luvies",
   "license": "MIT",
