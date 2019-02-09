@@ -5,6 +5,8 @@ test(function aggregate() {
   assert.equal(lazy.from([1, 2, 3]).aggregate((acc, curr) => acc + curr, 0), 1 + 2 + 3);
   assert.equal(lazy.from([1, 2, 3, 4]).aggregate((acc, curr) => acc + curr, 0), 1 + 2 + 3 + 4);
   assert.equal(lazy.from([1, 2, 3, 4]).aggregate((acc, curr) => acc * curr, 1), 1 * 2 * 3 * 4);
+  assert.equal(lazy.from([1, 2, 3]).aggregate((acc, curr) => acc + curr, ''), '123');
+  assert.equal(lazy.from([1, 2, 3]).aggregate((acc, curr) => acc + curr), 1 + 2 + 3);
 });
 
 test(function all() {

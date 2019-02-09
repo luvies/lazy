@@ -33,8 +33,14 @@ class Queue<T> {
 
 export abstract class Lazy<TElement> implements Iterable<TElement> {
   // Aggregates.
-  public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc>, seed: TAcc) {
-    return aggregates.aggregate(this, agg, seed);
+  public aggregate(agg: aggregates.AggFn<TElement, TElement>, seed?: undefined): TElement;
+  public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc>, seed: TAcc): TAcc;
+  public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc | TElement>, seed?: TAcc) {
+    if (arguments.length >= 2) {
+      return aggregates.aggregate(this, agg as any, seed);
+    } else {
+      return aggregates.aggregate(this, agg as any);
+    }
   }
 
   public all(predicate: aggregates.BoolPredicate<TElement>) {

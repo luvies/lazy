@@ -18,16 +18,45 @@ export type ComparerFn<T> = (a: T, b: T) => boolean;
 
 // Aggregation functions.
 
+export function aggregate<TSource>(
+  iterable: Iterable<TSource>,
+  agg: AggFn<TSource, TSource>,
+  seed?: undefined,
+): TSource;
 export function aggregate<TSource, TAcc>(
   iterable: Iterable<TSource>,
   agg: AggFn<TSource, TAcc>,
   seed: TAcc,
-): TAcc {
-  let acc = seed;
-  for (const value of iterable) {
-    acc = agg(acc, value);
+): TAcc;
+export function aggregate<TSource, TAcc>(
+  iterable: Iterable<TSource>,
+  agg: AggFn<TSource, TAcc | TSource>,
+  seed?: TAcc,
+): TAcc | TSource {
+  const gotSeed = arguments.length >= 3;
+
+  if (gotSeed) {
+    let acc = seed as TAcc;
+    for (const value of iterable) {
+      acc = agg(acc, value) as TAcc;
+    }
+    return acc;
+  } else {
+    let items = false;
+    let acc: TSource;
+    for (const value of iterable) {
+      if (!items) {
+        acc = value;
+      } else {
+        acc = agg(acc!, value) as TSource;
+      }
+      items = true;
+    }
+    if (!items) {
+      throw new Error(Errors.Empty);
+    }
+    return acc;
   }
-  return acc;
 }
 
 export function all<TElement>(
