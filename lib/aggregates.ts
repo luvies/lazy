@@ -15,6 +15,7 @@ export type MapFn<TSource, TResult> = (source: TSource) => TResult;
 export type AggFn<T, U> = (acc: U, next: T) => U;
 export type BoolPredicate<T> = (source: T) => boolean;
 export type ComparerFn<T> = (a: T, b: T) => boolean;
+export type CallbackFn<T> = (element: T, index: number) => void;
 
 // Aggregation functions.
 
@@ -193,6 +194,17 @@ export function firstOrDefault<TElement>(
     return res.value;
   } else {
     return defaultValue;
+  }
+}
+
+export function forEach<TElement>(
+  iterable: Iterable<TElement>,
+  callbackFn: CallbackFn<TElement>,
+): void {
+  let index = 0;
+  for (const value of iterable) {
+    callbackFn(value, index);
+    index++;
   }
 }
 

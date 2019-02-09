@@ -89,6 +89,18 @@ test(function first() {
   assert.equal(lazy.from<number>([]).firstOrDefault(9), 9);
 });
 
+test(function forEach() {
+  const items: Array<{ v: number, i: number }> = [];
+  lazy.from([1, 2, 3, 4, 5]).forEach((v, i) => items.push({ v, i }));
+  assert.equal(items, [
+    { v: 1, i: 0 },
+    { v: 2, i: 1 },
+    { v: 3, i: 2 },
+    { v: 4, i: 3 },
+    { v: 5, i: 4 },
+  ]);
+});
+
 test(function max() {
   assert.equal(lazy.from([1, 2, 3, 4, 5]).max(), 5);
   assert.equal(lazy.from([1, 2, 3, 4]).max(), 4);

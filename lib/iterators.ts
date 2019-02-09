@@ -153,6 +153,16 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Mimics the behaviour of {@link Array#forEach}, with the exception
+   * of not providing the entire array as the 3rd param of the callback.
+   * @param callbackFn The callback function that will be executed for each item
+   * in the iterable.
+   */
+  public forEach(callbackFn: aggregates.CallbackFn<TElement>) {
+    aggregates.forEach(this, callbackFn);
+  }
+
+  /**
    * Returns the last element in the iterable.
    * @returns The last element in the iterable.
    * @throws {Error} If the iterable was empty.
