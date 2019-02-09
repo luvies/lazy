@@ -144,6 +144,10 @@ export function elementAt<TElement>(
   iterable: Iterable<TElement>,
   index: number,
 ): TElement {
+  if (index < 0) {
+    throw new Error('Index cannot be negative');
+  }
+
   const res = getElementAt(iterable, index);
 
   if (res.found) {
