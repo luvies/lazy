@@ -5,6 +5,7 @@ prebuild/
 types/
 .editorconfig
 tsconfig.json
+tsconfig.build.json
 tslint.json
 .travis.yml
 .gitattributes
