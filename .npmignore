@@ -1,0 +1,13 @@
+.vscode/
+lib/
+test/
+prebuild/
+types/
+.editorconfig
+tsconfig.json
+tslint.json
+.travis.yml
+.gitattributes
+.gitignore
+scripts/
+.DS_Store

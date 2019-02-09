@@ -75,3 +75,5 @@ typings/
 # build output
 /dist
 /prebuild
+
+.DS_Store
