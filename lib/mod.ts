@@ -2,18 +2,40 @@ import { Lazy } from './iterators.ts';
 
 export { Lazy };
 
+/**
+ * Creates an empty lazy iterable.
+ * @returns The empty lazy iterable object.
+ */
 export function empty<TElement>() {
   return new LazyEmpty<TElement>();
 }
 
+/**
+ * Creates a lazy iterable object from the given iterable object.
+ * @param iterable The object to source for lazy iteration.
+ * @returns The lazy iterable object with the given iterable as the source.
+ */
 export function from<TElement>(iterable: Iterable<TElement>) {
   return new LazyEnumerator(iterable);
 }
 
+/**
+ * Creates a lazy iterable object that will produce a range of integers.
+ * @param start The starting number of the range (inclusive).
+ * @param end The ending number of the range (exclusive).
+ * @returns The lazy iterable object with the range as the source.
+ */
 export function range(start: number, end: number) {
   return new LazyRange(start, end);
 }
 
+/**
+ * Creates a lazy iterable object that will repeate the element a given number
+ * of times.
+ * @param value The value to repeat.
+ * @param count The number of times to repeat it.
+ * @returns The lazy iterable object with the repeated value as the source.
+ */
 export function repeat<TElement>(value: TElement, count: number) {
   return new LazyRepeat(value, count);
 }
