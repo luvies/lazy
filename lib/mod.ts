@@ -16,7 +16,7 @@ export function empty<TElement>() {
  * @returns The lazy iterable object with the given iterable as the source.
  */
 export function from<TElement>(iterable: Iterable<TElement>) {
-  return new LazyEnumerator(iterable);
+  return new LazyIterator(iterable);
 }
 
 /**
@@ -42,6 +42,7 @@ export function range(start: number, end?: number) {
  * @param count The number of times to repeat it. If not given, then the
  * value is assumed to be +Infinity.
  * @returns The lazy iterable object with the repeated value as the source.
+ * @throws {Error} If count < 0.
  * @remarks When creating an infinite sequence, be very careful. If you do not
  * include your own stop condition (e.g. with `.take(n)`), then it will lock
  * up the thread until the process is aborted. You will also have to take into
@@ -66,7 +67,7 @@ class LazyEmpty<TElement> extends Lazy<TElement> {
   }
 }
 
-class LazyEnumerator<TElement> extends Lazy<TElement> {
+class LazyIterator<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
   ) {
