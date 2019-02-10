@@ -12,6 +12,65 @@ test(function append() {
   assert.equal(lazy.from(orig).append(0).toArray(), [...orig, 0]);
 });
 
+test(function apply() {
+  class LazyNumberToString extends lazy.Lazy<string> {
+    public constructor(
+      private readonly _iterable: Iterable<number>,
+      private readonly _adjust: (element: number) => string,
+    ) {
+      super();
+    }
+
+    public *[Symbol.iterator](): Iterator<string> {
+      for (const value of this._iterable) {
+        yield this._adjust(value);
+      }
+    }
+  }
+
+  class LazySquare extends lazy.Lazy<number> {
+    public constructor(
+      private readonly _iterable: Iterable<number>,
+    ) {
+      super();
+    }
+
+    public *[Symbol.iterator](): Iterator<number> {
+      for (const value of this._iterable) {
+        yield value ** 2;
+      }
+    }
+  }
+
+  class LazyToString<TSource> extends lazy.Lazy<string> {
+    public constructor(
+      private readonly _iterable: Iterable<TSource>,
+    ) {
+      super();
+    }
+
+    public *[Symbol.iterator](): Iterator<string> {
+      for (const value of this._iterable) {
+        yield `${value}`;
+      }
+    }
+  }
+  const iterableToString = <TSource>(t: Iterable<TSource>) => new LazyToString(t);
+
+  const orig = [1, 2, 3, 4];
+  assert.equal(
+    lazy.from(orig).apply<LazyNumberToString, string>(
+      t => new LazyNumberToString(t, e => e.toString()),
+    ).toArray(),
+    ['1', '2', '3', '4'],
+  );
+  assert.equal(lazy.from(orig).apply(t => new LazySquare(t)).toArray(), [1, 4, 9, 16]);
+  assert.equal(
+    lazy.from(orig).apply<LazyToString<number>, string>(iterableToString).toArray(),
+    ['1', '2', '3', '4'],
+  );
+});
+
 test(function concat() {
   let first = [1, 2, 3, 4];
   let second = [5, 6, 7, 8];

@@ -89,5 +89,34 @@ For an overview of the reference I use for developing this module, visit the [.N
 ### 'Additional unexpected iteration'
 For any function on `Lazy` that uses this term, it simply means 'if I start iteration on the resulting object, it will not perform any iteration I did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method. You cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
 
+### Custom implementations
+This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the `Lazy` class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:
+
+```ts
+class LazyToString<TSource> extends lazy.Lazy<string> {
+  public constructor(
+    private readonly _iterable: Iterable<TSource>,
+  ) {
+    super();
+  }
+
+  public *[Symbol.iterator](): Iterator<string> {
+    for (const value of this._iterable) {
+      yield `${value}`;
+    }
+  }
+}
+const iterableToString = <TSource>(t: Iterable<TSource>) => new LazyToString(t);
+
+const result = lazy.from([1, 10, 100, 1000])
+  .apply<LazyToString<number>, string>(iterableToString)
+  .select(s => s.length)
+  .toArray();
+
+// result -> [1, 2, 3, 4]
+```
+
+Obviously this is a contrived example, since the same could be done with a single `select`, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.
+
 # Footnotes
 Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.

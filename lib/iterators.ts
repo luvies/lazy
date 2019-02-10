@@ -325,6 +325,20 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Applys the given lazy iterable implementation to the current object.
+   * This allows for using custom Lazy implementations using the standard
+   * chaining syntax.
+   * @param fn The function that will create the iterable instance using
+   * the current object.
+   * @returns The instantiated iterable object.
+   */
+  public apply<TLazy extends Lazy<TResult>, TResult = TElement>(
+    fn: (t: Lazy<TElement>) => TLazy,
+  ) {
+    return fn(this);
+  }
+
+  /**
    * Concatinates multiple iterables in order.
    * @param iterables The other iterables to concatinate with.
    * @remarks Does not cause additional unexpected iteration.
