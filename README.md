@@ -71,7 +71,7 @@ const points = data.map(d => d.x).filter(x => selectPoint(x)).map(x => adjustPoi
 const avg = points.reduce((prev, curr) => prev + curr) / points.length;
 
 // Lazy iterators
-const avg = lazy.from(data).select(d => d.x).where(x => selectPoint(x)).select(x => adjustPoint(x)).avg();
+const avg = lazy.from(data).select(d => d.x).where(x => selectPoint(x)).select(x => adjustPoint(x)).average();
 ```
 
 The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation functions allow for a number nicer final calculation.
