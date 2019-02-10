@@ -1,5 +1,8 @@
 {
   "name": "@luvies/lazy",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "description": "A linq-like lazy iteration module that aims to support deno, node & browser",
   "main": "dist/mod.js",
