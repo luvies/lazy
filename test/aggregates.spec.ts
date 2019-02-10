@@ -110,6 +110,21 @@ test(function forEach() {
   ]);
 });
 
+test(function iterableEquals() {
+  assert.equal(lazy.from([1]).iterableEquals([1]), true);
+  assert.equal(lazy.from([1, 2]).iterableEquals([1, 2]), true);
+  assert.equal(lazy.from([1, 2, 3]).iterableEquals([1, 2, 3]), true);
+  assert.equal(lazy.from([1, 2, 3, 4]).iterableEquals([1, 2, 3, 4]), true);
+  assert.equal(lazy.from([1, 2, 3, 4, 5]).iterableEquals([1, 2, 3, 4, 5]), true);
+  assert.equal(lazy.from([1, 2, 3, 4, 5]).iterableEquals([5, 4, 3, 2, 1]), false);
+  assert.equal(lazy.from([1, 2, 3, 4, 5]).iterableEquals([1, 2, 3, 4]), false);
+  assert.equal(lazy.from([
+    { value: 1 }, { value: 2 }, { value: 3 },
+  ]).iterableEquals([
+    { value: 1 }, { value: 2 }, { value: 3 },
+  ], (a, b) => a.value === b.value), true);
+});
+
 test(function last() {
   assert.equal(lazy.from([1]).last(), 1);
   assert.equal(lazy.from([1, 2]).last(), 2);
@@ -172,21 +187,6 @@ test(async function resolveAll() {
     (await lazy.from(mix).resolveAll()).select(i => i * 2).toArray(),
     [2, 4, 6, 8, 10],
   );
-});
-
-test(function sequenceEquals() {
-  assert.equal(lazy.from([1]).sequenceEquals([1]), true);
-  assert.equal(lazy.from([1, 2]).sequenceEquals([1, 2]), true);
-  assert.equal(lazy.from([1, 2, 3]).sequenceEquals([1, 2, 3]), true);
-  assert.equal(lazy.from([1, 2, 3, 4]).sequenceEquals([1, 2, 3, 4]), true);
-  assert.equal(lazy.from([1, 2, 3, 4, 5]).sequenceEquals([1, 2, 3, 4, 5]), true);
-  assert.equal(lazy.from([1, 2, 3, 4, 5]).sequenceEquals([5, 4, 3, 2, 1]), false);
-  assert.equal(lazy.from([1, 2, 3, 4, 5]).sequenceEquals([1, 2, 3, 4]), false);
-  assert.equal(lazy.from([
-    { value: 1 }, { value: 2 }, { value: 3 },
-  ]).sequenceEquals([
-    { value: 1 }, { value: 2 }, { value: 3 },
-  ], (a, b) => a.value === b.value), true);
 });
 
 test(function single() {

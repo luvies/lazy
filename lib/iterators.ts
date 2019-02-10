@@ -40,10 +40,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param end The ending number of the range (exclusive). If not given, then
    * the value is assumed to be +Infinity.
    * @returns The lazy iterable object with the range as the source.
-   * @remarks When creating an infinite sequence, be very careful. If you do not
+   * @remarks When creating an infinite interable, be very careful. If you do not
    * include your own stop condition (e.g. with `.take(n)`), then it will lock
    * up the thread until the process is aborted. You will also have to take into
-   * account that some lazy iterators *require* the sequence to be finite to work.
+   * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
   public static range(start: number, end?: number) {
@@ -58,10 +58,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * value is assumed to be +Infinity.
    * @returns The lazy iterable object with the repeated value as the source.
    * @throws {Error} If count < 0.
-   * @remarks When creating an infinite sequence, be very careful. If you do not
+   * @remarks When creating an infinite interable, be very careful. If you do not
    * include your own stop condition (e.g. with `.take(n)`), then it will lock
    * up the thread until the process is aborted. You will also have to take into
-   * account that some lazy iterators *require* the sequence to be finite to work.
+   * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
   public static repeat<TElement>(value: TElement, count?: number) {
@@ -216,6 +216,23 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Determines whether 2 iterables are equal.
+   * @param second The iterable to compare against.
+   * @param comparer The function to perform the comparision of each pair of
+   * elements with. If not given, defaults to strict equals (`===`).
+   * @returns Whether the 2 iterables were both equal.
+   * @remarks This will check for both order and value. To check for only value,
+   * you can use:
+   * ```ts
+   * lazyIter.intersect(other, compareOn?).any()
+   * ```
+   * This will iterate both iterables completely.
+   */
+  public iterableEquals(second: Iterable<TElement>, comparer?: aggregates.ComparerFn<TElement>) {
+    return aggregates.iterableEquals(this, second, comparer);
+  }
+
+  /**
    * Returns the last element in the iterable.
    * @returns The last element in the iterable.
    * @throws {Error} If the iterable was empty.
@@ -266,23 +283,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    */
   public resolveAll(): Promise<TElement extends PromiseLike<infer TResult> ? Lazy<TResult> : Lazy<TElement>> {
     return aggregates.resolveAll(this).then(iterable => Lazy.from(iterable)) as any;
-  }
-
-  /**
-   * Determines whether 2 iterables are equal.
-   * @param second The iterable to compare against.
-   * @param comparer The function to perform the comparision of each pair of
-   * elements with. If not given, defaults to strict equals (`===`).
-   * @returns Whether the 2 iterables were both equal.
-   * @remarks This will check for both order and value. To check for only value,
-   * you can use:
-   * ```ts
-   * lazyIter.intersect(other, compareOn?).any()
-   * ```
-   * This will iterate both iterables completely.
-   */
-  public sequenceEquals(second: Iterable<TElement>, comparer?: aggregates.ComparerFn<TElement>) {
-    return aggregates.sequenceEquals(this, second, comparer);
   }
 
   /**

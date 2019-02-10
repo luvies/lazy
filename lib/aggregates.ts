@@ -209,6 +209,31 @@ export function forEach<TElement>(
   }
 }
 
+export function iterableEquals<TElement>(
+  firstIterable: Iterable<TElement>,
+  secondIterable: Iterable<TElement>,
+  comparer: ComparerFn<TElement> = (a, b) => a === b,
+): boolean {
+  let done = false;
+  const firstIter = firstIterable[Symbol.iterator]();
+  let firstMove: IteratorResult<TElement>;
+  const secondIter = secondIterable[Symbol.iterator]();
+  let secondMove: IteratorResult<TElement>;
+  do {
+    firstMove = firstIter.next();
+    secondMove = secondIter.next();
+
+    if (firstMove.done !== secondMove.done) {
+      return false;
+    } else if (firstMove.done && secondMove.done) {
+      done = true;
+    } else if (!comparer(firstMove.value, secondMove.value)) {
+      return false;
+    }
+  } while (!done);
+  return true;
+}
+
 function getLast<TElement>(
   iterable: Iterable<TElement>,
 ): { items: false } | { items: true, value: TElement } {
@@ -287,31 +312,6 @@ export function resolveAll<TElement>(
   iterable: Iterable<TElement>,
 ): Promise<TElement extends PromiseLike<infer TResult> ? TResult[] : TElement[]> {
   return Promise.all(iterable) as any;
-}
-
-export function sequenceEquals<TElement>(
-  firstIterable: Iterable<TElement>,
-  secondIterable: Iterable<TElement>,
-  comparer: ComparerFn<TElement> = (a, b) => a === b,
-): boolean {
-  let done = false;
-  const firstIter = firstIterable[Symbol.iterator]();
-  let firstMove: IteratorResult<TElement>;
-  const secondIter = secondIterable[Symbol.iterator]();
-  let secondMove: IteratorResult<TElement>;
-  do {
-    firstMove = firstIter.next();
-    secondMove = secondIter.next();
-
-    if (firstMove.done !== secondMove.done) {
-      return false;
-    } else if (firstMove.done && secondMove.done) {
-      done = true;
-    } else if (!comparer(firstMove.value, secondMove.value)) {
-      return false;
-    }
-  } while (!done);
-  return true;
 }
 
 function getSingle<TElement>(
