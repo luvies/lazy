@@ -1,7 +1,7 @@
 {
   "name": "@luvies/lazy",
   "version": "1.0.0",
-  "description": "A linq-like lazy-evaluation iteration module that aims to support browser, node & deno",
+  "description": "A linq-like lazy iteration module that aims to support browser, node & deno",
   "main": "dist/mod.js",
   "repository": "luvies/lazy",
   "author": "luvies",
