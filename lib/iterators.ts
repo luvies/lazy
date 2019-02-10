@@ -432,6 +432,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Skips the given number of elements from the end of the iterable, returning the rest.
    * @param count The number of elements to skip from the end.
+   * @remarks This iterator requires the iterable to be finite in length.
    */
   public skipLast(count: number) {
     return new LazySkipLast(this, count);
@@ -458,6 +459,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Returns the given number of elements from the end of the iterable, ignore the
    * elements before.
+   * @remarks This iterator requires the iterable to be finite in length.
    */
   public takeLast(count: number) {
     return new LazyTakeLast(this, count);

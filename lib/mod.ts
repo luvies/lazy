@@ -22,10 +22,16 @@ export function from<TElement>(iterable: Iterable<TElement>) {
 /**
  * Creates a lazy iterable object that will produce a range of integers.
  * @param start The starting number of the range (inclusive).
- * @param end The ending number of the range (exclusive).
+ * @param end The ending number of the range (exclusive). If not given, then
+ * the value is assumed to be +Infinity.
  * @returns The lazy iterable object with the range as the source.
+ * @remarks When creating an infinite sequence, be very careful. If you do not
+ * include your own stop condition (e.g. with `.take(n)`), then it will lock
+ * up the thread until the process is aborted. You will also have to take into
+ * account that some lazy iterators *require* the sequence to be finite to work.
+ * Check the remarks on the function you want to use to see which ones will work.
  */
-export function range(start: number, end: number) {
+export function range(start: number, end?: number) {
   return new LazyRange(start, end);
 }
 
@@ -33,10 +39,16 @@ export function range(start: number, end: number) {
  * Creates a lazy iterable object that will repeate the element a given number
  * of times.
  * @param value The value to repeat.
- * @param count The number of times to repeat it.
+ * @param count The number of times to repeat it. If not given, then the
+ * value is assumed to be +Infinity.
  * @returns The lazy iterable object with the repeated value as the source.
+ * @remarks When creating an infinite sequence, be very careful. If you do not
+ * include your own stop condition (e.g. with `.take(n)`), then it will lock
+ * up the thread until the process is aborted. You will also have to take into
+ * account that some lazy iterators *require* the sequence to be finite to work.
+ * Check the remarks on the function you want to use to see which ones will work.
  */
-export function repeat<TElement>(value: TElement, count: number) {
+export function repeat<TElement>(value: TElement, count?: number) {
   return new LazyRepeat(value, count);
 }
 
@@ -69,7 +81,7 @@ class LazyEnumerator<TElement> extends Lazy<TElement> {
 class LazyRange extends Lazy<number> {
   public constructor(
     private readonly _start: number,
-    private readonly _end: number,
+    private readonly _end: number = +Infinity,
   ) {
     super();
   }
@@ -89,7 +101,7 @@ class LazyRange extends Lazy<number> {
 class LazyRepeat<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _element: TElement,
-    private readonly _count: number,
+    private readonly _count: number = +Infinity,
   ) {
     super();
     if (_count < 0) {
