@@ -188,6 +188,26 @@ test(function singleOrDefault() {
   );
 });
 
+test(function stringJoin() {
+  assert.equal(lazy.from([]).stringJoin(), '');
+  assert.equal(lazy.from([1]).stringJoin(), '1');
+  assert.equal(lazy.from([1, 2]).stringJoin(), '12');
+  assert.equal(lazy.from([1, 2, 3]).stringJoin(), '123');
+  assert.equal(lazy.from([1, 2, 3, 4]).stringJoin(), '1234');
+
+  assert.equal(lazy.from([]).stringJoin(','), '');
+  assert.equal(lazy.from([1]).stringJoin(','), '1');
+  assert.equal(lazy.from([1, 2]).stringJoin(','), '1,2');
+  assert.equal(lazy.from([1, 2, 3]).stringJoin(','), '1,2,3');
+  assert.equal(lazy.from([1, 2, 3, 4]).stringJoin(','), '1,2,3,4');
+
+  assert.equal(lazy.from([]).stringJoin(',', i => `${i * 2}`), '');
+  assert.equal(lazy.from([1]).stringJoin(',', i => `${i * 2}`), '2');
+  assert.equal(lazy.from([1, 2]).stringJoin(',', i => `${i * 2}`), '2,4');
+  assert.equal(lazy.from([1, 2, 3]).stringJoin(',', i => `${i * 2}`), '2,4,6');
+  assert.equal(lazy.from([1, 2, 3, 4]).stringJoin(',', i => `${i * 2}`), '2,4,6,8');
+});
+
 test(function sum() {
   assert.equal(lazy.from([1]).sum(), 1);
   assert.equal(lazy.from([1, 2]).sum(), 3);

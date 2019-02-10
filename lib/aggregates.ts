@@ -16,6 +16,7 @@ export type AggFn<T, U> = (acc: U, next: T) => U;
 export type BoolPredicate<T> = (source: T) => boolean;
 export type ComparerFn<T> = (a: T, b: T) => boolean;
 export type CallbackFn<T> = (element: T, index: number) => void;
+export type StrFn<T> = (element: T) => string;
 
 // Aggregation functions.
 
@@ -342,6 +343,23 @@ export function singleOrDefault<TElement>(
   } else {
     return defaultValue;
   }
+}
+
+export function stringJoin<TElement>(
+  iterable: Iterable<TElement>,
+  separator = '',
+  strFn: StrFn<TElement> = element => `${element}`,
+): string {
+  let str = '';
+  let started = false;
+  for (const value of iterable) {
+    if (started) {
+      str += separator;
+    }
+    str += strFn(value);
+    started = true;
+  }
+  return str;
 }
 
 export function sum<TElement>(iterable: Iterable<TElement>): TElement extends number ? number : never {

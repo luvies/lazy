@@ -241,6 +241,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Joins all the elements in the iterable together into a single string,
+   * split by the given separator.
+   * @param separator The separator to split each element with in the string.
+   * Defaults to `''`.
+   * @param strFn The function to convert each element into a string.
+   */
+  public stringJoin(separator?: string, strFn?: aggregates.StrFn<TElement>) {
+    return aggregates.stringJoin(this, separator, strFn);
+  }
+
+  /**
    * Computes the sum of all the elements in the iterable.
    * @returns The sum of all of the elements.
    * @throws {TypeError} If any element in the iterable was a non-number.
@@ -335,7 +346,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Joins 2 iterables on the given matching keys
+   * Joins 2 iterables on the given matching keys. This is similar to a JOIN in
+   * SQL.
    * @param second The iterable to join.
    * @param firstKeyFn The function that extracts the key from the first iterable.
    * @param secondKeyFn The function that extracts the key from the second iterable.
