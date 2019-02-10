@@ -8,28 +8,6 @@ type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => T
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
 type IndexPredicate<TSource> = (value: TSource, index: number) => boolean;
 
-// Helper classes.
-
-class Queue<T> {
-  private _buffer: T[] = [];
-  private _front = 0;
-
-  public get length(): number {
-    return this._buffer.length - this._front;
-  }
-
-  public enqueue(value: T): void {
-    this._buffer.push(value);
-  }
-
-  public dequeue(): T {
-    const value = this._buffer[this._front];
-    delete this._buffer[this._front];
-    this._front++;
-    return value;
-  }
-}
-
 // Base lazy class.
 
 /**
@@ -637,6 +615,28 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   public abstract [Symbol.iterator](): Iterator<TElement>;
+}
+
+// Helper classes.
+
+class Queue<T> {
+  private _buffer: T[] = [];
+  private _front = 0;
+
+  public get length(): number {
+    return this._buffer.length - this._front;
+  }
+
+  public enqueue(value: T): void {
+    this._buffer.push(value);
+  }
+
+  public dequeue(): T {
+    const value = this._buffer[this._front];
+    delete this._buffer[this._front];
+    this._front++;
+    return value;
+  }
 }
 
 // Base iterators.
