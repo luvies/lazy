@@ -400,9 +400,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
 
   /**
    * Returns the distinct elements in the iterable.
-   * @param compareOn A mapping function to use as the key to compare with. The value
-   * will be effectively compared using a strict equals (`===`). If not given, then
-   * the strict equals will used directly.
+   * @param compareOn A mapping function to get the key to compare with. The result
+   * will be effectively compared using a strict equals (`===`) against the others.
+   * If not given, then each element will used directly.
    * @remarks Does not cause additional unexpected iteration.
    */
   public distinct<TKey>(compareOn?: MapFn<TElement, TKey>) {
@@ -413,9 +413,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the set difference between 2 iterables. This like doing an XOR
    * over the 2 iterables.
    * @param second The iterable to get the difference of.
-   * @param compareOn A mapping function to use as the key to compare with. The value
-   * will be effectively compared using a strict equals (`===`). If not given, then
-   * the strict equals will used directly.
+   * @param compareOn A mapping function to get the key to compare with. The value
+   * will be effectively compared using a strict equals (`===`) againt the others.
+   * If not given, then each element will used directly.
    * @remarks This will iterate the second iterable completely once it has
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
@@ -428,9 +428,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the set intersection between 2 iterables. This like doing an AND
    * over the 2 iterables.
    * @param second The iterable to get the intersection of.
-   * @param compareOn A mapping function to use as the key to compare with. The value
-   * will be effectively compared using a strict equals (`===`). If not given, then
-   * the strict equals will used directly.
+   * @param compareOn A mapping function to get the key to compare with. The value
+   * will be effectively compared using a strict equals (`===`) against the others.
+   * If not given, then each element will used directly.
    * @remarks This will iterate the second iterable completely once it has
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
@@ -594,9 +594,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the set union between 2 iterables. This like doing an OR
    * over the 2 iterables.
    * @param second The iterable to get the union of.
-   * @param compareOn A mapping function to use as the key to compare with. The value
-   * will be effectively compared using a strict equals (`===`). If not given, then
-   * the strict equals will used directly.
+   * @param compareOn A mapping function to get the key to compare with. The value
+   * will be effectively compared using a strict equals (`===`) against the others.
+   * If not given, then the element will used directly.
    * @remarks This will iterate the second iterable completely once it has
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
