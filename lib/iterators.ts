@@ -37,10 +37,10 @@ class Queue<T> {
  * This can be extended with custom iterators if needed.
  */
 export abstract class Lazy<TElement> implements Iterable<TElement> {
-  // Aggregates.
+  // ===================================== Aggregates =====================================
 
   /**
-   * Applies an accumulator function over a sequence.
+   * Applies an accumulator function over an interable.
    * @param agg The accumulator function to apply over the iterable.
    * @param seed The seed to set the initial `acc` param to in the accumulator function.
    * If not given, then the first element is used.
@@ -48,8 +48,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {Error} If no seed is given and iterable was empty.
    * @remarks The function works very similarly to Array.prototype.reduce, with
    * the added benefit of working on any general iterable object.
+   * This will cause a complete iteration of the iterable object.
    */
-  public aggregate(agg: aggregates.AggFn<TElement, TElement>, seed?: undefined): TElement;
+  public aggregate(agg: aggregates.AggFn<TElement, TElement>): TElement;
   public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc>, seed: TAcc): TAcc;
   public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc | TElement>, seed?: TAcc) {
     if (arguments.length >= 2) {
@@ -63,19 +64,29 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns whether all elements satisfy the given condition.
    * @param predicate The function to use to test each element.
    * @returns Whether all elements satisfied the condition.
+   * @remarks This will iterate until the condition is false or until the iterable
+   * ends.
    */
   public all(predicate: aggregates.BoolPredicate<TElement>) {
     return aggregates.all(this, predicate);
   }
 
   /**
-   * Returns whether any of the elements satisfy the given condition.
+   * Returns whether any of the elements satisfy the given condition, or if
+   * the iterable is not empty.
    * @param predicate The function to use to test each element. If not given,
    * then this function will return true if at least 1 element exists in the iterable.
-   * @returns Whether any element satisfied the condition, or the iterable was not empty.
-   * @remarks For check whether the given lazy query has any elements, prefer to use
+   * @returns
+   * - If the predicate is given
+   *   - Whether any element in the iterable satified the confidition.
+   *   - If the iterable was empty, then `false` is returned
+   * - If no predicate is given
+   *   - Whether the iterable is non-empty.
+   * @remarks For checking whether the given lazy query has any elements, prefer to use
    * this function over {@link Lazy#count}, as that function will iterate the entire
    * object, whereas this will stop at the first.
+   * If no predicate is given, this will iterate only a single time, otherwise it will
+   * iterate until the condition is true or until the iterable ends.
    */
   public any(predicate?: aggregates.BoolPredicate<TElement>) {
     return aggregates.any(this, predicate);
@@ -85,17 +96,20 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Computes the average of the iterable.
    * @returns The numeric average of the iterable.
    * @throws {TypeError} If any element in the iterable was a non-number.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public average() {
     return aggregates.average(this);
   }
 
   /**
-   * Determines whether the iterable has a given elements.
+   * Determines whether the iterable has a given element.
    * @param value The value to search for.
    * @param comparer The function that compares 2 elements and returns a boolean on whether they
    * are equal or not. If not given, defaults to strict equals (`===`).
    * @returns Whether the element was in the iterable.
+   * @remarks This will iterable until the given value is found, or until the
+   * iterable ends.
    */
   public contains(value: TElement, comparer?: aggregates.ComparerFn<TElement>) {
     return aggregates.contains(this, value, comparer);
@@ -107,6 +121,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks To determine whether an iterable has any elements, prefer the
    * {@link Lazy#any} method, as this will iterate the entire iterable
    * regardless.
+   * This will cause a complete iteration of the iterable object.
    */
   public count() {
     return aggregates.count(this);
@@ -117,6 +132,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param index The index of the element to get.
    * @returns The element at the given index.
    * @throws {Error} If the index was < 0 or if it is >= the length of the iterable.
+   * @remarks The will iterate until the specified index, or until the iterable
+   * ends.
    */
   public elementAt(index: number) {
     return aggregates.elementAt(this, index);
@@ -128,6 +145,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param index The index of the element to get.
    * @param defaultValue The default value to use if the index was out of range.
    * @returns The element at the given index.
+   * @remarks This will iterable until the specified index, or unitl the iterable
+   * ends.
    */
   public elementAtOrDefault(index: number, defaultValue: TElement) {
     return aggregates.elementAtOrDefault(this, index, defaultValue);
@@ -137,6 +156,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the first element in the iterable.
    * @returns The first element in the iterable.
    * @throws {Error} If the iterable was empty.
+   * @remarks This will only iterate a single time.
    */
   public first() {
     return aggregates.first(this);
@@ -147,6 +167,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * the iterable was empty.
    * @param defaultValue The value to use of the iterable was empty.
    * @returns The first element in the iterable, or the default value if empty.
+   * @remarks This will only iterate a single time.
    */
   public firstOrDefault(defaultValue: TElement) {
     return aggregates.firstOrDefault(this, defaultValue);
@@ -155,8 +176,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Mimics the behaviour of {@link Array#forEach}, with the exception
    * of not providing the entire array as the 3rd param of the callback.
-   * @param callbackFn The callback function that will be executed for each item
+   * @param callbackFn The callback function that will be executed for each element
    * in the iterable.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public forEach(callbackFn: aggregates.CallbackFn<TElement>) {
     aggregates.forEach(this, callbackFn);
@@ -166,6 +188,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the last element in the iterable.
    * @returns The last element in the iterable.
    * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public last() {
     return aggregates.last(this);
@@ -176,6 +199,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * the iterable was empty.
    * @param defaultValue The value to use of the iterable was empty.
    * @returns The last element in the iterable, or the default value if empty.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public lastOrDefault(defaultValue: TElement) {
     return aggregates.lastOrDefault(this, defaultValue);
@@ -185,7 +209,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the maximum value in the iterable.
    * @returns The maximum element.
    * @throws {TypeError} If any element in the iterable was a non-number.
-   * @throws {Error} If the iterable was empty
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public max() {
     return aggregates.max(this);
@@ -195,7 +220,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the minimum value in the iterable.
    * @returns The minimum element.
    * @throws {TypeError} If any element in the iterable was a non-number.
-   * @throws {Error} If the iterable was empty
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public min() {
     return aggregates.min(this);
@@ -212,6 +238,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * ```ts
    * lazyIter.intersect(other, compareOn?).any()
    * ```
+   * This will iterate both iterables completely.
    */
   public sequenceEquals(second: Iterable<TElement>, comparer?: aggregates.ComparerFn<TElement>) {
     return aggregates.sequenceEquals(this, second, comparer);
@@ -223,6 +250,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to test each element with.
    * @returns The element that satisfies the condition.
    * @throws {Error} If no element could be found that matched the condition.
+   * @remarks This will iterate until the condition is met or until the iterable
+   * ends.
    */
   public single(predicate: aggregates.BoolPredicate<TElement>) {
     return aggregates.single(this, predicate);
@@ -235,6 +264,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param defaultValue The default value to use if no element could be found.
    * @returns The element that satisfies the condition, or the default value
    * if no element was found.
+   * @remarks This will iterate until the condition is met or until the iterable
+   * ends.
    */
   public singleOrDefault(predicate: aggregates.BoolPredicate<TElement>, defaultValue: TElement) {
     return aggregates.singleOrDefault(this, predicate, defaultValue);
@@ -246,6 +277,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param separator The separator to split each element with in the string.
    * Defaults to `''`.
    * @param strFn The function to convert each element into a string.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public stringJoin(separator?: string, strFn?: aggregates.StrFn<TElement>) {
     return aggregates.stringJoin(this, separator, strFn);
@@ -253,8 +285,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
 
   /**
    * Computes the sum of all the elements in the iterable.
-   * @returns The sum of all of the elements.
+   * @returns The sum of all the elements.
    * @throws {TypeError} If any element in the iterable was a non-number.
+   * @remarks This will cause a complete iteration of the iterable object.
    */
   public sum() {
     return aggregates.sum(this);
@@ -280,11 +313,12 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     return aggregates.toMap(this, keyFn, valueFn);
   }
 
-  // Iterators.
+  // ===================================== Iterators =====================================
 
   /**
    * Appends the element to the end of the iterable.
    * @param element The element to append.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public append(element: TElement) {
     return new LazyAppendPrepend(this, element, false);
@@ -293,6 +327,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Concatinates 2 iterables.
    * @param iterable The other iterable to concatinate with.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public concat(iterable: Iterable<TElement>) {
     return new LazyConcat(this, iterable);
@@ -302,6 +337,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the elements in the iterable, or the given default value
    * as the only element if it contained none.
    * @param defaultValue The value to use if the iterable was empty.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public defaultIfEmpty(defaultValue: TElement) {
     return new LazyDefaultIfEmpty(this, defaultValue);
@@ -312,6 +348,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param compareOn A mapping function to use as the key to compare with. The value
    * will be effectively compared using a strict equals (`===`). If not given, then
    * the strict equals will used directly.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public distinct<TKey>(compareOn?: MapFn<TElement, TKey>) {
     return new LazyDistinct(this, compareOn);
@@ -325,7 +362,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * will be effectively compared using a strict equals (`===`). If not given, then
    * the strict equals will used directly.
    * @remarks This will iterate the second iterable completely once it has
-   * started iteration (not before).
+   * started iteration (not before). It will not cause additional unexpected iteration
+   * on the underlying iterable.
    */
   public except<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
     return new LazyExcept(this, second, compareOn);
@@ -339,7 +377,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * will be effectively compared using a strict equals (`===`). If not given, then
    * the strict equals will used directly.
    * @remarks This will iterate the second iterable completely once it has
-   * started iteration (not before).
+   * started iteration (not before). It will not cause additional unexpected iteration
+   * on the underlying iterable.
    */
   public intersect<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
     return new LazyIntersect(this, second, compareOn);
@@ -354,7 +393,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param joinFn The function that takes in a single element from the from each of
    * the first and second iterables, and outputs the resulting element.
    * @remarks This will iterate the second iterable completely once it has
-   * started iteration (not before).
+   * started iteration (not before). It will not cause additional unexpected iteration
+   * on the underlaying iterable.
    */
   public join<TSecond, TKey, TResult>(
     second: Iterable<TSecond>,
@@ -400,6 +440,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Appends the element to the beginning of the iterable.
    * @param element The element to append.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public prepend(element: TElement) {
     return new LazyAppendPrepend(this, element, true);
@@ -417,6 +458,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Projects the elements of the iterable into a new form.
    * @param selector The transformation function to use for each element.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public select<TResult>(selector: IndexMapFn<TElement, TResult>) {
     return new LazySelect(this, selector);
@@ -427,6 +469,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * into a single iterable.
    * @param selector The transformation function to use for each element. The index parameter
    * is the index that the element was at in the source iterable, *not* the resulting one.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public selectMany<TResult>(selector: IndexMapFn<TElement, Iterable<TResult>>) {
     return new LazySelectMany(this, selector);
@@ -436,6 +479,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Skips the given number of elements from the start of the iterable and returns
    * the rest.
    * @param count The number of elements to skip.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public skip(count: number) {
     return new LazySkip(this, count);
@@ -444,7 +488,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Skips the given number of elements from the end of the iterable, returning the rest.
    * @param count The number of elements to skip from the end.
-   * @remarks This iterator requires the iterable to be finite in length.
+   * @remarks This iterator requires the iterable to be finite in length. It will iterate
+   * until the end.
    */
   public skipLast(count: number) {
     return new LazySkipLast(this, count);
@@ -454,6 +499,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Skips all elements in the iterable until the condition returns true, after which all
    * elements are returned regardless.
    * @param predicate The predicate function to check the condition with.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public skipWhile(predicate: IndexPredicate<TElement>) {
     return new LazySkipWhile(this, predicate);
@@ -463,6 +509,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the given number of elements from the start of the iterable, ignoring
    * the rest.
    * @param count The number of elements to take from the start.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public take(count: number) {
     return new LazyTake(this, count);
@@ -471,7 +518,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Returns the given number of elements from the end of the iterable, ignore the
    * elements before.
-   * @remarks This iterator requires the iterable to be finite in length.
+   * @remarks This iterator requires the iterable to be finite in length. It will iterate
+   * until the end.
    */
   public takeLast(count: number) {
     return new LazyTakeLast(this, count);
@@ -481,6 +529,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Takes all elements in the iterable until the condition returns true, after which
    * the iterable is considered to have ended.
    * @param predicate The predicate function to check the condition with.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public takeWhile(predicate: IndexPredicate<TElement>) {
     return new LazyTakeWhile(this, predicate);
@@ -494,7 +543,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * will be effectively compared using a strict equals (`===`). If not given, then
    * the strict equals will used directly.
    * @remarks This will iterate the second iterable completely once it has
-   * started iteration (not before).
+   * started iteration (not before). It will not cause additional unexpected iteration
+   * on the underlying iterable.
    */
   public union<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
     return new LazyUnion(this, second, compareOn);
@@ -503,6 +553,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Filters elements based on the given predicate.
    * @param predicate The predicate function to filter elements with.
+   * @remarks Does not cause additional unexpected iteration.
    */
   public where(predicate: aggregates.BoolPredicate<TElement>) {
     return new LazyWhere(this, predicate);

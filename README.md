@@ -27,7 +27,7 @@ const iterable = lazy.from([1, 2, 3, 4, 5]);
 After you have done this, the full power of the module is available to play with.
 
 ## Examples
-The aim of the modules is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the items of the list. Here's a small example:
+The aim of the modules is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here's a small example:
 
 ```ts
 const evenSquares = lazy.range(0, 1000).where(i => i % 2 === 0).select(i => i ** 2);
@@ -47,7 +47,7 @@ A huge part of what makes linq so powerful is its composability, which this modu
 const selectedEvenNumbers = evenNumbers.take(10);
 ```
 
-As with C# Linq, this statement will create a new iteratable object that only returns the first 10 items of the original iterable object. And the order of composability is not limited, every single method that returns an iterator supports chaining with every other method. On top of this, this module supports the same linq aggregation functions that linq does, for example:
+As with C# Linq, this statement will create a new iteratable object that only returns the first 10 elements of the original iterable object. And the order of composability is not limited, every single method that returns an iterator supports chaining with every other method. On top of this, this module supports the same linq aggregation functions that linq does, for example:
 
 ```ts
 console.log(selectedEvenNumbers.sum()); // -> 1140
@@ -85,6 +85,9 @@ On top of this, the entire module is build upon the native JS iteration protocol
 For a full overview of the API, please refer to [mod.ts](lib/mod.ts) for the initial iterator functions, and [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
+
+### 'Additional unexpected iteration'
+For any function on `Lazy` that uses this term, it simply means 'if I start iteration on the resulting object, it will not perform any iteration I did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method. You cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
 
 # Footnotes
 Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.
