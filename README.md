@@ -22,13 +22,14 @@ At a base level, this module provides the following exports:
 ```ts
 abstract class Lazy<TElement> {...}
 
+// These are provided to allow direct imports, but are just aliases over the static methods.
 function from<TElement>(iterable: Iterable<TElement>): Lazy<TElement>;
 function empty<TElement>(): Lazy<TElement>;
 function range(start: number, end: number): Lazy<number>;
 function repeat<TElement>(value: TElement, count: number): Lazy<TElement>;
 ```
 
-The `Lazy` class is the root of the module, all things come from it and are derived off it, but it doesn't provide iteration by itself. In order to start using the module, you need to do something like the following:
+The `Lazy` class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:
 
 ```ts
 // Direct function import.
@@ -45,7 +46,7 @@ const iterable = Lazy.from([1, 2, 3, 4, 5]);
 After you have done this, the full power of the module is available to play with.
 
 ## Examples
-The aim of the modules is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here's a small example:
+The aim of the module is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here's a small example:
 
 ```ts
 const evenSquares = Lazy.range(0, 1000).where(i => i % 2 === 0).select(i => i ** 2);
