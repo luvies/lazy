@@ -283,6 +283,12 @@ export function min<TElement>(
   return cmin as any;
 }
 
+export function resolveAll<TElement>(
+  iterable: Iterable<TElement>,
+): Promise<TElement extends PromiseLike<infer TResult> ? TResult[] : TElement[]> {
+  return Promise.all(iterable) as any;
+}
+
 export function sequenceEquals<TElement>(
   firstIterable: Iterable<TElement>,
   secondIterable: Iterable<TElement>,

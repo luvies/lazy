@@ -281,6 +281,16 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Resolves all of the promises in the iterable, and returns a new Lazy
+   * iterable from the result.
+   * @returns A promise that will resolve to a lazy iterable object.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public resolveAll(): Promise<TElement extends PromiseLike<infer TResult> ? Lazy<TResult> : Lazy<TElement>> {
+    return aggregates.resolveAll(this).then(iterable => Lazy.from(iterable)) as any;
+  }
+
+  /**
    * Determines whether 2 iterables are equal.
    * @param second The iterable to compare against.
    * @param comparer The function to perform the comparision of each pair of

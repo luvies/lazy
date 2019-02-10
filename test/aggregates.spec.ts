@@ -146,6 +146,34 @@ test(function min() {
   assert.throws(() => lazy.from([true]).min());
 });
 
+test(async function resolveAll() {
+  const orig = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3),
+    Promise.resolve(4),
+    Promise.resolve(5),
+  ];
+  assert.equal((await lazy.from(orig).resolveAll()).toArray(), [1, 2, 3, 4, 5]);
+  assert.equal(
+    (await lazy.from(orig).resolveAll()).select(i => i * 2).toArray(),
+    [2, 4, 6, 8, 10],
+  );
+
+  const mix = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3),
+    4,
+    5,
+  ];
+  assert.equal((await lazy.from(mix).resolveAll()).toArray(), [1, 2, 3, 4, 5]);
+  assert.equal(
+    (await lazy.from(mix).resolveAll()).select(i => i * 2).toArray(),
+    [2, 4, 6, 8, 10],
+  );
+});
+
 test(function sequenceEquals() {
   assert.equal(lazy.from([1]).sequenceEquals([1]), true);
   assert.equal(lazy.from([1, 2]).sequenceEquals([1, 2]), true);
