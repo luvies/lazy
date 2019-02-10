@@ -110,10 +110,10 @@ export function average<TElement>(
 export function contains<TElement>(
   iterable: Iterable<TElement>,
   value: TElement,
-  comparer?: ComparerFn<TElement>,
+  comparer: ComparerFn<TElement> = (a, b) => a === b,
 ): boolean {
   for (const ivalue of iterable) {
-    if (comparer ? comparer(value, ivalue) : value === ivalue) {
+    if (comparer(value, ivalue)) {
       return true;
     }
   }
