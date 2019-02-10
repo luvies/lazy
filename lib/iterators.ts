@@ -861,11 +861,6 @@ class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
 
 // Attempts to mimic the built-in sorting as close as possible.
 function defaultComparer<T>(a: T, b: T): number {
-  if (typeof a === 'undefined') {
-    return +1;
-  } else if (typeof b === 'undefined') {
-    return -1;
-  }
   return `${a}`.localeCompare(`${b}`);
 }
 

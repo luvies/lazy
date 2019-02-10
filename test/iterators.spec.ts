@@ -179,6 +179,11 @@ test(function orderBy() {
     { value: 5 },
     { value: 7 },
   ]);
+
+  assert.equal(
+    lazy.from([undefined, 1, 2, undefined, 3, 4, undefined, 5]).orderBy(v => v).toArray(),
+    [1, 2, 3, 4, 5, undefined, undefined, undefined],
+  );
 });
 
 test(function orderByDecending() {
@@ -199,6 +204,11 @@ test(function orderByDecending() {
     { value: 2 },
     { value: 1 },
   ]);
+
+  assert.equal(
+    lazy.from([undefined, 1, 2, undefined, 3, 4, undefined, 5]).orderByDecending(v => v).toArray(),
+    [5, 4, 3, 2, 1, undefined, undefined, undefined],
+  );
 });
 
 test(function prepend() {
