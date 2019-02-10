@@ -1,7 +1,7 @@
 {
   "name": "@luvies/lazy",
   "version": "1.0.0",
-  "description": "A linq-like lazy iteration module that aims to support browser, node & deno",
+  "description": "A linq-like lazy iteration module that aims to support deno, node & browser",
   "main": "dist/mod.js",
   "repository": "luvies/lazy",
   "author": "luvies",
@@ -19,11 +19,11 @@
     "typescript": "^3.3.3"
   },
   "keywords": [
+    "deno",
+    "denoland",
     "browser",
     "linq",
     "lazy",
-    "deno",
-    "denoland",
     "enumerable",
     "iteration",
     "iterator",
