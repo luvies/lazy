@@ -13,6 +13,7 @@ This module is meant to provide memory-efficient lazy-enumeration/iteration for 
   - [Promises](#promises)
   - [Additional unexpected iteration](#additional-unexpected-iteration)
   - [Custom implementations](#custom-implementations)
+  - [Compatibility](#compatibility)
 - [Setting up this project](#setting-up-this-project)
 - [Footnotes](#footnotes)
 
@@ -215,6 +216,8 @@ This project is written primarily for deno, with node support being done via a 2
   - The path has to be relative due to a TS server limitation
   - *DO NOT COMMIT THIS CHANGE*, as it only applies to your setup and your setup only
 
+### Compatibility
+As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 & earlier, you will need to use a transpiler like babel. It is available on NPM as well under [@luvies/lazy](https://www.npmjs.com/package/@luvies/lazy), and requires about Node.js >=v6.
 
 ## Footnotes
 Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.
