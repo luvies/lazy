@@ -22,7 +22,8 @@
     "trailing-comma": [
       true,
       {
-        "multiline": "always"
+        "multiline": "always",
+        "esSpecCompliant": true
       }
     ],
     "whitespace": [

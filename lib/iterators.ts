@@ -325,12 +325,12 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Concatinates 2 iterables.
-   * @param iterable The other iterable to concatinate with.
+   * Concatinates multiple iterables in order.
+   * @param iterables The other iterables to concatinate with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public concat(iterable: Iterable<TElement>) {
-    return new LazyConcat(this, iterable);
+  public concat(...iterables: Array<Iterable<TElement>>) {
+    return new LazyConcat(this, ...iterables);
   }
 
   /**
@@ -591,19 +591,20 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
 }
 
 class LazyConcat<TElement> extends Lazy<TElement> {
+  private readonly _iterables: Array<Iterable<TElement>>;
+
   public constructor(
-    private _firstIterable: Iterable<TElement>,
-    private _secondIterable: Iterable<TElement>,
+    ..._iterables: Array<Iterable<TElement>>
   ) {
     super();
+    this._iterables = _iterables;
   }
 
   public *[Symbol.iterator](): Iterator<TElement> {
-    for (const value of this._firstIterable) {
-      yield value;
-    }
-    for (const value of this._secondIterable) {
-      yield value;
+    for (const iterable of this._iterables) {
+      for (const value of iterable) {
+        yield value;
+      }
     }
   }
 }

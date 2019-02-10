@@ -20,6 +20,8 @@ test(function concat() {
   first = [9, 8, 7, 6];
   second = [1, 2, 3, 4];
   assert.equal(lazy.from(first).concat(second).toArray(), [...first, ...second]);
+
+  assert.equal(lazy.from([1]).concat([2], [3]).toArray(), [1, 2, 3]);
 });
 
 test(function defaultIfEmpty() {
@@ -203,12 +205,12 @@ test(function selectMany() {
   assert.equal(lazy.from(orig).selectMany(
     (v, i) => lazy.from(v.value).select(v2 => ({ v: v2, i })),
   ).toArray(), [
-    { v: 5, i: 0 },
-    { v: 6, i: 0 },
-    { v: 4, i: 1 },
-    { v: 3, i: 2 },
-    { v: 2, i: 3 },
-    { v: 1, i: 4 },
+      { v: 5, i: 0 },
+      { v: 6, i: 0 },
+      { v: 4, i: 1 },
+      { v: 3, i: 2 },
+      { v: 2, i: 3 },
+      { v: 1, i: 4 },
     ]);
 
   const arrarr = [
