@@ -4,6 +4,18 @@
 
 This module is meant to provide memory-efficient lazy-enumeration/iteration for iterable objects. The aim of this project is to support browser, node and deno, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).
 
+## Contents
+
+- [Overview](#overview)
+- [Examples](#examples)
+- [Introp with native](#interop-with-native)
+- [API](#api)
+  - [Promises](#promises)
+  - [Additional unexpected iteration](#additional-unexpected-iteration)
+  - [Custom implementations](#custom-implementations)
+- [Setting up this project](#setting-up-this-project)
+- [Footnotes](#footnotes)
+
 ## Overview
 At a base level, this module provides the following exports:
 
