@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "prepare": "node ./scripts/prebuild.js && tsc --project ./tsconfig.build.json",
-    "test": "deno ./test/run_tests.ts && yarn prepare"
+    "test": "deno ./test/run_tests.ts && yarn prepare",
+    "init-types": "deno --prefetch ./test/run_tests.ts"
   },
   "devDependencies": {
     "deno_ls_plugin": "^0.1.0",

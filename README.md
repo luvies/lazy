@@ -118,5 +118,17 @@ const result = lazy.from([1, 10, 100, 1000])
 
 Obviously this is a contrived example, since the same could be done with a single `select`, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.
 
-# Footnotes
+## Setting up this project
+This project is written primarily for deno, with node support being done via a 2-step compilation process. In order to set up the project, you need to install [deno](https://github.com/denoland/deno) globally. To make editing work in VSCode, make sure that you do the following:
+
+- Run `yarn` to install the dependencies that VSCode needs to edit properly
+- Run `yarn init-types` to grab the types for the testing module
+- Make sure that VSCode is using the local TypeScript version (bottom right of the editor while opening a `.ts` file)
+- Adjust the [`tsconfig.json`](tsconfig.json) so that the `paths` are pointing to the right directory
+  - They should point to the `$HOME/.deno/deps/http` and `$HOME/.deno/deps/https` directories
+  - The path has to be relative due to a TS server limitation
+  - *DO NOT COMMIT THIS CHANGE*, as it only applies to your setup and your setup only
+
+
+## Footnotes
 Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.
