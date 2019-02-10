@@ -343,6 +343,16 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Converts the iterable to a JSON-serialisable array.
+   * @remarks This will cause a complete iteration of the iterable object.
+   * This will not do anything to the elements, meaning that you are
+   * responsible for ensuring that they are all JSON-serialisable.
+   */
+  public toJSON() {
+    return this.toArray();
+  }
+
+  /**
    * Converts the iterable into a map using the key and value function.
    * @param keyFn The function to use to derive the key of each map element.
    * @param valueFn The function to use to derive the value of map value. If

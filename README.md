@@ -101,6 +101,8 @@ While all of these functions are good, it would be difficult to integrate them w
 
 On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a `Lazy.from(...)` call, and everything will be available.
 
+The `Lazy` class is also JSON-serialisable, meaning that you can simply pass the result of a chain into `JSON.stringify` and it will stringify correctly.
+
 ## API
 Please refer to [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
 

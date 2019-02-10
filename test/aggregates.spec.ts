@@ -254,6 +254,15 @@ test(function sum() {
   assert.throws(() => lazy.from([true]).sum());
 });
 
+test(function toJSON() {
+  const s = JSON.stringify;
+
+  assert.equal(s(lazy.from([1, 2, 3, 4, 5])), s([1, 2, 3, 4, 5]));
+  assert.equal(s(lazy.from([1, 2, 3, 4, 5]).select(i => i * 2)), s([2, 4, 6, 8, 10]));
+  assert.equal(s(lazy.from([1, 2, 3, 4, 5]).reverse()), s([5, 4, 3, 2, 1]));
+  assert.equal(s(lazy.from([1, 2, 3, 4, 5]).where(i => i % 2 === 0)), s([2, 4]));
+});
+
 test(function toMap() {
   const orig = [
     { key: 1, value: 'a' },
