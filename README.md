@@ -19,9 +19,15 @@ function repeat<TElement>(value: TElement, count: number): Lazy<TElement>;
 The `Lazy` class is the root of the module, all things come from it and are derived off it, but it doesn't provide iteration by itself. In order to start using the module, you need to do something like the following:
 
 ```ts
-import lazy from '@luvies/lazy';
+// Direct function import.
+import { from } from '@luvies/lazy';
 
-const iterable = lazy.from([1, 2, 3, 4, 5]);
+const iterable = from([1, 2, 3, 4, 5]);
+
+// Static method import.
+import { Lazy } from '@luvies/lazy';
+
+const iterable = Lazy.from([1, 2, 3, 4, 5]);
 ```
 
 After you have done this, the full power of the module is available to play with.
@@ -82,7 +88,7 @@ While all of these functions are good, it would be difficult to integrate them w
 On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a `lazy.from(...)` call, and everything will be available.
 
 ## API
-For a full overview of the API, please refer to [mod.ts](lib/mod.ts) for the initial iterator functions, and [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
+Please refer to [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
 
