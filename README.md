@@ -36,7 +36,7 @@ After you have done this, the full power of the module is available to play with
 The aim of the modules is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here's a small example:
 
 ```ts
-const evenSquares = lazy.range(0, 1000).where(i => i % 2 === 0).select(i => i ** 2);
+const evenSquares = Lazy.range(0, 1000).where(i => i % 2 === 0).select(i => i ** 2);
 ```
 
 The result of this chain is an iterator object, however nothing has actually happened yet. As with linq, things only happen exactly when you ask for it:
@@ -62,7 +62,7 @@ console.log(selectedEvenNumbers.sum()); // -> 1140
 These functions allow you to deal with iterable objects at a high-level, hiding the fact that not all of the values might be available until the iteration is actually done. They also handle things like short-cuts, for example:
 
 ```ts
-console.log(lazy.range(0, 1000).any(i => i > 100)) // -> true
+console.log(Lazy.range(0, 1000).any(i => i > 100)) // -> true
 ```
 
 This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).
@@ -77,7 +77,7 @@ const points = data.map(d => d.x).filter(x => selectPoint(x)).map(x => adjustPoi
 const avg = points.reduce((prev, curr) => prev + curr) / points.length;
 
 // Lazy iterators
-const avg = lazy.from(data).select(d => d.x).where(x => selectPoint(x)).select(x => adjustPoint(x)).average();
+const avg = Lazy.from(data).select(d => d.x).where(x => selectPoint(x)).select(x => adjustPoint(x)).average();
 ```
 
 The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation functions allow for a number nicer final calculation.
@@ -91,6 +91,73 @@ On top of this, the entire module is build upon the native JS iteration protocol
 Please refer to [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
+
+### Promises
+This module fully supports promises, and things like for-await-of. As an example (taken from the tests):
+
+```ts
+const list = [
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3),
+  Promise.resolve(4),
+  Promise.resolve(5),
+];
+
+for await (const value of Lazy.from(list)) {
+  console.log(value);
+}
+
+/*
+  Output:
+
+  -> 1
+  -> 2
+  -> 3
+  -> 4
+  -> 5
+*/
+```
+
+However, it also supports resolving all promises in the iterable to their values all at once, using the help of `Promise.all`:
+
+```ts
+const list = [
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3),
+  Promise.resolve(4),
+  Promise.resolve(5),
+];
+
+for (const value of (await Lazy.from(list).resolveAll()).select(i => i ** 2)) {
+  console.log(value);
+}
+
+/*
+  Output:
+
+  -> 1
+  -> 4
+  -> 9
+  -> 16
+  -> 25
+*/
+```
+
+For TypeScript users, the `resolveAll` function all also correctly determines the resulting object type, even if there is a mix of promises and non promises:
+
+```ts
+const list = [
+  Promise.resolve(1),
+  2
+  Promise.resolve(3),
+  4
+  Promise.resolve(5),
+]; // type -> Array<number | Promise<number>>
+
+Lazy.from(list).resolveAll() // type -> Promise<Lazy<number>>
+```
 
 ### 'Additional unexpected iteration'
 For any function on `Lazy` that uses this term, it simply means 'if I start iteration on the resulting object, it will not perform any iteration I did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method. You cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
@@ -114,7 +181,7 @@ class LazyToString<TSource> extends lazy.Lazy<string> {
 }
 const iterableToString = <TSource>(t: Iterable<TSource>) => new LazyToString(t);
 
-const result = lazy.from([1, 10, 100, 1000])
+const result = Lazy.from([1, 10, 100, 1000])
   .apply<LazyToString<number>, string>(iterableToString)
   .select(s => s.length)
   .toArray();

@@ -39,3 +39,21 @@ test(function repeat() {
   assert.equal(lazy.repeat('a').take(4).toArray(), ['a', 'a', 'a', 'a']);
   assert.equal(lazy.repeat('a').take(5).toArray(), ['a', 'a', 'a', 'a', 'a']);
 });
+
+test(async function _forAwait() {
+  // This isn't a test of any specific implementation, just of functionality.
+
+  const orig = [
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3),
+    Promise.resolve(4),
+    Promise.resolve(5),
+  ];
+
+  let current = 1;
+  for await (const value of lazy.from(orig)) {
+    assert.equal(value, current);
+    current++;
+  }
+});
