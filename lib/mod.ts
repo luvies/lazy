@@ -5,27 +5,19 @@ export { Lazy };
 /**
  * @see Lazy.empty
  */
-export function empty<TElement>(): Lazy<TElement> {
-  return Lazy.empty<TElement>();
-}
+export const empty = Lazy.empty;
 
 /**
  * @see Lazy.from
  */
-export function from<TElement>(iterable: Iterable<TElement>): Lazy<TElement> {
-  return Lazy.from(iterable);
-}
+export const from = Lazy.from;
 
 /**
  * @see Lazy.range
  */
-export function range(start: number, end?: number): Lazy<number> {
-  return Lazy.range(start, end);
-}
+export const range = Lazy.range;
 
 /**
  * @see Lazy.repeat
  */
-export function repeat<TElement>(value: TElement, count?: number): Lazy<TElement> {
-  return Lazy.repeat(value, count);
-}
+export const repeat = Lazy.repeat;

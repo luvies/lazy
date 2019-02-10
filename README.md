@@ -93,12 +93,12 @@ const avg = points.reduce((prev, curr) => prev + curr) / points.length;
 const avg = Lazy.from(data).select(d => d.x).where(x => selectPoint(x)).select(x => adjustPoint(x)).average();
 ```
 
-The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation functions allow for a number nicer final calculation.
+The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation function allow for a nicer final calculation.
 
 ## Interop with native
 While all of these functions are good, it would be difficult to integrate them without being about to easily convert back to native JS objects. Fortunately, this module provides just that. Currently there are 2 functions, `toArray` and `toMap`, which do pretty much exactly as they seem. You can end a lazy chain with one of these to make it resolve all of the iterators and output a native JS object, which can be then used in consuming code.
 
-On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a `lazy.from(...)` call, and everything will be available.
+On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a `Lazy.from(...)` call, and everything will be available.
 
 ## API
 Please refer to [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
@@ -173,7 +173,7 @@ Lazy.from(list).resolveAll() // type -> Promise<Lazy<number>>
 ```
 
 ### 'Additional unexpected iteration'
-For any function on `Lazy` that uses this term, it simply means 'if I start iteration on the resulting object, it will not perform any iteration I did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method. You cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
+For any function on `Lazy` that uses this term, it simply means 'if you start iteration on the resulting object, it will not perform any iteration you did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method; you cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
 
 ### Custom implementations
 This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the `Lazy` class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:
