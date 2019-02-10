@@ -52,6 +52,15 @@ test(function contains() {
   assert.equal(lazy.from(orig).contains(5), true);
   assert.equal(lazy.from(orig).contains(6), false);
   assert.equal(lazy.from(orig).contains(7), false);
+
+  const comparer = (a: number, b: number) => a.toString() === b.toString();
+  assert.equal(lazy.from(orig).contains('1' as any, comparer), true);
+  assert.equal(lazy.from(orig).contains('2' as any, comparer), true);
+  assert.equal(lazy.from(orig).contains('3' as any, comparer), true);
+  assert.equal(lazy.from(orig).contains('4' as any, comparer), true);
+  assert.equal(lazy.from(orig).contains('5' as any, comparer), true);
+  assert.equal(lazy.from(orig).contains('6' as any, comparer), false);
+  assert.equal(lazy.from(orig).contains('7' as any, comparer), false);
 });
 
 test(function count() {
