@@ -366,7 +366,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Applys the given lazy iterable implementation to the current object.
+   * Applies the given lazy iterable implementation to the current object.
    * This allows for using custom Lazy implementations using the standard
    * chaining syntax.
    * @param fn The function that will create the iterable instance using
