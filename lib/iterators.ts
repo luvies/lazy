@@ -737,9 +737,7 @@ class LazyConcat<TElement> extends Lazy<TElement> {
 
   public *[Symbol.iterator](): Iterator<TElement> {
     for (const iterable of this._iterables) {
-      for (const value of iterable) {
-        yield value;
-      }
+      yield* iterable;
     }
   }
 }
@@ -939,9 +937,7 @@ class LazySelectMany<TSource, TResult> extends Lazy<TResult> {
   public *[Symbol.iterator](): Iterator<TResult> {
     let index = 0;
     for (const outer of this._iterable) {
-      for (const inner of this._selector(outer, index)) {
-        yield inner;
-      }
+      yield* this._selector(outer, index);
       index++;
     }
   }
