@@ -23,7 +23,7 @@ At a base level, this module provides the following exports:
 ```ts
 abstract class Lazy<TElement> {...}
 
-// These are provided to allow direct imports, but are just aliases over the static methods.
+// These are provided to allow direct imports, but are just aliases over the static class methods.
 function from<TElement>(iterable: Iterable<TElement>): Lazy<TElement>;
 function empty<TElement>(): Lazy<TElement>;
 function range(start: number, end: number): Lazy<number>;
@@ -33,15 +33,15 @@ function repeat<TElement>(value: TElement, count: number): Lazy<TElement>;
 The `Lazy` class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:
 
 ```ts
-// Direct function import.
-import { from } from '@luvies/lazy';
-
-const iterable = from([1, 2, 3, 4, 5]);
-
 // Static method import.
 import { Lazy } from '@luvies/lazy';
 
 const iterable = Lazy.from([1, 2, 3, 4, 5]);
+
+// Direct function import.
+import { from } from '@luvies/lazy';
+
+const iterable = from([1, 2, 3, 4, 5]);
 ```
 
 After you have done this, the full power of the module is available to play with.
