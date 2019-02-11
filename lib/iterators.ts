@@ -6,7 +6,7 @@ type MapFn<TSource, TResult> = aggregates.MapFn<TSource, TResult>;
 type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
 type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
-type IndexPredicate<TSource> = (value: TSource, index: number) => boolean;
+type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
 
 // Base lazy class.
 
@@ -629,7 +629,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to filter elements with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public where(predicate: aggregates.BoolPredicate<TElement>): Lazy<TElement> {
+  public where(predicate: IndexPredicate<TElement>): Lazy<TElement> {
     return new LazyWhere(this, predicate);
   }
 
@@ -1131,16 +1131,18 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
 class LazyWhere<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
-    private readonly _predicate: aggregates.BoolPredicate<TElement>,
+    private readonly _predicate: IndexPredicate<TElement>,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TElement> {
+    let index = 0;
     for (const value of this._iterable) {
-      if (this._predicate(value)) {
+      if (this._predicate(value, index)) {
         yield value;
       }
+      index++;
     }
   }
 }

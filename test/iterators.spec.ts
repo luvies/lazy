@@ -373,4 +373,10 @@ test(function where() {
       { key: 1, value: 'a' },
       { key: 5, value: 'e' },
     ]);
+
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((_, i) => i === 0).toArray(), [1]);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((_, i) => i === 2).toArray(), [3]);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((_, i) => i === 4).toArray(), [5]);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((v, i) => v < i).toArray(), []);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((v, i) => v > i).toArray(), [1, 2, 3, 4, 5]);
 });
