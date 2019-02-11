@@ -4,7 +4,7 @@
 */
 
 // Error messages.
-enum Errors {
+export enum Errors {
   Empty = 'Empty iterable',
   NonNumber = 'Cannot perform function on a non-number value',
 }

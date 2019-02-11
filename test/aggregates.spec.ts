@@ -64,14 +64,23 @@ test(function contains() {
 });
 
 test(function count() {
+  // Test direct array access.
   assert.equal(Lazy.from([]).count(), 0);
   assert.equal(Lazy.from([1]).count(), 1);
   assert.equal(Lazy.from([1, 2]).count(), 2);
   assert.equal(Lazy.from([1, 2, 3]).count(), 3);
   assert.equal(Lazy.from([1, 2, 3, 4]).count(), 4);
+
+  // Test iterated array access.
+  assert.equal(Lazy.from([]).select(v => v * 2).count(), 0);
+  assert.equal(Lazy.from([1]).select(v => v * 2).count(), 1);
+  assert.equal(Lazy.from([1, 2]).select(v => v * 2).count(), 2);
+  assert.equal(Lazy.from([1, 2, 3]).select(v => v * 2).count(), 3);
+  assert.equal(Lazy.from([1, 2, 3, 4]).select(v => v * 2).count(), 4);
 });
 
 test(function elementAt() {
+  // Test direct array access.
   let orig = [1, 2, 3, 4, 5];
   assert.equal(Lazy.from(orig).elementAt(0), 1);
   assert.equal(Lazy.from(orig).elementAt(1), 2);
@@ -82,20 +91,73 @@ test(function elementAt() {
 
   orig = [];
   assert.throws(() => Lazy.from(orig).elementAt(0));
+
+
+  // Test iterated array access.
+  orig = [1, 2, 3, 4, 5];
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAt(0), 2);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAt(1), 4);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAt(2), 6);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAt(3), 8);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAt(4), 10);
+  assert.throws(() => Lazy.from(orig).select(v => v * 2).elementAt(5));
+
+  orig = [];
+  assert.throws(() => Lazy.from(orig).select(v => v * 2).elementAt(0));
+});
+
+test(function elementAtOrDefault() {
+  // Test direct array access.
+  let orig = [1, 2, 3, 4, 5];
+  assert.equal(Lazy.from(orig).elementAtOrDefault(0, 9), 1);
+  assert.equal(Lazy.from(orig).elementAtOrDefault(1, 9), 2);
+  assert.equal(Lazy.from(orig).elementAtOrDefault(2, 9), 3);
+  assert.equal(Lazy.from(orig).elementAtOrDefault(3, 9), 4);
+  assert.equal(Lazy.from(orig).elementAtOrDefault(4, 9), 5);
+  assert.equal(Lazy.from(orig).elementAtOrDefault(5, 9), 9);
+
+  orig = [];
+  assert.equal(Lazy.from(orig).elementAtOrDefault(5, 9), 9);
+
+  // Test iterated array access.
+  orig = [1, 2, 3, 4, 5];
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(0, 9), 2);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(1, 9), 4);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(2, 9), 6);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(3, 9), 8);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(4, 9), 10);
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(5, 9), 9);
+
+  orig = [];
+  assert.equal(Lazy.from(orig).select(v => v * 2).elementAtOrDefault(0, 9), 9);
 });
 
 test(function first() {
+  // Test direct array access.
   assert.equal(Lazy.from([1, 2, 3]).first(), 1);
   assert.equal(Lazy.from([2, 3, 1]).first(), 2);
   assert.equal(Lazy.from([3, 2, 1]).first(), 3);
   assert.throws(() => Lazy.from([]).first());
+
+  // Test iterated array access.
+  assert.equal(Lazy.from([1, 2, 3]).select(v => v * 2).first(), 2);
+  assert.equal(Lazy.from([2, 3, 1]).select(v => v * 2).first(), 4);
+  assert.equal(Lazy.from([3, 2, 1]).select(v => v * 2).first(), 6);
+  assert.throws(() => Lazy.from([]).select(v => v * 2).first());
 });
 
 test(function first() {
+  // Test direct array access.
   assert.equal(Lazy.from([1, 2, 3]).firstOrDefault(9), 1);
   assert.equal(Lazy.from([2, 3, 1]).firstOrDefault(9), 2);
   assert.equal(Lazy.from([3, 2, 1]).firstOrDefault(9), 3);
   assert.equal(Lazy.from<number>([]).firstOrDefault(9), 9);
+
+  // Test iterated array access.
+  assert.equal(Lazy.from([1, 2, 3]).select(v => v * 2).firstOrDefault(9), 2);
+  assert.equal(Lazy.from([2, 3, 1]).select(v => v * 2).firstOrDefault(9), 4);
+  assert.equal(Lazy.from([3, 2, 1]).select(v => v * 2).firstOrDefault(9), 6);
+  assert.equal(Lazy.from<number>([]).select(v => v * 2).firstOrDefault(9), 9);
 });
 
 test(function forEach() {
@@ -126,21 +188,39 @@ test(function iterableEquals() {
 });
 
 test(function last() {
+  // Test direct array access.
   assert.equal(Lazy.from([1]).last(), 1);
   assert.equal(Lazy.from([1, 2]).last(), 2);
   assert.equal(Lazy.from([1, 2, 3]).last(), 3);
   assert.equal(Lazy.from([1, 2, 3, 4]).last(), 4);
   assert.equal(Lazy.from([1, 2, 3, 4, 5]).last(), 5);
   assert.throws(() => Lazy.from([]).last());
+
+  // Test iterated array access.
+  assert.equal(Lazy.from([1]).select(v => v * 2).last(), 2);
+  assert.equal(Lazy.from([1, 2]).select(v => v * 2).last(), 4);
+  assert.equal(Lazy.from([1, 2, 3]).select(v => v * 2).last(), 6);
+  assert.equal(Lazy.from([1, 2, 3, 4]).select(v => v * 2).last(), 8);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).select(v => v * 2).last(), 10);
+  assert.throws(() => Lazy.from([]).select(v => v * 2).last());
 });
 
 test(function lastOrDefault() {
+  // Test direct array access.
   assert.equal(Lazy.from([1]).lastOrDefault(9), 1);
   assert.equal(Lazy.from([1, 2]).lastOrDefault(9), 2);
   assert.equal(Lazy.from([1, 2, 3]).lastOrDefault(9), 3);
   assert.equal(Lazy.from([1, 2, 3, 4]).lastOrDefault(9), 4);
   assert.equal(Lazy.from([1, 2, 3, 4, 5]).lastOrDefault(9), 5);
   assert.equal(Lazy.from<number>([]).lastOrDefault(9), 9);
+
+  // Test iterated array access.
+  assert.equal(Lazy.from([1]).select(v => v * 2).lastOrDefault(9), 2);
+  assert.equal(Lazy.from([1, 2]).select(v => v * 2).lastOrDefault(9), 4);
+  assert.equal(Lazy.from([1, 2, 3]).select(v => v * 2).lastOrDefault(9), 6);
+  assert.equal(Lazy.from([1, 2, 3, 4]).select(v => v * 2).lastOrDefault(9), 8);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).select(v => v * 2).lastOrDefault(9), 10);
+  assert.equal(Lazy.from<number>([]).select(v => v * 2).lastOrDefault(9), 9);
 });
 
 test(function max() {

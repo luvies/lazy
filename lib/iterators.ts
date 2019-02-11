@@ -673,6 +673,86 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     super();
   }
 
+  public count() {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      return this._iterable.length;
+    }
+    return super.count();
+  }
+
+  public elementAt(index: number) {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (index >= 0 && index < this._iterable.length) {
+        return this._iterable[index];
+      } else {
+        throw new Error('Index out of array bounds');
+      }
+    }
+    return super.elementAt(index);
+  }
+
+  public elementAtOrDefault(index: number, defaultValue: TElement) {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (index >= 0 && index < this._iterable.length) {
+        return this._iterable[index];
+      } else {
+        return defaultValue;
+      }
+    }
+    return super.elementAtOrDefault(index, defaultValue);
+  }
+
+  public first() {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (this._iterable.length > 0) {
+        return this._iterable[0];
+      } else {
+        throw new Error(aggregates.Errors.Empty);
+      }
+    }
+    return super.first();
+  }
+
+  public firstOrDefault(defaultValue: TElement) {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (this._iterable.length > 0) {
+        return this._iterable[0];
+      } else {
+        return defaultValue;
+      }
+    }
+    return super.firstOrDefault(defaultValue);
+  }
+
+  public last() {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (this._iterable.length > 0) {
+        return this._iterable[this._iterable.length - 1];
+      } else {
+        throw new Error(aggregates.Errors.Empty);
+      }
+    }
+    return super.last();
+  }
+
+  public lastOrDefault(defaultValue: TElement) {
+    // Use shortcut if we are directly on an array.
+    if (Array.isArray(this._iterable)) {
+      if (this._iterable.length > 0) {
+        return this._iterable[this._iterable.length - 1];
+      } else {
+        return defaultValue;
+      }
+    }
+    return super.lastOrDefault(defaultValue);
+  }
+
   public [Symbol.iterator](): Iterator<TElement> {
     return this._iterable[Symbol.iterator]();
   }
