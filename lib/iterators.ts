@@ -21,7 +21,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Creates an empty lazy iterable.
    * @returns The empty lazy iterable object.
    */
-  public static empty<TElement>() {
+  public static empty<TElement>(): Lazy<TElement> {
     return new LazyEmpty<TElement>();
   }
 
@@ -30,7 +30,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param iterable The object to source for lazy iteration.
    * @returns The lazy iterable object with the given iterable as the source.
    */
-  public static from<TElement>(iterable: Iterable<TElement>) {
+  public static from<TElement>(iterable: Iterable<TElement>): Lazy<TElement> {
     return new LazyIterator(iterable);
   }
 
@@ -46,7 +46,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
-  public static range(start: number, end?: number) {
+  public static range(start: number, end?: number): Lazy<number> {
     return new LazyRange(start, end);
   }
 
@@ -64,7 +64,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
-  public static repeat<TElement>(value: TElement, count?: number) {
+  public static repeat<TElement>(value: TElement, count?: number): Lazy<TElement> {
     return new LazyRepeat(value, count);
   }
 
@@ -371,7 +371,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param element The element to append.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public append(element: TElement) {
+  public append(element: TElement): Lazy<TElement> {
     return new LazyAppendPrepend(this, element, false);
   }
 
@@ -385,7 +385,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    */
   public apply<TLazy extends Lazy<TResult>, TResult = TElement>(
     fn: (t: Lazy<TElement>) => TLazy,
-  ) {
+  ): Lazy<TResult> {
     return fn(this);
   }
 
@@ -394,7 +394,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param iterables The other iterables to concatinate with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public concat(...iterables: Array<Iterable<TElement>>) {
+  public concat(...iterables: Array<Iterable<TElement>>): Lazy<TElement> {
     return new LazyConcat(this, ...iterables);
   }
 
@@ -404,7 +404,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param defaultValue The value to use if the iterable was empty.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public defaultIfEmpty(defaultValue: TElement) {
+  public defaultIfEmpty(defaultValue: TElement): Lazy<TElement> {
     return new LazyDefaultIfEmpty(this, defaultValue);
   }
 
@@ -415,7 +415,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * If not given, then each element will used directly.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public distinct<TKey>(compareOn?: MapFn<TElement, TKey>) {
+  public distinct<TKey>(compareOn?: MapFn<TElement, TKey>): Lazy<TElement> {
     return new LazyDistinct(this, compareOn);
   }
 
@@ -430,7 +430,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
    */
-  public except<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
+  public except<TKey = TElement>(
+    second: Iterable<TElement>,
+    compareOn?: MapFn<TElement, TKey>,
+  ): Lazy<TElement> {
     return new LazyExcept(this, second, compareOn);
   }
 
@@ -445,7 +448,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
    */
-  public intersect<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
+  public intersect<TKey = TElement>(
+    second: Iterable<TElement>,
+    compareOn?: MapFn<TElement, TKey>,
+  ): Lazy<TElement> {
     return new LazyIntersect(this, second, compareOn);
   }
 
@@ -466,7 +472,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     firstKeyFn: MapFn<TElement, TKey>,
     secondKeyFn: MapFn<TSecond, TKey>,
     joinFn: CombineFn<TElement, TSecond, TResult>,
-  ) {
+  ): Lazy<TResult> {
     return new LazyJoin(this, second, firstKeyFn, secondKeyFn, joinFn);
   }
 
@@ -482,7 +488,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   public orderBy<TKey>(
     keyFn: MapFn<TElement, TKey>,
     compareFn?: SortFn<TKey>,
-  ) {
+  ): Lazy<TElement> {
     return new LazyOrderBy(this, keyFn, compareFn, false);
   }
 
@@ -498,7 +504,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   public orderByDecending<TKey>(
     keyFn: MapFn<TElement, TKey>,
     compareFn?: SortFn<TKey>,
-  ) {
+  ): Lazy<TElement> {
     return new LazyOrderBy(this, keyFn, compareFn, true);
   }
 
@@ -507,7 +513,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param element The element to append.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public prepend(element: TElement) {
+  public prepend(element: TElement): Lazy<TElement> {
     return new LazyAppendPrepend(this, element, true);
   }
 
@@ -516,7 +522,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow starting from the end.
    */
-  public reverse() {
+  public reverse(): Lazy<TElement> {
     return new LazyReverse(this);
   }
 
@@ -525,7 +531,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param selector The transformation function to use for each element.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public select<TResult>(selector: IndexMapFn<TElement, TResult>) {
+  public select<TResult>(selector: IndexMapFn<TElement, TResult>): Lazy<TResult> {
     return new LazySelect(this, selector);
   }
 
@@ -536,7 +542,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * is the index that the element was at in the source iterable, *not* the resulting one.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public selectMany<TResult>(selector: IndexMapFn<TElement, Iterable<TResult>>) {
+  public selectMany<TResult>(selector: IndexMapFn<TElement, Iterable<TResult>>): Lazy<TResult> {
     return new LazySelectMany(this, selector);
   }
 
@@ -546,7 +552,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param count The number of elements to skip.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public skip(count: number) {
+  public skip(count: number): Lazy<TElement> {
     return new LazySkip(this, count);
   }
 
@@ -556,7 +562,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This iterator requires the iterable to be finite in length. It will iterate
    * until the end.
    */
-  public skipLast(count: number) {
+  public skipLast(count: number): Lazy<TElement> {
     return new LazySkipLast(this, count);
   }
 
@@ -566,7 +572,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to check the condition with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public skipWhile(predicate: IndexPredicate<TElement>) {
+  public skipWhile(predicate: IndexPredicate<TElement>): Lazy<TElement> {
     return new LazySkipWhile(this, predicate);
   }
 
@@ -576,7 +582,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param count The number of elements to take from the start.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public take(count: number) {
+  public take(count: number): Lazy<TElement> {
     return new LazyTake(this, count);
   }
 
@@ -586,7 +592,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This iterator requires the iterable to be finite in length. It will iterate
    * until the end.
    */
-  public takeLast(count: number) {
+  public takeLast(count: number): Lazy<TElement> {
     return new LazyTakeLast(this, count);
   }
 
@@ -596,7 +602,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to check the condition with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public takeWhile(predicate: IndexPredicate<TElement>) {
+  public takeWhile(predicate: IndexPredicate<TElement>): Lazy<TElement> {
     return new LazyTakeWhile(this, predicate);
   }
 
@@ -611,7 +617,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * started iteration (not before). It will not cause additional unexpected iteration
    * on the underlying iterable.
    */
-  public union<TKey = TElement>(second: Iterable<TElement>, compareOn?: MapFn<TElement, TKey>) {
+  public union<TKey = TElement>(
+    second: Iterable<TElement>,
+    compareOn?: MapFn<TElement, TKey>,
+  ): Lazy<TElement> {
     return new LazyUnion(this, second, compareOn);
   }
 
@@ -620,7 +629,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to filter elements with.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public where(predicate: aggregates.BoolPredicate<TElement>) {
+  public where(predicate: aggregates.BoolPredicate<TElement>): Lazy<TElement> {
     return new LazyWhere(this, predicate);
   }
 
