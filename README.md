@@ -182,7 +182,7 @@ For any function on `Lazy` that uses this term, it simply means 'if you start it
 This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the `Lazy` class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:
 
 ```ts
-class LazyToString<TSource> extends lazy.Lazy<string> {
+class LazyToString<TSource> extends Lazy<string> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
   ) {
