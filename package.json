@@ -10,7 +10,8 @@
   "author": "luvies",
   "license": "MIT",
   "scripts": {
-    "prepare": "rm -rf dist/* && node ./scripts/prebuild.js && tsc --project ./tsconfig.build.json",
+    "prebuild": "deno --allow-read --allow-write https://gist.githubusercontent.com/luvies/d85fc46c5b4e255b845743082bdbc3c0/raw/5771e212331a153ee13b44dc605301a29969affc/node_prebuild.ts --in lib --out prebuild",
+    "prepare": "rm -rf dist/* && yarn prebuild && tsc --project ./tsconfig.build.json",
     "test": "deno ./test/run_tests.ts && yarn prepare",
     "init-types": "deno --prefetch ./test/run_tests.ts"
   },

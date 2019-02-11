@@ -1,2 +1,0 @@
-# Disable linguist from counting scripts.
-scripts/* linguist-detectable=false
