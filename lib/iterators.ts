@@ -53,7 +53,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Creates a lazy iterable object that will repeate the element a given number
    * of times.
-   * @param value The value to repeat.
+   * @param element The value to repeat.
    * @param count The number of times to repeat it. If not given, then the
    * value is assumed to be +Infinity.
    * @returns The lazy iterable object with the repeated value as the source.
@@ -64,8 +64,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
-  public static repeat<TElement>(value: TElement, count?: number): Lazy<TElement> {
-    return new LazyRepeat(value, count);
+  public static repeat<TElement>(element: TElement, count?: number): Lazy<TElement> {
+    return new LazyRepeat(element, count);
   }
 
   // ===================================== Aggregates =====================================
@@ -135,15 +135,15 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
 
   /**
    * Determines whether the iterable has a given element.
-   * @param value The value to search for.
+   * @param element The value to search for.
    * @param comparer The function that compares 2 elements and returns a boolean on whether they
    * are equal or not. If not given, defaults to strict equals (`===`).
    * @returns Whether the element was in the iterable.
    * @remarks This will iterable until the given value is found, or until the
    * iterable ends.
    */
-  public contains(value: TElement, comparer?: aggregates.ComparerFn<TElement>) {
-    return aggregates.contains(this, value, comparer);
+  public contains(element: TElement, comparer?: aggregates.ComparerFn<TElement>) {
+    return aggregates.contains(this, element, comparer);
   }
 
   /**
@@ -646,15 +646,15 @@ class Queue<T> {
     return this._buffer.length - this._front;
   }
 
-  public enqueue(value: T): void {
-    this._buffer.push(value);
+  public enqueue(element: T): void {
+    this._buffer.push(element);
   }
 
   public dequeue(): T {
-    const value = this._buffer[this._front];
+    const element = this._buffer[this._front];
     delete this._buffer[this._front];
     this._front++;
-    return value;
+    return element;
   }
 }
 
@@ -735,8 +735,8 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
     if (this._atStart) {
       yield this._element;
     }
-    for (const value of this._iterable) {
-      yield value;
+    for (const element of this._iterable) {
+      yield element;
     }
     if (!this._atStart) {
       yield this._element;
@@ -771,8 +771,8 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
 
   public *[Symbol.iterator](): Iterator<TElement> {
     let yielded = false;
-    for (const value of this._iterable) {
-      yield value;
+    for (const element of this._iterable) {
+      yield element;
       yielded = true;
     }
     if (!yielded) {
@@ -784,18 +784,18 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
 class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((value: TElement) => value) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TElement> {
     const found = new Map<TKey, TElement>();
-    for (const value of this._iterable) {
-      const key = this._compareOn(value);
+    for (const element of this._iterable) {
+      const key = this._compareOn(element);
       if (!found.has(key)) {
-        found.set(key, value);
-        yield value;
+        found.set(key, element);
+        yield element;
       }
     }
   }
@@ -805,23 +805,23 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((value: TElement) => value) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TElement> {
     const set = new Set<TKey>();
-    for (const value of this._secondIterable) {
-      const key = this._compareOn(value);
+    for (const element of this._secondIterable) {
+      const key = this._compareOn(element);
       set.add(key);
     }
 
-    for (const value of this._firstIterable) {
-      const key = this._compareOn(value);
+    for (const element of this._firstIterable) {
+      const key = this._compareOn(element);
       if (!set.has(key)) {
         set.add(key);
-        yield value;
+        yield element;
       }
     }
   }
@@ -831,23 +831,23 @@ class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((value: TElement) => value) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
   ) {
     super();
   }
 
   public *[Symbol.iterator](): Iterator<TElement> {
     const set = new Set<TKey>();
-    for (const value of this._secondIterable) {
-      const key = this._compareOn(value);
+    for (const element of this._secondIterable) {
+      const key = this._compareOn(element);
       set.add(key);
     }
 
-    for (const value of this._firstIterable) {
-      const key = this._compareOn(value);
+    for (const element of this._firstIterable) {
+      const key = this._compareOn(element);
       if (set.has(key)) {
         set.delete(key);
-        yield value;
+        yield element;
       }
     }
   }
@@ -866,11 +866,11 @@ class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
 
   public *[Symbol.iterator](): Iterator<TResult> {
     const secondMap = aggregates.toMap(this._secondIterable, this._secondKeyFn);
-    for (const firstValue of this._firstIterable) {
-      const key = this._firstKeyFn(firstValue);
-      const secondValue = secondMap.get(key);
-      if (secondValue) {
-        yield this._joinFn(firstValue, secondValue);
+    for (const firstElement of this._firstIterable) {
+      const key = this._firstKeyFn(firstElement);
+      const secondElement = secondMap.get(key);
+      if (secondElement) {
+        yield this._joinFn(firstElement, secondElement);
       }
     }
   }
@@ -938,8 +938,8 @@ class LazySelect<TSource, TResult> extends Lazy<TResult> {
 
   public *[Symbol.iterator](): Iterator<TResult> {
     let index = 0;
-    for (const value of this._iterable) {
-      yield this._selector(value, index);
+    for (const element of this._iterable) {
+      yield this._selector(element, index);
       index++;
     }
   }
@@ -972,11 +972,11 @@ class LazySkip<TElement> extends Lazy<TElement> {
 
   public *[Symbol.iterator](): Iterator<TElement> {
     let skipped = 0;
-    for (const value of this._iterable) {
+    for (const element of this._iterable) {
       if (skipped < this._count) {
         skipped++;
       } else {
-        yield value;
+        yield element;
       }
     }
   }
@@ -993,8 +993,8 @@ class LazySkipLast<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     const queue = new Queue<TElement>();
     let yielding = false;
-    for (const value of this._iterable) {
-      queue.enqueue(value);
+    for (const element of this._iterable) {
+      queue.enqueue(element);
 
       if (!yielding && queue.length > this._count) {
         yielding = true;
@@ -1018,11 +1018,11 @@ class LazySkipWhile<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     let yielding = false;
     let index = 0;
-    for (const value of this._iterable) {
-      yielding = yielding || !this._predicate(value, index);
+    for (const element of this._iterable) {
+      yielding = yielding || !this._predicate(element, index);
 
       if (yielding) {
-        yield value;
+        yield element;
       }
 
       index++;
@@ -1041,9 +1041,9 @@ class LazyTake<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     if (this._count > 0) {
       let taken = 0;
-      for (const value of this._iterable) {
+      for (const element of this._iterable) {
         if (taken < this._count) {
-          yield value;
+          yield element;
           taken++;
         } else {
           break;
@@ -1064,16 +1064,16 @@ class LazyTakeLast<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     const queue = new Queue<TElement>();
     let buffered = false;
-    for (const value of this._iterable) {
+    for (const element of this._iterable) {
       if (queue.length >= this._count) {
         buffered = true;
       }
 
       if (!buffered) {
-        queue.enqueue(value);
+        queue.enqueue(element);
       } else {
         queue.dequeue();
-        queue.enqueue(value);
+        queue.enqueue(element);
       }
     }
 
@@ -1093,12 +1093,12 @@ class LazyTakeWhile<TElement> extends Lazy<TElement> {
 
   public *[Symbol.iterator](): Iterator<TElement> {
     let index = 0;
-    for (const value of this._iterable) {
-      if (!this._predicate(value, index)) {
+    for (const element of this._iterable) {
+      if (!this._predicate(element, index)) {
         break;
       }
 
-      yield value;
+      yield element;
 
       index++;
     }
@@ -1109,7 +1109,7 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((value: TElement) => value) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
   ) {
     super();
   }
@@ -1117,11 +1117,11 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     const set = new Set<TKey>();
     for (const iter of [this._firstIterable, this._secondIterable]) {
-      for (const value of iter) {
-        const key = this._compareOn(value);
+      for (const element of iter) {
+        const key = this._compareOn(element);
         if (!set.has(key)) {
           set.add(key);
-          yield value;
+          yield element;
         }
       }
     }
@@ -1138,9 +1138,9 @@ class LazyWhere<TElement> extends Lazy<TElement> {
 
   public *[Symbol.iterator](): Iterator<TElement> {
     let index = 0;
-    for (const value of this._iterable) {
-      if (this._predicate(value, index)) {
-        yield value;
+    for (const element of this._iterable) {
+      if (this._predicate(element, index)) {
+        yield element;
       }
       index++;
     }

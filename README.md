@@ -27,7 +27,7 @@ abstract class Lazy<TElement> {...}
 function from<TElement>(iterable: Iterable<TElement>): Lazy<TElement>;
 function empty<TElement>(): Lazy<TElement>;
 function range(start: number, end: number): Lazy<number>;
-function repeat<TElement>(value: TElement, count: number): Lazy<TElement>;
+function repeat<TElement>(element: TElement, count: number): Lazy<TElement>;
 ```
 
 The `Lazy` class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:
@@ -120,8 +120,8 @@ const list = [
   Promise.resolve(5),
 ];
 
-for await (const value of Lazy.from(list)) {
-  console.log(value);
+for await (const element of Lazy.from(list)) {
+  console.log(element);
 }
 
 /*
@@ -146,8 +146,8 @@ const list = [
   Promise.resolve(5),
 ];
 
-for (const value of (await Lazy.from(list).resolveAll()).select(i => i ** 2)) {
-  console.log(value);
+for (const element of (await Lazy.from(list).resolveAll()).select(i => i ** 2)) {
+  console.log(element);
 }
 
 /*
@@ -190,8 +190,8 @@ class LazyToString<TSource> extends Lazy<string> {
   }
 
   public *[Symbol.iterator](): Iterator<string> {
-    for (const value of this._iterable) {
-      yield `${value}`;
+    for (const element of this._iterable) {
+      yield `${element}`;
     }
   }
 }

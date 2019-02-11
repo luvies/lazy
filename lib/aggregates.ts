@@ -39,18 +39,18 @@ export function aggregate<TSource, TAcc>(
 
   if (gotSeed) {
     let acc = seed as TAcc;
-    for (const value of iterable) {
-      acc = agg(acc, value) as TAcc;
+    for (const element of iterable) {
+      acc = agg(acc, element) as TAcc;
     }
     return acc;
   } else {
     let items = false;
     let acc: TSource;
-    for (const value of iterable) {
+    for (const element of iterable) {
       if (!items) {
-        acc = value;
+        acc = element;
       } else {
-        acc = agg(acc!, value) as TSource;
+        acc = agg(acc!, element) as TSource;
       }
       items = true;
     }
@@ -65,8 +65,8 @@ export function all<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
 ): boolean {
-  for (const value of iterable) {
-    if (!predicate(value)) {
+  for (const element of iterable) {
+    if (!predicate(element)) {
       return false;
     }
   }
@@ -78,8 +78,8 @@ export function any<TElement>(
   predicate?: BoolPredicate<TElement>,
 ): boolean {
   if (predicate) {
-    for (const value of iterable) {
-      if (predicate(value)) {
+    for (const element of iterable) {
+      if (predicate(element)) {
         return true;
       }
     }
@@ -94,11 +94,11 @@ export function average<TElement>(
 ): TElement extends number ? number : never {
   let total = 0;
   let ccount = 0;
-  for (const value of iterable) {
-    if (typeof value !== 'number') {
+  for (const element of iterable) {
+    if (typeof element !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    total += value;
+    total += element;
     ccount++;
   }
   if (ccount === 0) {
@@ -109,11 +109,11 @@ export function average<TElement>(
 
 export function contains<TElement>(
   iterable: Iterable<TElement>,
-  value: TElement,
+  element: TElement,
   comparer: ComparerFn<TElement> = (a, b) => a === b,
 ): boolean {
-  for (const ivalue of iterable) {
-    if (comparer(value, ivalue)) {
+  for (const ielement of iterable) {
+    if (comparer(element, ielement)) {
       return true;
     }
   }
@@ -131,11 +131,11 @@ export function count<TElement>(iterable: Iterable<TElement>): number {
 function getElementAt<TElement>(
   iterable: Iterable<TElement>,
   index: number,
-): { found: false } | { found: true, value: TElement } {
+): { found: false } | { found: true, element: TElement } {
   let cindex = 0;
-  for (const value of iterable) {
+  for (const element of iterable) {
     if (cindex === index) {
-      return { found: true, value };
+      return { found: true, element };
     }
     cindex++;
   }
@@ -153,7 +153,7 @@ export function elementAt<TElement>(
   const res = getElementAt(iterable, index);
 
   if (res.found) {
-    return res.value;
+    return res.element;
   } else {
     throw new Error(`No element found at index ${index}`);
   }
@@ -167,7 +167,7 @@ export function elementAtOrDefault<TElement>(
   const res = getElementAt(iterable, index);
 
   if (res.found) {
-    return res.value;
+    return res.element;
   } else {
     return defaultValue;
   }
@@ -203,8 +203,8 @@ export function forEach<TElement>(
   callbackFn: CallbackFn<TElement>,
 ): void {
   let index = 0;
-  for (const value of iterable) {
-    callbackFn(value, index);
+  for (const element of iterable) {
+    callbackFn(element, index);
     index++;
   }
 }
@@ -236,15 +236,15 @@ export function iterableEquals<TElement>(
 
 function getLast<TElement>(
   iterable: Iterable<TElement>,
-): { items: false } | { items: true, value: TElement } {
+): { items: false } | { items: true, element: TElement } {
   let items = false;
   let latest: TElement;
-  for (const value of iterable) {
-    latest = value;
+  for (const element of iterable) {
+    latest = element;
     items = true;
   }
   if (items) {
-    return { items: true, value: latest! };
+    return { items: true, element: latest! };
   } else {
     return { items: false };
   }
@@ -253,7 +253,7 @@ function getLast<TElement>(
 export function last<TElement>(iterable: Iterable<TElement>): TElement {
   const res = getLast(iterable);
   if (res.items) {
-    return res.value;
+    return res.element;
   } else {
     throw new Error(Errors.Empty);
   }
@@ -262,7 +262,7 @@ export function last<TElement>(iterable: Iterable<TElement>): TElement {
 export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultValue: TElement): TElement {
   const res = getLast(iterable);
   if (res.items) {
-    return res.value;
+    return res.element;
   } else {
     return defaultValue;
   }
@@ -273,12 +273,12 @@ export function max<TElement>(
 ): TElement extends number ? number : never {
   let cmax = -Infinity;
   let items = false;
-  for (const value of iterable) {
-    if (typeof value !== 'number') {
+  for (const element of iterable) {
+    if (typeof element !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    if (value > cmax) {
-      cmax = value;
+    if (element > cmax) {
+      cmax = element;
     }
     items = true;
   }
@@ -293,12 +293,12 @@ export function min<TElement>(
 ): TElement extends number ? number : never {
   let cmin = +Infinity;
   let items = false;
-  for (const value of iterable) {
-    if (typeof value !== 'number') {
+  for (const element of iterable) {
+    if (typeof element !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    if (value < cmin) {
-      cmin = value;
+    if (element < cmin) {
+      cmin = element;
     }
     items = true;
   }
@@ -317,10 +317,10 @@ export function resolveAll<TElement>(
 function getSingle<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
-): { found: false } | { found: true, value: TElement } {
-  for (const value of iterable) {
-    if (predicate(value)) {
-      return { found: true, value };
+): { found: false } | { found: true, element: TElement } {
+  for (const element of iterable) {
+    if (predicate(element)) {
+      return { found: true, element };
     }
   }
   return { found: false };
@@ -332,7 +332,7 @@ export function single<TElement>(
 ): TElement {
   const res = getSingle(iterable, predicate);
   if (res.found) {
-    return res.value;
+    return res.element;
   } else {
     throw new Error(Errors.Empty);
   }
@@ -345,7 +345,7 @@ export function singleOrDefault<TElement>(
 ): TElement {
   const res = getSingle(iterable, predicate);
   if (res.found) {
-    return res.value;
+    return res.element;
   } else {
     return defaultValue;
   }
@@ -358,11 +358,11 @@ export function stringJoin<TElement>(
 ): string {
   let str = '';
   let started = false;
-  for (const value of iterable) {
+  for (const element of iterable) {
     if (started) {
       str += separator;
     }
-    str += strFn(value);
+    str += strFn(element);
     started = true;
   }
   return str;
@@ -371,11 +371,11 @@ export function stringJoin<TElement>(
 export function sum<TElement>(iterable: Iterable<TElement>): TElement extends number ? number : never {
   let total = 0;
   let items = false;
-  for (const value of iterable) {
-    if (typeof value !== 'number') {
+  for (const element of iterable) {
+    if (typeof element !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    total += value;
+    total += element;
     items = true;
   }
   if (!items) {
@@ -391,15 +391,15 @@ export function toArray<T>(iterable: Iterable<T>): T[] {
 export function toMap<TSource, TKey, TElement = TSource>(
   iterable: Iterable<TSource>,
   keyFn: MapFn<TSource, TKey>,
-  valueFn: MapFn<TSource, TElement> = ((value: TSource) => value) as any,
+  valueFn: MapFn<TSource, TElement> = ((element: TSource) => element) as any,
 ): Map<TKey, TElement> {
   const map = new Map<TKey, TElement>();
-  for (const value of iterable) {
-    const key = keyFn(value);
+  for (const element of iterable) {
+    const key = keyFn(element);
     if (map.has(key)) {
       throw new Error('Duplicate key found');
     }
-    map.set(key, valueFn(value));
+    map.set(key, valueFn(element));
   }
   return map;
 }

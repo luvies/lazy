@@ -22,8 +22,8 @@ test(function apply() {
     }
 
     public *[Symbol.iterator](): Iterator<string> {
-      for (const value of this._iterable) {
-        yield this._adjust(value);
+      for (const element of this._iterable) {
+        yield this._adjust(element);
       }
     }
   }
@@ -36,8 +36,8 @@ test(function apply() {
     }
 
     public *[Symbol.iterator](): Iterator<number> {
-      for (const value of this._iterable) {
-        yield value ** 2;
+      for (const element of this._iterable) {
+        yield element ** 2;
       }
     }
   }
@@ -50,8 +50,8 @@ test(function apply() {
     }
 
     public *[Symbol.iterator](): Iterator<string> {
-      for (const value of this._iterable) {
-        yield `${value}`;
+      for (const element of this._iterable) {
+        yield `${element}`;
       }
     }
   }

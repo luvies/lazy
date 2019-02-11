@@ -52,8 +52,8 @@ test(async function _forAwait() {
   ];
 
   let current = 1;
-  for await (const value of Lazy.from(orig)) {
-    assert.equal(value, current);
+  for await (const element of Lazy.from(orig)) {
+    assert.equal(element, current);
     current++;
   }
 });
