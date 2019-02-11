@@ -34,12 +34,12 @@ The `Lazy` class is the root of the module, all things come from it and are deri
 
 ```ts
 // Static method import.
-import { Lazy } from 'https://deno.land/x/lazy@1.0.0/mod.ts';
+import { Lazy } from 'https://deno.land/x/lazy@v1.0.0/mod.ts';
 
 const iterable = Lazy.from([1, 2, 3, 4, 5]);
 
 // Direct function import.
-import { from } from 'https://deno.land/x/lazy@1.0.0/mod.ts';
+import { from } from 'https://deno.land/x/lazy@v1.0.0/mod.ts';
 
 const iterable = from([1, 2, 3, 4, 5]);
 ```
