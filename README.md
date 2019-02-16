@@ -11,7 +11,7 @@ This module is meant to provide memory-efficient lazy-enumeration/iteration for 
 - [Introp with native](#interop-with-native)
 - [API](#api)
   - [Promises](#promises)
-  - [Additional unexpected iteration](#additional-unexpected-iteration)
+  - [No additional unexpected iteration](#no-additional-unexpected-iteration)
   - [Custom implementations](#custom-implementations)
   - [Compatibility](#compatibility)
 - [Setting up this project](#setting-up-this-project)
@@ -175,7 +175,7 @@ const list = [
 Lazy.from(list).resolveAll() // type -> Promise<Lazy<number>>
 ```
 
-### 'Additional unexpected iteration'
+### 'No additional unexpected iteration'
 For any function on `Lazy` that uses this term, it simply means 'if you start iteration on the resulting object, it will not perform any iteration you did not ask for'. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the `reverse` method; you cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the `select` method will only iterate to the next element when you ask it to, thus it doesn't perform any additional unexpected iteration.
 
 ### Custom implementations
