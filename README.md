@@ -104,7 +104,7 @@ On top of this, the entire module is build upon the native JS iteration protocol
 The `Lazy` class is also JSON-serialisable, meaning that you can simply pass the result of a chain into `JSON.stringify` and it will stringify correctly.
 
 ## API
-Visit https://luvies.github.io/lazy for the fully documentation.
+Visit https://luvies.github.io/lazy/ for the fully documentation.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
 
