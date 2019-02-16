@@ -228,12 +228,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param comparer The function to perform the comparision of each pair of
    * elements with. If not given, defaults to strict equals (`===`).
    * @returns Whether the 2 iterables were both equal.
-   * @remarks This will check for both order and value. To check for only value,
-   * you can use:
-   * ```ts
-   * lazyIter.intersect(other, compareOn?).any()
-   * ```
-   * This will iterate both iterables completely.
+   * @remarks This will check for both order and value, and will iterate
+   * both iterables completely.
    */
   public iterableEquals(second: Iterable<TElement>, comparer?: ComparerFn<TElement>) {
     return aggregates.iterableEquals(this, second, comparer);
