@@ -66,9 +66,14 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="lazy-iteration">Lazy Iteration</h1>
 				<p><a href="https://travis-ci.com/luvies/lazy"><img src="https://travis-ci.com/luvies/lazy.svg?branch=master" alt="Build Status"></a></p>
-				<p>This module is meant to provide memory-efficient lazy-enumeration/iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).</p>
+				<p>This module is meant to provide memory-efficient lazy-evaluation iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).</p>
 				<h2 id="contents">Contents</h2>
 				<ul>
+					<li><a href="#installation">Installation</a><ul>
+							<li><a href="#deno">Deno</a></li>
+							<li><a href="#node">Node</a></li>
+						</ul>
+					</li>
 					<li><a href="#overview">Overview</a></li>
 					<li><a href="#examples">Examples</a></li>
 					<li><a href="#interop-with-native">Introp with native</a></li>
@@ -82,6 +87,19 @@
 					<li><a href="#setting-up-this-project">Setting up this project</a></li>
 					<li><a href="#footnotes">Footnotes</a></li>
 				</ul>
+				<h2 id="installation">Installation</h2>
+				<h3 id="deno">Deno</h3>
+				<p>Use the following import:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;</code></pre>
+				<p>Make sure the <code>@v{version}</code> tag is the correct one you want. I&#39;d recommend against master, as it could change without notice &amp; might be broken (although I will try not to break it).</p>
+				<h3 id="node">Node</h3>
+				<p>The packge can be found here: <a href="https://www.npmjs.com/package/@luvies/lazy">https://www.npmjs.com/package/@luvies/lazy</a>.</p>
+				<p>Install via</p>
+				<pre><code><span class="hljs-selector-tag">yarn</span> <span class="hljs-selector-tag">add</span> @<span class="hljs-keyword">luvies</span>/<span class="hljs-keyword">lazy</span></code></pre><p>or</p>
+				<pre><code><span class="hljs-built_in">npm</span> install @luvies/lazy</code></pre><p>Import using</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@luvies/lazy'</span>;</code></pre>
+				<p>or</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Lazy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@luvies/lazy'</span>);</code></pre>
 				<h2 id="overview">Overview</h2>
 				<p>At a base level, this module provides the following exports:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> Lazy&lt;TElement&gt; {...}
@@ -116,7 +134,7 @@
 				<p>These functions allow you to deal with iterable objects at a high-level, hiding the fact that not all of the values might be available until the iteration is actually done. They also handle things like short-cuts, for example:</p>
 				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).any(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i &gt; <span class="hljs-number">100</span>)) <span class="hljs-comment">// -&gt; true</span></code></pre>
 				<p>This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).</p>
-				<p>The main benefit of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:</p>
+				<p>A primary aim of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = getData(); <span class="hljs-comment">// Could be a large list of datapoints.</span>
 
 <span class="hljs-comment">// Native JS</span>
@@ -129,9 +147,9 @@
 				<h2 id="interop-with-native">Interop with native</h2>
 				<p>While all of these functions are good, it would be difficult to integrate them without being about to easily convert back to native JS objects. Fortunately, this module provides just that. Currently there are 2 functions, <code>toArray</code> and <code>toMap</code>, which do pretty much exactly as they seem. You can end a lazy chain with one of these to make it resolve all of the iterators and output a native JS object, which can be then used in consuming code.</p>
 				<p>On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a <code>Lazy.from(...)</code> call, and everything will be available.</p>
-				<p>The <code>Lazy</code> class is also JSON-serialisable, meaning that you can simply pass the result of a chain into <code>JSON.stringify</code> and it will stringify correctly.</p>
+				<p>The <code>Lazy</code> class is also JSON-serialisable (as a list), meaning that you can simply pass the result of a chain into <code>JSON.stringify</code> and it will stringify correctly.</p>
 				<h2 id="api">API</h2>
-				<p>Visit <a href="https://luvies.github.io/lazy/">https://luvies.github.io/lazy/</a> for the fully documentation.</p>
+				<p>Visit <a href="https://luvies.github.io/lazy/">https://luvies.github.io/lazy/</a> for the full documentation.</p>
 				<p>For an overview of the reference I use for developing this module, visit the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable">.NET Linq docs</a>.</p>
 				<p>As an aside, all of the functions exported from <a href="lib/aggregates.ts">aggregates.ts</a> support taking in any object that implements the <code>Iterator&lt;T&gt;</code> iterface, so you can use them without wrapping the iterable around <code>Lazy</code> first if you so wish (although I&#39;d recommend using them through <code>Lazy</code>).</p>
 				<h3 id="promises">Promises</h3>
@@ -229,7 +247,7 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 					</li>
 				</ul>
 				<h3 id="compatibility">Compatibility</h3>
-				<p>As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 &amp; earlier, you will need to use a transpiler like babel. It is available on NPM as well under <a href="https://www.npmjs.com/package/@luvies/lazy">@luvies/lazy</a>, and requires about Node.js &gt;=v6.</p>
+				<p>As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 &amp; earlier, you will need to use a transpiler like babel. For Node.js, it requires about v6 or higher (not properly tested on this version though).</p>
 				<h2 id="footnotes">Footnotes</h2>
 				<p>Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.</p>
 			</div>

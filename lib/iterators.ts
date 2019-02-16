@@ -359,7 +359,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Converts the iterable into a map using the key and value function.
    * @param keyFn The function to use to derive the key of each map element.
    * @param valueFn The function to use to derive the value of map value. If
-   * not given, then the value itself it used.
+   * not given, then the value itself is used.
    * @returns A `Map<TKey, TResult>` derived from the iterable.
    * @remarks This will cause a complete iteration of the iterable object.
    */
@@ -483,7 +483,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Sorts the iterable in ascending order.
    * @param keyFn The function used to get the key from a given element.
    * @param compareFn The function that is passed to `Array.prototype.sort` to
-   * compare values and return the comparison number. If not give, as default
+   * compare values and return the comparison number. If not given, a default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow sorting.
@@ -499,7 +499,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Sorts the iterable in descending order.
    * @param keyFn The function used to get the key from a given element.
    * @param compareFn The function that is passed to `Array.prototype.sort` to
-   * compare values and return the comparison number. If not give, as default
+   * compare values and return the comparison number. If not given, a default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow sorting.
@@ -512,8 +512,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Appends the element to the beginning of the iterable.
-   * @param element The element to append.
+   * Prepends the element to the beginning of the iterable.
+   * @param element The element to prepend.
    * @remarks Does not cause additional unexpected iteration.
    */
   public prepend(element: TElement): Lazy<TElement> {
@@ -521,7 +521,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Inverts the order of the iterable.
+   * Reverses the order of the iterable.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow starting from the end.
    */
@@ -563,7 +563,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Skips the given number of elements from the end of the iterable, returning the rest.
    * @param count The number of elements to skip from the end.
    * @remarks This iterator requires the iterable to be finite in length. It will iterate
-   * until the end.
+   * slightly ahead of the resulting iterable.
    */
   public skipLast(count: number): Lazy<TElement> {
     return new LazySkipLast(this, count);

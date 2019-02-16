@@ -2,10 +2,13 @@
 
 [![Build Status](https://travis-ci.com/luvies/lazy.svg?branch=master)](https://travis-ci.com/luvies/lazy)
 
-This module is meant to provide memory-efficient lazy-enumeration/iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).
+This module is meant to provide memory-efficient lazy-evaluation iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).
 
 ## Contents
 
+- [Installation](#installation)
+  - [Deno](#deno)
+  - [Node](#node)
 - [Overview](#overview)
 - [Examples](#examples)
 - [Introp with native](#interop-with-native)
@@ -16,6 +19,43 @@ This module is meant to provide memory-efficient lazy-enumeration/iteration for 
   - [Compatibility](#compatibility)
 - [Setting up this project](#setting-up-this-project)
 - [Footnotes](#footnotes)
+
+## Installation
+### Deno
+Use the following import:
+
+```ts
+import { Lazy } from 'https://deno.land/x/lazy@v1.0.2/mod.ts';
+```
+
+Make sure the `@v{version}` tag is the correct one you want. I'd recommend against master, as it could change without notice & might be broken (although I will try not to break it).
+
+### Node
+The packge can be found here: https://www.npmjs.com/package/@luvies/lazy.
+
+Install via
+
+```
+yarn add @luvies/lazy
+```
+
+or
+
+```
+npm install @luvies/lazy
+```
+
+Import using
+
+```ts
+import { Lazy } from '@luvies/lazy';
+```
+
+or
+
+```js
+const { Lazy } = require('@luvies/lazy');
+```
 
 ## Overview
 At a base level, this module provides the following exports:
@@ -81,7 +121,7 @@ console.log(Lazy.range(0, 1000).any(i => i > 100)) // -> true
 
 This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).
 
-The main benefit of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:
+A primary aim of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:
 
 ```ts
 const data = getData(); // Could be a large list of datapoints.
@@ -101,10 +141,10 @@ While all of these functions are good, it would be difficult to integrate them w
 
 On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a `Lazy.from(...)` call, and everything will be available.
 
-The `Lazy` class is also JSON-serialisable, meaning that you can simply pass the result of a chain into `JSON.stringify` and it will stringify correctly.
+The `Lazy` class is also JSON-serialisable (as a list), meaning that you can simply pass the result of a chain into `JSON.stringify` and it will stringify correctly.
 
 ## API
-Visit https://luvies.github.io/lazy/ for the fully documentation.
+Visit https://luvies.github.io/lazy/ for the full documentation.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
 
@@ -221,7 +261,7 @@ This project is written primarily for deno, with node support being done via a 2
   - *DO NOT COMMIT THIS CHANGE*, as it only applies to your setup and your setup only
 
 ### Compatibility
-As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 & earlier, you will need to use a transpiler like babel. It is available on NPM as well under [@luvies/lazy](https://www.npmjs.com/package/@luvies/lazy), and requires about Node.js >=v6.
+As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 & earlier, you will need to use a transpiler like babel. For Node.js, it requires about v6 or higher (not properly tested on this version though).
 
 ## Footnotes
 Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.
