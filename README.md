@@ -26,8 +26,8 @@ abstract class Lazy<TElement> {...}
 // These are provided to allow direct imports, but are just aliases over the static class methods.
 function from<TElement>(iterable: Iterable<TElement>): Lazy<TElement>;
 function empty<TElement>(): Lazy<TElement>;
-function range(start: number, end: number): Lazy<number>;
-function repeat<TElement>(element: TElement, count: number): Lazy<TElement>;
+function range(start: number, end?: number): Lazy<number>;
+function repeat<TElement>(element: TElement, count?: number): Lazy<TElement>;
 ```
 
 The `Lazy` class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:
