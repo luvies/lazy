@@ -104,9 +104,11 @@ On top of this, the entire module is build upon the native JS iteration protocol
 The `Lazy` class is also JSON-serialisable, meaning that you can simply pass the result of a chain into `JSON.stringify` and it will stringify correctly.
 
 ## API
-Please refer to [iterators.ts](lib/iterators.ts) for the complete API surface that is available. Only the `Lazy` class at the top matters for consuming code, and it is fully documented.
+Visit https://luvies.github.io/lazy for the fully documentation.
 
 For an overview of the reference I use for developing this module, visit the [.NET Linq docs](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable).
+
+As an aside, all of the functions exported from [aggregates.ts](lib/aggregates.ts) support taking in any object that implements the `Iterator<T>` iterface, so you can use them without wrapping the iterable around `Lazy` first if you so wish (although I'd recommend using them through `Lazy`).
 
 ### Promises
 This module fully supports promises, and things like for-await-of. As an example (taken from the tests):

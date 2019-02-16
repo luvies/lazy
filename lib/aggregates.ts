@@ -3,7 +3,10 @@
   All of these function cause the iterable to be iterated.
 */
 
-// Error messages.
+/**
+ * Error messages.
+ * @hidden
+ */
 export enum Errors {
   Empty = 'Empty iterable',
   NonNumber = 'Cannot perform function on a non-number value',
@@ -20,6 +23,9 @@ export type StrFn<T> = (element: T) => string;
 
 // Aggregation functions.
 
+/**
+ * @hidden
+ */
 export function aggregate<TSource>(
   iterable: Iterable<TSource>,
   agg: AggFn<TSource, TSource>,
@@ -61,6 +67,9 @@ export function aggregate<TSource, TAcc>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function all<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
@@ -73,6 +82,9 @@ export function all<TElement>(
   return true;
 }
 
+/**
+ * @hidden
+ */
 export function any<TElement>(
   iterable: Iterable<TElement>,
   predicate?: BoolPredicate<TElement>,
@@ -89,6 +101,9 @@ export function any<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function average<TElement>(
   iterable: Iterable<TElement>,
 ): TElement extends number ? number : never {
@@ -107,6 +122,9 @@ export function average<TElement>(
   return total / ccount as any;
 }
 
+/**
+ * @hidden
+ */
 export function contains<TElement>(
   iterable: Iterable<TElement>,
   element: TElement,
@@ -120,6 +138,9 @@ export function contains<TElement>(
   return false;
 }
 
+/**
+ * @hidden
+ */
 export function count<TElement>(iterable: Iterable<TElement>): number {
   let ccount = 0;
   for (const _ of iterable) {
@@ -128,6 +149,9 @@ export function count<TElement>(iterable: Iterable<TElement>): number {
   return ccount;
 }
 
+/**
+ * @hidden
+ */
 function getElementAt<TElement>(
   iterable: Iterable<TElement>,
   index: number,
@@ -142,6 +166,9 @@ function getElementAt<TElement>(
   return { found: false };
 }
 
+/**
+ * @hidden
+ */
 export function elementAt<TElement>(
   iterable: Iterable<TElement>,
   index: number,
@@ -159,6 +186,9 @@ export function elementAt<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function elementAtOrDefault<TElement>(
   iterable: Iterable<TElement>,
   index: number,
@@ -173,6 +203,9 @@ export function elementAtOrDefault<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function first<TElement>(
   iterable: Iterable<TElement>,
 ): TElement {
@@ -185,6 +218,9 @@ export function first<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function firstOrDefault<TElement>(
   iterable: Iterable<TElement>,
   defaultValue: TElement,
@@ -198,6 +234,9 @@ export function firstOrDefault<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function forEach<TElement>(
   iterable: Iterable<TElement>,
   callbackFn: CallbackFn<TElement>,
@@ -209,6 +248,9 @@ export function forEach<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function iterableEquals<TElement>(
   firstIterable: Iterable<TElement>,
   secondIterable: Iterable<TElement>,
@@ -234,6 +276,9 @@ export function iterableEquals<TElement>(
   return true;
 }
 
+/**
+ * @hidden
+ */
 function getLast<TElement>(
   iterable: Iterable<TElement>,
 ): { items: false } | { items: true, element: TElement } {
@@ -250,6 +295,9 @@ function getLast<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function last<TElement>(iterable: Iterable<TElement>): TElement {
   const res = getLast(iterable);
   if (res.items) {
@@ -259,6 +307,9 @@ export function last<TElement>(iterable: Iterable<TElement>): TElement {
   }
 }
 
+/**
+ * @hidden
+ */
 export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultValue: TElement): TElement {
   const res = getLast(iterable);
   if (res.items) {
@@ -268,6 +319,9 @@ export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultVal
   }
 }
 
+/**
+ * @hidden
+ */
 export function max<TElement>(
   iterable: Iterable<TElement>,
 ): TElement extends number ? number : never {
@@ -288,6 +342,9 @@ export function max<TElement>(
   return cmax as any;
 }
 
+/**
+ * @hidden
+ */
 export function min<TElement>(
   iterable: Iterable<TElement>,
 ): TElement extends number ? number : never {
@@ -308,12 +365,18 @@ export function min<TElement>(
   return cmin as any;
 }
 
+/**
+ * @hidden
+ */
 export function resolveAll<TElement>(
   iterable: Iterable<TElement>,
 ): Promise<TElement extends PromiseLike<infer TResult> ? TResult[] : TElement[]> {
   return Promise.all(iterable) as any;
 }
 
+/**
+ * @hidden
+ */
 function getSingle<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
@@ -326,6 +389,9 @@ function getSingle<TElement>(
   return { found: false };
 }
 
+/**
+ * @hidden
+ */
 export function single<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
@@ -338,6 +404,9 @@ export function single<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function singleOrDefault<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
@@ -351,6 +420,9 @@ export function singleOrDefault<TElement>(
   }
 }
 
+/**
+ * @hidden
+ */
 export function stringJoin<TElement>(
   iterable: Iterable<TElement>,
   separator = '',
@@ -368,6 +440,9 @@ export function stringJoin<TElement>(
   return str;
 }
 
+/**
+ * @hidden
+ */
 export function sum<TElement>(iterable: Iterable<TElement>): TElement extends number ? number : never {
   let total = 0;
   let items = false;
@@ -384,10 +459,16 @@ export function sum<TElement>(iterable: Iterable<TElement>): TElement extends nu
   return total as any;
 }
 
+/**
+ * @hidden
+ */
 export function toArray<T>(iterable: Iterable<T>): T[] {
   return Array.from(iterable);
 }
 
+/**
+ * @hidden
+ */
 export function toMap<TSource, TKey, TElement = TSource>(
   iterable: Iterable<TSource>,
   keyFn: MapFn<TSource, TKey>,

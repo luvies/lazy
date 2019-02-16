@@ -1,0 +1,363 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@luvies/lazy</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@luvies/lazy</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @luvies/lazy</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="lazy-iteration">Lazy Iteration</h1>
+				<p><a href="https://travis-ci.com/luvies/lazy"><img src="https://travis-ci.com/luvies/lazy.svg?branch=master" alt="Build Status"></a></p>
+				<p>This module is meant to provide memory-efficient lazy-enumeration/iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).</p>
+				<h2 id="contents">Contents</h2>
+				<ul>
+					<li><a href="#overview">Overview</a></li>
+					<li><a href="#examples">Examples</a></li>
+					<li><a href="#interop-with-native">Introp with native</a></li>
+					<li><a href="#api">API</a><ul>
+							<li><a href="#promises">Promises</a></li>
+							<li><a href="#no-additional-unexpected-iteration">No additional unexpected iteration</a></li>
+							<li><a href="#custom-implementations">Custom implementations</a></li>
+							<li><a href="#compatibility">Compatibility</a></li>
+						</ul>
+					</li>
+					<li><a href="#setting-up-this-project">Setting up this project</a></li>
+					<li><a href="#footnotes">Footnotes</a></li>
+				</ul>
+				<h2 id="overview">Overview</h2>
+				<p>At a base level, this module provides the following exports:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> Lazy&lt;TElement&gt; {...}
+
+<span class="hljs-comment">// These are provided to allow direct imports, but are just aliases over the static class methods.</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">from</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">iterable: Iterable&lt;TElement&gt;</span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">empty</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params"></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">range</span>(<span class="hljs-params">start: <span class="hljs-built_in">number</span>, end?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">number</span>&gt;</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeat</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">element: TElement, count?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;</code></pre>
+				<p>The <code>Lazy</code> class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:</p>
+				<pre><code class="language-ts"><span class="hljs-comment">// Static method import.</span>
+<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;
+
+<span class="hljs-keyword">const</span> iterable = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
+
+<span class="hljs-comment">// Direct function import.</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;
+
+<span class="hljs-keyword">const</span> iterable = <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);</code></pre>
+				<p>After you have done this, the full power of the module is available to play with.</p>
+				<h2 id="examples">Examples</h2>
+				<p>The aim of the module is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here&#39;s a small example:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> evenSquares = Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).where(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>).select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>);</code></pre>
+				<p>The result of this chain is an iterator object, however nothing has actually happened yet. As with linq, things only happen exactly when you ask for it:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> num of evenSquares) {
+  <span class="hljs-built_in">console</span>.log(num); <span class="hljs-comment">// 0, 4, 16, 36, 64, 100, 144...</span>
+}</code></pre>
+				<p>A huge part of what makes linq so powerful is its composability, which this module provides at a base level:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> selectedEvenNumbers = evenNumbers.take(<span class="hljs-number">10</span>);</code></pre>
+				<p>As with C# Linq, this statement will create a new iteratable object that only returns the first 10 elements of the original iterable object. And the order of composability is not limited, every single method that returns an iterator supports chaining with every other method. On top of this, this module supports the same linq aggregation functions that linq does, for example:</p>
+				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(selectedEvenNumbers.sum()); <span class="hljs-comment">// -&gt; 1140</span></code></pre>
+				<p>These functions allow you to deal with iterable objects at a high-level, hiding the fact that not all of the values might be available until the iteration is actually done. They also handle things like short-cuts, for example:</p>
+				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).any(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i &gt; <span class="hljs-number">100</span>)) <span class="hljs-comment">// -&gt; true</span></code></pre>
+				<p>This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).</p>
+				<p>The main benefit of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = getData(); <span class="hljs-comment">// Could be a large list of datapoints.</span>
+
+<span class="hljs-comment">// Native JS</span>
+<span class="hljs-keyword">const</span> points = data.map(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x).filter(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x)).map(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x));
+<span class="hljs-keyword">const</span> avg = points.reduce(<span class="hljs-function">(<span class="hljs-params">prev, curr</span>) =&gt;</span> prev + curr) / points.length;
+
+<span class="hljs-comment">// Lazy iterators</span>
+<span class="hljs-keyword">const</span> avg = Lazy.from(data).select(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x).where(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x)).select(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x)).average();</code></pre>
+				<p>The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation function allow for a nicer final calculation.</p>
+				<h2 id="interop-with-native">Interop with native</h2>
+				<p>While all of these functions are good, it would be difficult to integrate them without being about to easily convert back to native JS objects. Fortunately, this module provides just that. Currently there are 2 functions, <code>toArray</code> and <code>toMap</code>, which do pretty much exactly as they seem. You can end a lazy chain with one of these to make it resolve all of the iterators and output a native JS object, which can be then used in consuming code.</p>
+				<p>On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a <code>Lazy.from(...)</code> call, and everything will be available.</p>
+				<p>The <code>Lazy</code> class is also JSON-serialisable, meaning that you can simply pass the result of a chain into <code>JSON.stringify</code> and it will stringify correctly.</p>
+				<h2 id="api">API</h2>
+				<p>Visit <a href="https://luvies.github.io/lazy">https://luvies.github.io/lazy</a> for the fully documentation.</p>
+				<p>For an overview of the reference I use for developing this module, visit the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable">.NET Linq docs</a>.</p>
+				<p>As an aside, all of the functions exported from <a href="lib/aggregates.ts">aggregates.ts</a> support taking in any object that implements the <code>Iterator&lt;T&gt;</code> iterface, so you can use them without wrapping the iterable around <code>Lazy</code> first if you so wish (although I&#39;d recommend using them through <code>Lazy</code>).</p>
+				<h3 id="promises">Promises</h3>
+				<p>This module fully supports promises, and things like for-await-of. As an example (taken from the tests):</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">2</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">4</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
+];
+
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> element of Lazy.from(list)) {
+  <span class="hljs-built_in">console</span>.log(element);
+}
+
+<span class="hljs-comment">/*
+  Output:
+
+  -&gt; 1
+  -&gt; 2
+  -&gt; 3
+  -&gt; 4
+  -&gt; 5
+*/</span></code></pre>
+				<p>However, it also supports resolving all promises in the iterable to their values all at once, using the help of <code>Promise.all</code>:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">2</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">4</span>),
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
+];
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of (<span class="hljs-keyword">await</span> Lazy.from(list).resolveAll()).select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>)) {
+  <span class="hljs-built_in">console</span>.log(element);
+}
+
+<span class="hljs-comment">/*
+  Output:
+
+  -&gt; 1
+  -&gt; 4
+  -&gt; 9
+  -&gt; 16
+  -&gt; 25
+*/</span></code></pre>
+				<p>For TypeScript users, the <code>resolveAll</code> function all also correctly determines the resulting object type, even if there is a mix of promises and non promises:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
+  <span class="hljs-number">2</span>
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
+  <span class="hljs-number">4</span>
+  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
+]; <span class="hljs-comment">// type -&gt; Array&lt;number | Promise&lt;number&gt;&gt;</span>
+
+Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt;Lazy&lt;number&gt;&gt;</span></code></pre>
+				<h3 id="-no-additional-unexpected-iteration-">&#39;No additional unexpected iteration&#39;</h3>
+				<p>For any function on <code>Lazy</code> that uses this term, it simply means &#39;if you start iteration on the resulting object, it will not perform any iteration you did not ask for&#39;. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the <code>reverse</code> method; you cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the <code>select</code> method will only iterate to the next element when you ask it to, thus it doesn&#39;t perform any additional unexpected iteration.</p>
+				<h3 id="custom-implementations">Custom implementations</h3>
+				<p>This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the <code>Lazy</code> class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">class</span> LazyToString&lt;TSource&gt; <span class="hljs-keyword">extends</span> Lazy&lt;<span class="hljs-built_in">string</span>&gt; {
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params">
+    <span class="hljs-keyword">private</span> readonly _iterable: Iterable&lt;TSource&gt;,
+  </span>) {
+    <span class="hljs-keyword">super</span>();
+  }
+
+  <span class="hljs-keyword">public</span> *[Symbol.iterator](): Iterator&lt;<span class="hljs-built_in">string</span>&gt; {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of <span class="hljs-keyword">this</span>._iterable) {
+      <span class="hljs-keyword">yield</span> <span class="hljs-string">`<span class="hljs-subst">${element}</span>`</span>;
+    }
+  }
+}
+<span class="hljs-keyword">const</span> iterableToString = &lt;TSource&gt;<span class="hljs-function">(<span class="hljs-params">t: Iterable&lt;TSource&gt;</span>) =&gt;</span> <span class="hljs-keyword">new</span> LazyToString(t);
+
+<span class="hljs-keyword">const</span> result = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1000</span>])
+  .apply&lt;LazyToString&lt;<span class="hljs-built_in">number</span>&gt;, <span class="hljs-built_in">string</span>&gt;(iterableToString)
+  .select(<span class="hljs-function"><span class="hljs-params">s</span> =&gt;</span> s.length)
+  .toArray();
+
+<span class="hljs-comment">// result -&gt; [1, 2, 3, 4]</span></code></pre>
+				<p>Obviously this is a contrived example, since the same could be done with a single <code>select</code>, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.</p>
+				<h2 id="setting-up-this-project">Setting up this project</h2>
+				<p>This project is written primarily for deno, with node support being done via a 2-step compilation process. In order to set up the project, you need to install <a href="https://github.com/denoland/deno">deno</a> globally. To make editing work in VSCode, make sure that you do the following:</p>
+				<ul>
+					<li>Run <code>yarn</code> to install the dependencies that VSCode needs to edit properly</li>
+					<li>Run <code>yarn init-types</code> to grab the types for the testing module</li>
+					<li>Make sure that VSCode is using the local TypeScript version (bottom right of the editor while opening a <code>.ts</code> file)</li>
+					<li>Adjust the <a href="tsconfig.json"><code>tsconfig.json</code></a> so that the <code>paths</code> are pointing to the right directory<ul>
+							<li>They should point to the <code>$HOME/.deno/deps/http</code> and <code>$HOME/.deno/deps/https</code> directories</li>
+							<li>The path has to be relative due to a TS server limitation</li>
+							<li><em>DO NOT COMMIT THIS CHANGE</em>, as it only applies to your setup and your setup only</li>
+						</ul>
+					</li>
+				</ul>
+				<h3 id="compatibility">Compatibility</h3>
+				<p>As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 &amp; earlier, you will need to use a transpiler like babel. It is available on NPM as well under <a href="https://www.npmjs.com/package/@luvies/lazy">@luvies/lazy</a>, and requires about Node.js &gt;=v6.</p>
+				<h2 id="footnotes">Footnotes</h2>
+				<p>Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/lazy.html" class="tsd-kind-icon">Lazy</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#aggfn" class="tsd-kind-icon">Agg<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#boolpredicate" class="tsd-kind-icon">Bool<wbr>Predicate</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#callbackfn" class="tsd-kind-icon">Callback<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#combinefn" class="tsd-kind-icon">Combine<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#comparerfn" class="tsd-kind-icon">Comparer<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#indexmapfn" class="tsd-kind-icon">Index<wbr>Map<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#indexpredicate" class="tsd-kind-icon">Index<wbr>Predicate</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#mapfn" class="tsd-kind-icon">Map<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#sortfn" class="tsd-kind-icon">Sort<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#strfn" class="tsd-kind-icon">Str<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#empty" class="tsd-kind-icon">empty</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#from" class="tsd-kind-icon">from</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#range" class="tsd-kind-icon">range</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#repeat" class="tsd-kind-icon">repeat</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

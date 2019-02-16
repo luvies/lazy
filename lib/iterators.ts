@@ -1,8 +1,8 @@
 import * as aggregates from './aggregates.ts';
+import { AggFn, BoolPredicate, CallbackFn, ComparerFn, MapFn, StrFn } from './aggregates.ts';
 
 // Helpers types.
 
-type MapFn<TSource, TResult> = aggregates.MapFn<TSource, TResult>;
 type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
 type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
@@ -73,17 +73,25 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Applies an accumulator function over an interable.
    * @param agg The accumulator function to apply over the iterable.
-   * @param seed The seed to set the initial `acc` param to in the accumulator function.
-   * If not given, then the first element is used.
-   * @returns The function accumulator value.
-   * @throws {Error} If no seed is given and iterable was empty.
+   * @returns The final accumulator value.
+   * @throws {Error} If the iterable was empty.
    * @remarks The function works very similarly to Array.prototype.reduce, with
    * the added benefit of working on any general iterable object.
    * This will cause a complete iteration of the iterable object.
    */
-  public aggregate(agg: aggregates.AggFn<TElement, TElement>): TElement;
-  public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc>, seed: TAcc): TAcc;
-  public aggregate<TAcc>(agg: aggregates.AggFn<TElement, TAcc | TElement>, seed?: TAcc) {
+  public aggregate(agg: AggFn<TElement, TElement>): TElement;
+  /**
+   * Applies an accumulator function over an interable.
+   * @param agg The accumulator function to apply over the iterable.
+   * @param seed The seed to set the initial `acc` param to in the accumulator function.
+   * If not given, then the first element is used.
+   * @returns The final accumulator value.
+   * @remarks The function works very similarly to Array.prototype.reduce, with
+   * the added benefit of working on any general iterable object.
+   * This will cause a complete iteration of the iterable object.
+   */
+  public aggregate<TAcc>(agg: AggFn<TElement, TAcc>, seed: TAcc): TAcc;
+  public aggregate<TAcc>(agg: AggFn<TElement, TAcc | TElement>, seed?: TAcc) {
     if (arguments.length >= 2) {
       return aggregates.aggregate(this, agg as any, seed);
     } else {
@@ -98,7 +106,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterate until the condition is false or until the iterable
    * ends.
    */
-  public all(predicate: aggregates.BoolPredicate<TElement>) {
+  public all(predicate: BoolPredicate<TElement>) {
     return aggregates.all(this, predicate);
   }
 
@@ -114,12 +122,12 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * - If no predicate is given
    *   - Whether the iterable is non-empty.
    * @remarks For checking whether the given lazy query has any elements, prefer to use
-   * this function over {@link Lazy#count}, as that function will iterate the entire
+   * this function over [[Lazy.count]], as that function will iterate the entire
    * object, whereas this will stop at the first.
    * If no predicate is given, this will iterate only a single time, otherwise it will
    * iterate until the condition is true or until the iterable ends.
    */
-  public any(predicate?: aggregates.BoolPredicate<TElement>) {
+  public any(predicate?: BoolPredicate<TElement>) {
     return aggregates.any(this, predicate);
   }
 
@@ -142,7 +150,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterable until the given value is found, or until the
    * iterable ends.
    */
-  public contains(element: TElement, comparer?: aggregates.ComparerFn<TElement>) {
+  public contains(element: TElement, comparer?: ComparerFn<TElement>) {
     return aggregates.contains(this, element, comparer);
   }
 
@@ -150,8 +158,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Returns the number of elements in the iterable.
    * @returns The number of elements in the iterable.
    * @remarks To determine whether an iterable has any elements, prefer the
-   * {@link Lazy#any} method, as this will iterate the entire iterable
-   * regardless.
+   * [[Lazy.any]] method, as this will iterate the entire iterable regardless.
    * This will cause a complete iteration of the iterable object.
    */
   public count() {
@@ -205,13 +212,13 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Mimics the behaviour of {@link Array#forEach}, with the exception
+   * Mimics the behaviour of `Array.forEach`, with the exception
    * of not providing the entire array as the 3rd param of the callback.
    * @param callbackFn The callback function that will be executed for each element
    * in the iterable.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public forEach(callbackFn: aggregates.CallbackFn<TElement>) {
+  public forEach(callbackFn: CallbackFn<TElement>) {
     aggregates.forEach(this, callbackFn);
   }
 
@@ -228,7 +235,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * ```
    * This will iterate both iterables completely.
    */
-  public iterableEquals(second: Iterable<TElement>, comparer?: aggregates.ComparerFn<TElement>) {
+  public iterableEquals(second: Iterable<TElement>, comparer?: ComparerFn<TElement>) {
     return aggregates.iterableEquals(this, second, comparer);
   }
 
@@ -294,7 +301,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterate until the condition is met or until the iterable
    * ends.
    */
-  public single(predicate: aggregates.BoolPredicate<TElement>) {
+  public single(predicate: BoolPredicate<TElement>) {
     return aggregates.single(this, predicate);
   }
 
@@ -308,7 +315,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterate until the condition is met or until the iterable
    * ends.
    */
-  public singleOrDefault(predicate: aggregates.BoolPredicate<TElement>, defaultValue: TElement) {
+  public singleOrDefault(predicate: BoolPredicate<TElement>, defaultValue: TElement) {
     return aggregates.singleOrDefault(this, predicate, defaultValue);
   }
 
@@ -320,7 +327,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param strFn The function to convert each element into a string.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public stringJoin(separator?: string, strFn?: aggregates.StrFn<TElement>) {
+  public stringJoin(separator?: string, strFn?: StrFn<TElement>) {
     return aggregates.stringJoin(this, separator, strFn);
   }
 
@@ -335,7 +342,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Converts the iterable into a standard JavaScript {@link Array}.
+   * Converts the iterable into a standard JavaScript `Array`.
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public toArray() {
@@ -357,7 +364,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param keyFn The function to use to derive the key of each map element.
    * @param valueFn The function to use to derive the value of map value. If
    * not given, then the value itself it used.
-   * @returns A {@link Map<TKey, TResult>} derived from the iterable.
+   * @returns A `Map<TKey, TResult>` derived from the iterable.
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public toMap<TKey, TResult = TElement>(keyFn: MapFn<TElement, TKey>, valueFn?: MapFn<TElement, TResult>) {
@@ -479,7 +486,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Sorts the iterable in ascending order.
    * @param keyFn The function used to get the key from a given element.
-   * @param compareFn The function that is passed to {@link Array#sort} to
+   * @param compareFn The function that is passed to `Array.sort` to
    * compare values and return the comparison number. If not give, as default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
@@ -495,7 +502,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Sorts the iterable in descending order.
    * @param keyFn The function used to get the key from a given element.
-   * @param compareFn The function that is passed to {@link Array#sort} to
+   * @param compareFn The function that is passed to `Array.sort` to
    * compare values and return the comparison number. If not give, as default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
@@ -638,6 +645,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
 
 // Helper classes.
 
+/**
+ * @hidden
+ */
 class Queue<T> {
   private _buffer: T[] = [];
   private _front = 0;
@@ -660,12 +670,18 @@ class Queue<T> {
 
 // Base iterators.
 
+/**
+ * @hidden
+ */
 class LazyEmpty<TElement> extends Lazy<TElement> {
   public *[Symbol.iterator](): Iterator<TElement> {
     // Don't yield anything for an empty enumerable.
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyIterator<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -758,6 +774,9 @@ class LazyIterator<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyRange extends Lazy<number> {
   public constructor(
     private readonly _start: number,
@@ -778,6 +797,9 @@ class LazyRange extends Lazy<number> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyRepeat<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _element: TElement,
@@ -802,6 +824,9 @@ class LazyRepeat<TElement> extends Lazy<TElement> {
   but *only* while it is being iterated.
 */
 
+/**
+ * @hidden
+ */
 class LazyAppendPrepend<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -824,6 +849,9 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyConcat<TElement> extends Lazy<TElement> {
   private readonly _iterables: Array<Iterable<TElement>>;
 
@@ -841,6 +869,9 @@ class LazyConcat<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -861,6 +892,9 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -881,6 +915,9 @@ class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
@@ -907,6 +944,9 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
@@ -933,6 +973,9 @@ class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
   public constructor(
     private readonly _firstIterable: Iterable<TFirst>,
@@ -956,11 +999,17 @@ class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
   }
 }
 
-// Attempts to mimic the built-in sorting as close as possible.
+/**
+ * Attempts to mimic the built-in sorting as close as possible.
+ * @hidden
+ */
 function defaultComparer<T>(a: T, b: T): number {
   return `${a}`.localeCompare(`${b}`);
 }
 
+/**
+ * @hidden
+ */
 function comparerFactory<TSource, TKey>(
   keyFn: MapFn<TSource, TKey>,
   reverse: boolean,
@@ -976,6 +1025,9 @@ function comparerFactory<TSource, TKey>(
   };
 }
 
+/**
+ * @hidden
+ */
 class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -993,6 +1045,9 @@ class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyReverse<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1008,6 +1063,9 @@ class LazyReverse<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazySelect<TSource, TResult> extends Lazy<TResult> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
@@ -1025,6 +1083,9 @@ class LazySelect<TSource, TResult> extends Lazy<TResult> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazySelectMany<TSource, TResult> extends Lazy<TResult> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
@@ -1042,6 +1103,9 @@ class LazySelectMany<TSource, TResult> extends Lazy<TResult> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazySkip<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1062,6 +1126,9 @@ class LazySkip<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazySkipLast<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1087,6 +1154,9 @@ class LazySkipLast<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazySkipWhile<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1110,6 +1180,9 @@ class LazySkipWhile<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyTake<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1133,6 +1206,9 @@ class LazyTake<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyTakeLast<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1163,6 +1239,9 @@ class LazyTakeLast<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyTakeWhile<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
@@ -1185,6 +1264,9 @@ class LazyTakeWhile<TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
@@ -1208,6 +1290,9 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   }
 }
 
+/**
+ * @hidden
+ */
 class LazyWhere<TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,

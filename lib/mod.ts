@@ -3,21 +3,21 @@ import { Lazy } from './iterators.ts';
 export { Lazy };
 
 /**
- * @see Lazy.empty
+ * @see [[Lazy.empty]]
  */
 export const empty = Lazy.empty;
 
 /**
- * @see Lazy.from
+ * @see [[Lazy.from]]
  */
 export const from = Lazy.from;
 
 /**
- * @see Lazy.range
+ * @see [[Lazy.range]]
  */
 export const range = Lazy.range;
 
 /**
- * @see Lazy.repeat
+ * @see [[Lazy.repeat]]
  */
 export const repeat = Lazy.repeat;
