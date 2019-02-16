@@ -75,7 +75,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param agg The accumulator function to apply over the iterable.
    * @returns The final accumulator value.
    * @throws {Error} If the iterable was empty.
-   * @remarks The function works very similarly to Array.prototype.reduce, with
+   * @remarks The function works very similarly to `Array.prototype.reduce`, with
    * the added benefit of working on any general iterable object.
    * This will cause a complete iteration of the iterable object.
    */
@@ -86,7 +86,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param seed The seed to set the initial `acc` param to in the accumulator function.
    * If not given, then the first element is used.
    * @returns The final accumulator value.
-   * @remarks The function works very similarly to Array.prototype.reduce, with
+   * @remarks The function works very similarly to `Array.prototype.reduce`, with
    * the added benefit of working on any general iterable object.
    * This will cause a complete iteration of the iterable object.
    */
@@ -212,7 +212,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Mimics the behaviour of `Array.forEach`, with the exception
+   * Mimics the behaviour of `Array.prototype.forEach`, with the exception
    * of not providing the entire array as the 3rd param of the callback.
    * @param callbackFn The callback function that will be executed for each element
    * in the iterable.
@@ -486,7 +486,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Sorts the iterable in ascending order.
    * @param keyFn The function used to get the key from a given element.
-   * @param compareFn The function that is passed to `Array.sort` to
+   * @param compareFn The function that is passed to `Array.prototype.sort` to
    * compare values and return the comparison number. If not give, as default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
@@ -502,7 +502,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Sorts the iterable in descending order.
    * @param keyFn The function used to get the key from a given element.
-   * @param compareFn The function that is passed to `Array.sort` to
+   * @param compareFn The function that is passed to `Array.prototype.sort` to
    * compare values and return the comparison number. If not give, as default
    * sorting function will be used.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
