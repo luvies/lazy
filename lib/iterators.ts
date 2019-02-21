@@ -7,6 +7,8 @@ type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
 type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
 type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
+type IndexIsPredicate<TSource, TResult extends TSource> =
+  (element: TSource, index: number) => element is TResult;
 
 // Base lazy class.
 
@@ -632,6 +634,15 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param predicate The predicate function to filter elements with.
    * @remarks Does not cause additional unexpected iteration.
    */
+  public where<TResult extends TElement>(
+    predicate: IndexIsPredicate<TElement, TResult>,
+  ): Lazy<TResult>;
+  /**
+   * Filters elements based on the given predicate.
+   * @param predicate The predicate function to filter elements with.
+   * @remarks Does not cause additional unexpected iteration.
+   */
+  public where(predicate: IndexPredicate<TElement>): Lazy<TElement>;
   public where(predicate: IndexPredicate<TElement>): Lazy<TElement> {
     return new LazyWhere(this, predicate);
   }
