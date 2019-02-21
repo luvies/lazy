@@ -379,9 +379,7 @@ test(function where() {
   assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((_, i) => i === 4).toArray(), [5]);
   assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((v, i) => v < i).toArray(), []);
   assert.equal(Lazy.from([1, 2, 3, 4, 5]).where((v, i) => v > i).toArray(), [1, 2, 3, 4, 5]);
-});
 
-test(function whereIs() {
   assert.equal(
     Lazy.from([1, 2, 3, 4, 5]).where((v): v is 1 | 3 | 5 => v % 2 === 1).toArray(),
     [1, 3, 5],
