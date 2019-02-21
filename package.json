@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A linq-like lazy iteration module that aims to support deno, node & browser",
   "main": "dist/mod.js",
   "repository": "luvies/lazy",
