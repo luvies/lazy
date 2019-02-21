@@ -90,7 +90,7 @@
 				<h2 id="installation">Installation</h2>
 				<h3 id="deno">Deno</h3>
 				<p>Use the following import:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.3/mod.ts'</span>;</code></pre>
 				<p>Make sure the <code>@v{version}</code> tag is the correct one you want. I&#39;d recommend against master, as it could change without notice &amp; might be broken (although I will try not to break it).</p>
 				<h3 id="node">Node</h3>
 				<p>The packge can be found here: <a href="https://www.npmjs.com/package/@luvies/lazy">https://www.npmjs.com/package/@luvies/lazy</a>.</p>
@@ -111,12 +111,12 @@
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeat</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">element: TElement, count?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;</code></pre>
 				<p>The <code>Lazy</code> class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:</p>
 				<pre><code class="language-ts"><span class="hljs-comment">// Static method import.</span>
-<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;
+<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.3/mod.ts'</span>;
 
 <span class="hljs-keyword">const</span> iterable = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
 
 <span class="hljs-comment">// Direct function import.</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.2/mod.ts'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.0.3/mod.ts'</span>;
 
 <span class="hljs-keyword">const</span> iterable = <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);</code></pre>
 				<p>After you have done this, the full power of the module is available to play with.</p>
@@ -279,6 +279,9 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#comparerfn" class="tsd-kind-icon">Comparer<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
+						<a href="globals.html#indexispredicate" class="tsd-kind-icon">Index<wbr>IsPredicate</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-not-exported">
 						<a href="globals.html#indexmapfn" class="tsd-kind-icon">Index<wbr>Map<wbr>Fn</a>
