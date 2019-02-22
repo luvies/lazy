@@ -41,6 +41,15 @@ test(function average() {
   assert.equal(Lazy.from(orig).average(), avg(orig));
 
   assert.throws(() => Lazy.from([true]).average());
+
+  const objs = [
+    { value: 1 },
+    { value: 2 },
+    { value: 3 },
+    { value: 4 },
+    { value: 5 },
+  ];
+  assert.equal(Lazy.from(objs).average(o => o.value), avg(objs.map(o => o.value)));
 });
 
 test(function contains() {
@@ -230,6 +239,15 @@ test(function max() {
   assert.equal(Lazy.from([1, 2]).max(), 2);
   assert.equal(Lazy.from([1]).max(), 1);
   assert.throws(() => Lazy.from([true]).max());
+
+  const objs = [
+    { value: 1 },
+    { value: 2 },
+    { value: 3 },
+    { value: 4 },
+    { value: 5 },
+  ];
+  assert.equal(Lazy.from(objs).max(o => o.value), 5);
 });
 
 test(function min() {
@@ -239,6 +257,15 @@ test(function min() {
   assert.equal(Lazy.from([4, 5]).min(), 4);
   assert.equal(Lazy.from([5]).min(), 5);
   assert.throws(() => Lazy.from([true]).min());
+
+  const objs = [
+    { value: 1 },
+    { value: 2 },
+    { value: 3 },
+    { value: 4 },
+    { value: 5 },
+  ];
+  assert.equal(Lazy.from(objs).min(o => o.value), 1);
 });
 
 test(async function resolveAll() {

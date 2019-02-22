@@ -137,10 +137,20 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Computes the average of the iterable.
    * @returns The numeric average of the iterable.
    * @throws {TypeError} If any element in the iterable was a non-number.
+   * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public average() {
-    return aggregates.average(this);
+  public average(): TElement extends number ? number : never;
+  /**
+   * Computes the average of result of the selector function over the iterable.
+   * @param selector The transformation function to use for each element.
+   * @returns The numeric average of the results of the selector function.
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public average(selector: MapFn<TElement, number>): number;
+  public average(selector?: MapFn<TElement, number>) {
+    return aggregates.average(this, selector as any);
   }
 
   /**
@@ -265,8 +275,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public max() {
-    return aggregates.max(this);
+  public max(): TElement extends number ? number : never;
+  /**
+   * Returns the maximum value of result of the selector function over the iterable.
+   * @param selector The transformation function to use for each element.
+   * @returns The maximum of the results of the selector function.
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public max(selector: MapFn<TElement, number>): number;
+  public max(selector?: MapFn<TElement, number>) {
+    return aggregates.max(this, selector as any);
   }
 
   /**
@@ -276,8 +295,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public min() {
-    return aggregates.min(this);
+  public min(): TElement extends number ? number : never;
+  /**
+   * Returns the minimum value of result of the selector function over the iterable.
+   * @param selector The transformation function to use for each element.
+   * @returns The minimum of the results of the selector function.
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public min(selector: MapFn<TElement, number>): number;
+  public min(selector?: MapFn<TElement, number>) {
+    return aggregates.min(this, selector as any);
   }
 
   /**

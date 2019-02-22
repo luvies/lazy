@@ -106,14 +106,23 @@ export function any<TElement>(
  */
 export function average<TElement>(
   iterable: Iterable<TElement>,
-): TElement extends number ? number : never {
+): TElement extends number ? number : never;
+export function average<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number>,
+): number;
+export function average<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number> = element => element as any,
+): number | never {
   let total = 0;
   let ccount = 0;
   for (const element of iterable) {
-    if (typeof element !== 'number') {
+    const value = selector(element);
+    if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    total += element;
+    total += value;
     ccount++;
   }
   if (ccount === 0) {
@@ -324,15 +333,24 @@ export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultVal
  */
 export function max<TElement>(
   iterable: Iterable<TElement>,
-): TElement extends number ? number : never {
+): TElement extends number ? number : never;
+export function max<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number>,
+): number;
+export function max<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number> = element => element as any,
+): number | never {
   let cmax = -Infinity;
   let items = false;
   for (const element of iterable) {
-    if (typeof element !== 'number') {
+    const value = selector(element);
+    if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    if (element > cmax) {
-      cmax = element;
+    if (value > cmax) {
+      cmax = value;
     }
     items = true;
   }
@@ -347,15 +365,24 @@ export function max<TElement>(
  */
 export function min<TElement>(
   iterable: Iterable<TElement>,
-): TElement extends number ? number : never {
+): TElement extends number ? number : never;
+export function min<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number>,
+): number;
+export function min<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number> = element => element as any,
+): number | never {
   let cmin = +Infinity;
   let items = false;
   for (const element of iterable) {
-    if (typeof element !== 'number') {
+    const value = selector(element);
+    if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    if (element < cmin) {
-      cmin = element;
+    if (value < cmin) {
+      cmin = value;
     }
     items = true;
   }
