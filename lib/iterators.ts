@@ -847,9 +847,7 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
     if (this._atStart) {
       yield this._element;
     }
-    for (const element of this._iterable) {
-      yield element;
-    }
+    yield* this._iterable;
     if (!this._atStart) {
       yield this._element;
     }
