@@ -88,7 +88,8 @@
       "ban-single-arg-parens"
     ],
     "max-classes-per-file": false,
-    "variable-name": false
+    "variable-name": false,
+    "unified-signatures": false
   },
   "linterOptions": {
     "exclude": [

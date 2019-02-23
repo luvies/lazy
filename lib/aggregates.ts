@@ -150,10 +150,15 @@ export function contains<TElement>(
 /**
  * @hidden
  */
-export function count<TElement>(iterable: Iterable<TElement>): number {
+export function count<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement> = () => true,
+): number {
   let ccount = 0;
-  for (const _ of iterable) {
-    ccount++;
+  for (const element of iterable) {
+    if (predicate(element)) {
+      ccount++;
+    }
   }
   return ccount;
 }
@@ -215,13 +220,29 @@ export function elementAtOrDefault<TElement>(
 /**
  * @hidden
  */
+function getFirst<TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement> = () => true,
+): { items: false } | { items: true, element: TElement } {
+  for (const element of iterable) {
+    if (predicate(element)) {
+      return { items: true, element };
+    }
+  }
+  return { items: false };
+}
+
+/**
+ * @hidden
+ */
 export function first<TElement>(
   iterable: Iterable<TElement>,
+  predicate?: BoolPredicate<TElement>,
 ): TElement {
-  const res = iterable[Symbol.iterator]().next();
+  const res = getFirst(iterable, predicate);
 
-  if (!res.done) {
-    return res.value;
+  if (res.items) {
+    return res.element;
   } else {
     throw new Error(Errors.Empty);
   }
@@ -233,11 +254,12 @@ export function first<TElement>(
 export function firstOrDefault<TElement>(
   iterable: Iterable<TElement>,
   defaultValue: TElement,
+  predicate?: BoolPredicate<TElement>,
 ): TElement {
-  const res = iterable[Symbol.iterator]().next();
+  const res = getFirst(iterable, predicate);
 
-  if (!res.done) {
-    return res.value;
+  if (res.items) {
+    return res.element;
   } else {
     return defaultValue;
   }
@@ -290,12 +312,15 @@ export function iterableEquals<TElement>(
  */
 function getLast<TElement>(
   iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement> = () => true,
 ): { items: false } | { items: true, element: TElement } {
   let items = false;
   let latest: TElement;
   for (const element of iterable) {
-    latest = element;
-    items = true;
+    if (predicate(element)) {
+      latest = element;
+      items = true;
+    }
   }
   if (items) {
     return { items: true, element: latest! };
@@ -307,8 +332,12 @@ function getLast<TElement>(
 /**
  * @hidden
  */
-export function last<TElement>(iterable: Iterable<TElement>): TElement {
-  const res = getLast(iterable);
+export function last<TElement>(
+  iterable: Iterable<TElement>,
+  predicate?: BoolPredicate<TElement>,
+): TElement {
+  const res = getLast(iterable, predicate);
+
   if (res.items) {
     return res.element;
   } else {
@@ -319,8 +348,13 @@ export function last<TElement>(iterable: Iterable<TElement>): TElement {
 /**
  * @hidden
  */
-export function lastOrDefault<TElement>(iterable: Iterable<TElement>, defaultValue: TElement): TElement {
-  const res = getLast(iterable);
+export function lastOrDefault<TElement>(
+  iterable: Iterable<TElement>,
+  defaultValue: TElement,
+  predicate?: BoolPredicate<TElement>,
+): TElement {
+  const res = getLast(iterable, predicate);
+
   if (res.items) {
     return res.element;
   } else {
@@ -424,6 +458,7 @@ export function single<TElement>(
   predicate: BoolPredicate<TElement>,
 ): TElement {
   const res = getSingle(iterable, predicate);
+
   if (res.found) {
     return res.element;
   } else {
@@ -440,6 +475,7 @@ export function singleOrDefault<TElement>(
   defaultValue: TElement,
 ): TElement {
   const res = getSingle(iterable, predicate);
+
   if (res.found) {
     return res.element;
   } else {
@@ -470,14 +506,25 @@ export function stringJoin<TElement>(
 /**
  * @hidden
  */
-export function sum<TElement>(iterable: Iterable<TElement>): TElement extends number ? number : never {
+export function sum<TElement>(
+  iterable: Iterable<TElement>,
+): TElement extends number ? number : never;
+export function sum<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number>,
+): number;
+export function sum<TSource>(
+  iterable: Iterable<TSource>,
+  selector: MapFn<TSource, number> = element => element as any,
+): number | never {
   let total = 0;
   let items = false;
   for (const element of iterable) {
-    if (typeof element !== 'number') {
+    const value = selector(element);
+    if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
-    total += element;
+    total += value;
     items = true;
   }
   if (!items) {

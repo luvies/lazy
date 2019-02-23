@@ -113,22 +113,25 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
-   * Returns whether any of the elements satisfy the given condition, or if
-   * the iterable is not empty.
-   * @param predicate The function to use to test each element. If not given,
-   * then this function will return true if at least 1 element exists in the iterable.
-   * @returns
-   * - If the predicate is given
-   *   - Whether any element in the iterable satified the confidition.
-   *   - If the iterable was empty, then `false` is returned
-   * - If no predicate is given
-   *   - Whether the iterable is non-empty.
+   * Returns whether the iterable is not empty.
+   * @returns Whether the iterable is not empty.
    * @remarks For checking whether the given lazy query has any elements, prefer to use
    * this function over [[Lazy.count]], as that function will iterate the entire
    * object, whereas this will stop at the first.
-   * If no predicate is given, this will iterate only a single time, otherwise it will
-   * iterate until the condition is true or until the iterable ends.
+   * This will iterate only a single time.
    */
+  public any(): boolean;
+  /**
+   * Returns whether any of the elements satisfy the given condition.
+   * @param predicate The function to use to test each element.
+   * @returns Whether any element in the iterable satisfied the condition.
+   * If the iterable was empty, then `false` is returned
+   * @remarks For checking whether the given lazy query has any elements, prefer to use
+   * this function over [[Lazy.count]], as that function will iterate the entire
+   * object, whereas this will stop at the first element that satisfies the condition.
+   * This will iterate until the condition is true or until the iterable ends.
+   */
+  public any(predicate: BoolPredicate<TElement>): boolean;
   public any(predicate?: BoolPredicate<TElement>) {
     return aggregates.any(this, predicate);
   }
@@ -173,8 +176,18 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * [[Lazy.any]] method, as this will iterate the entire iterable regardless.
    * This will cause a complete iteration of the iterable object.
    */
-  public count() {
-    return aggregates.count(this);
+  public count(): number;
+  /**
+   * Returns the number of elements that satify the given condition.
+   * @param predicate The predicate to test each element with.
+   * @returns The number of elements in the iterable that matched the condition.
+   * @remarks To determine whether an iterable has any elements, prefer the
+   * [[Lazy.any]] method, as this will iterate the entire iterable regardless.
+   * This will cause a complete iteration of the iterable object.
+   */
+  public count(predicate: BoolPredicate<TElement>): number;
+  public count(predicate?: BoolPredicate<TElement>) {
+    return aggregates.count(this, predicate);
   }
 
   /**
@@ -208,8 +221,18 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {Error} If the iterable was empty.
    * @remarks This will only iterate a single time.
    */
-  public first() {
-    return aggregates.first(this);
+  public first(): TElement;
+  /**
+   * Returns the first element that satisfies the given condition.
+   * @param predicate The predicate to test each element with.
+   * @returns The first element in the iterable that satisfies the condition.
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will iterate until the condition is satisfied, or until the
+   * iterable ends.
+   */
+  public first(predicate: BoolPredicate<TElement>): TElement;
+  public first(predicate?: BoolPredicate<TElement>) {
+    return aggregates.first(this, predicate);
   }
 
   /**
@@ -219,8 +242,20 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @returns The first element in the iterable, or the default value if empty.
    * @remarks This will only iterate a single time.
    */
-  public firstOrDefault(defaultValue: TElement) {
-    return aggregates.firstOrDefault(this, defaultValue);
+  public firstOrDefault(defaultValue: TElement): TElement;
+  /**
+   * Returns the first element in the iterable that satisfies the condition,
+   * or the given default value.
+   * @param defaultValue The value to use if no element satisfied the condition.
+   * @param predicate The predicate to test each element with.
+   * @returns The first element in the iterable that satisfies the condition,
+   * or the default value if none satisfied it.
+   * @remarks This will iterate until the condition is satisfied, or until the
+   * iterable ends.
+   */
+  public firstOrDefault(defaultValue: TElement, predicate: BoolPredicate<TElement>): TElement;
+  public firstOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+    return aggregates.firstOrDefault(this, defaultValue, predicate);
   }
 
   /**
@@ -253,8 +288,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public last() {
-    return aggregates.last(this);
+  public last(): TElement;
+  /**
+   * Returns the last element in the iterable that satisfies the given condition.
+   * @param predicate The predicate to test each element with.
+   * @returns The last element in the iterable that satisfied the condition.
+   * @throws {Error} If no elements satisfied the condition.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public last(predicate: BoolPredicate<TElement>): TElement;
+  public last(predicate?: BoolPredicate<TElement>) {
+    return aggregates.last(this, predicate);
   }
 
   /**
@@ -264,8 +308,19 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @returns The last element in the iterable, or the default value if empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public lastOrDefault(defaultValue: TElement) {
-    return aggregates.lastOrDefault(this, defaultValue);
+  public lastOrDefault(defaultValue: TElement): TElement;
+  /**
+   * Returns the last element in the iterable that satisfies the given condition,
+   * or the given default value.
+   * @param defaultValue The value to use of the iterable was empty.
+   * @param predicate The predicate to test each element with.
+   * @returns The last element in the iterable, or the default value if no element
+   * satisfied the condition.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public lastOrDefault(defaultValue: TElement, predicate: BoolPredicate<TElement>): TElement;
+  public lastOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+    return aggregates.lastOrDefault(this, defaultValue, predicate);
   }
 
   /**
@@ -279,7 +334,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Returns the maximum value of result of the selector function over the iterable.
    * @param selector The transformation function to use for each element.
-   * @returns The maximum of the results of the selector function.
+   * @returns The maximum result of the selector function.
    * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
@@ -299,7 +354,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   /**
    * Returns the minimum value of result of the selector function over the iterable.
    * @param selector The transformation function to use for each element.
-   * @returns The minimum of the results of the selector function.
+   * @returns The minimum result of the selector function.
    * @throws {Error} If the iterable was empty.
    * @remarks This will cause a complete iteration of the iterable object.
    */
@@ -363,8 +418,17 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @throws {TypeError} If any element in the iterable was a non-number.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public sum() {
-    return aggregates.sum(this);
+  public sum(): TElement extends number ? number : never;
+  /**
+   * Returns the sum of all the results of the selector function over the iterable.
+   * @param selector The transformation function to use for each element.
+   * @returns The sum of the results of the selector function.
+   * @throws {Error} If the iterable was empty.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public sum(selector: MapFn<TElement, number>): number;
+  public sum(selector?: MapFn<TElement, number>) {
+    return aggregates.sum(this, selector as any);
   }
 
   /**
@@ -724,7 +788,11 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public count() {
+  public count(predicate?: BoolPredicate<TElement>) {
+    if (predicate) {
+      return super.count(predicate);
+    }
+
     // Use shortcut if we are directly on an array.
     if (Array.isArray(this._iterable)) {
       return this._iterable.length;
@@ -756,7 +824,11 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.elementAtOrDefault(index, defaultValue);
   }
 
-  public first() {
+  public first(predicate?: BoolPredicate<TElement>) {
+    if (predicate) {
+      return super.first(predicate);
+    }
+
     // Use shortcut if we are directly on an array.
     if (Array.isArray(this._iterable)) {
       if (this._iterable.length > 0) {
@@ -768,7 +840,11 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.first();
   }
 
-  public firstOrDefault(defaultValue: TElement) {
+  public firstOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+    if (predicate) {
+      return super.firstOrDefault(defaultValue, predicate);
+    }
+
     // Use shortcut if we are directly on an array.
     if (Array.isArray(this._iterable)) {
       if (this._iterable.length > 0) {
@@ -780,7 +856,11 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.firstOrDefault(defaultValue);
   }
 
-  public last() {
+  public last(predicate?: BoolPredicate<TElement>) {
+    if (predicate) {
+      return super.last(predicate);
+    }
+
     // Use shortcut if we are directly on an array.
     if (Array.isArray(this._iterable)) {
       if (this._iterable.length > 0) {
@@ -792,7 +872,11 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.last();
   }
 
-  public lastOrDefault(defaultValue: TElement) {
+  public lastOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+    if (predicate) {
+      return super.lastOrDefault(defaultValue, predicate);
+    }
+
     // Use shortcut if we are directly on an array.
     if (Array.isArray(this._iterable)) {
       if (this._iterable.length > 0) {
