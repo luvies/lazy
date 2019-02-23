@@ -44,7 +44,6 @@
       "single"
     ],
     "no-return-await": true,
-    "no-unnecessary-type-assertion": true,
     "await-promise": true,
     "ban-comma-operator": true,
     "no-floating-promises": true,
