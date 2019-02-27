@@ -389,3 +389,41 @@ test(function where() {
     [2, 4],
   );
 });
+
+test(function zip() {
+  assert.equal(Lazy.from([1, 2, 3, 4]).zip([4, 3, 2, 1]).toArray(), [[1, 4], [2, 3], [3, 2], [4, 1]]);
+  assert.equal(Lazy.from([1, 2, 3, 4]).zip([4, 3, 2, 1, 0]).toArray(), [[1, 4], [2, 3], [3, 2], [4, 1]]);
+  assert.equal(Lazy.from([1, 2, 3, 4, 5]).zip([4, 3, 2, 1]).toArray(), [[1, 4], [2, 3], [3, 2], [4, 1]]);
+  assert.equal(
+    Lazy.from([1, 2, 3, 4]).zip(['4', '3', '2', '1']).toArray(),
+    [[1, '4'], [2, '3'], [3, '2'], [4, '1']],
+  );
+
+  assert.equal(
+    Lazy.from([1, 2, 3, 4]).zip([4, 3, 2, 1], (first, second) => ({ first, second })).toArray(),
+    [
+      { first: 1, second: 4 },
+      { first: 2, second: 3 },
+      { first: 3, second: 2 },
+      { first: 4, second: 1 },
+    ],
+  );
+  assert.equal(
+    Lazy.from([1, 2, 3, 4]).zip([4, 3, 2, 1, 0], (first, second) => ({ first, second })).toArray(),
+    [
+      { first: 1, second: 4 },
+      { first: 2, second: 3 },
+      { first: 3, second: 2 },
+      { first: 4, second: 1 },
+    ],
+  );
+  assert.equal(
+    Lazy.from([1, 2, 3, 4, 5]).zip([4, 3, 2, 1], (first, second) => ({ first, second })).toArray(),
+    [
+      { first: 1, second: 4 },
+      { first: 2, second: 3 },
+      { first: 3, second: 2 },
+      { first: 4, second: 1 },
+    ],
+  );
+});

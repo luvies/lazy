@@ -739,6 +739,35 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     return new LazyWhere(this, predicate);
   }
 
+  /**
+   * Combines 2 iterables into an iterable of tuples. This will merge elements
+   * on the same index, finishing on the iterable that finishes first. If the
+   * first iterable has 3 elements, and the second 4, then the result will
+   * have 3 elements.
+   * @param second The iterable to zip with.
+   * @remarks Does not cause additional unexpected iteration.
+   */
+  public zip<TSecond>(second: Iterable<TSecond>): Lazy<[TElement, TSecond]>;
+  /**
+   * Combines 2 iterables using the given selector. This will merge elements
+   * on the same index, finishing on the iterable that finishes first. If the
+   * first iterable has 3 elements, and the second 4, then the result will
+   * have 3 elements.
+   * @param second The iterable to zip with.
+   * @param selector The function to combine the iterables with.
+   * @remarks Does not cause additional unexpected iteration.
+   */
+  public zip<TSecond, TResult>(
+    second: Iterable<TSecond>,
+    selector: CombineFn<TElement, TSecond, TResult>,
+  ): Lazy<TResult>;
+  public zip<TSecond, TResult>(
+    second: Iterable<TSecond>,
+    selector?: CombineFn<TElement, TSecond, TResult>,
+  ): Lazy<TResult> {
+    return new LazyZip(this, second, selector);
+  }
+
   public abstract [Symbol.iterator](): Iterator<TElement>;
 }
 
@@ -1425,6 +1454,31 @@ class LazyWhere<TElement> extends Lazy<TElement> {
         yield element;
       }
       index++;
+    }
+  }
+}
+
+/**
+ * @hidden
+ */
+class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<TResult> {
+  public constructor(
+    private readonly _firstIterable: Iterable<TFirst>,
+    private readonly _secondIterable: Iterable<TSecond>,
+    private readonly _selector: CombineFn<TFirst, TSecond, TResult> = (first, second) => [first, second] as any,
+  ) {
+    super();
+  }
+
+  public *[Symbol.iterator](): Iterator<TResult> {
+    const firstIterator = this._firstIterable[Symbol.iterator]();
+    let firstMove = firstIterator.next();
+    const secondIterator = this._secondIterable[Symbol.iterator]();
+    let secondMove = secondIterator.next();
+    while (!firstMove.done && !secondMove.done) {
+      yield this._selector(firstMove.value, secondMove.value);
+      firstMove = firstIterator.next();
+      secondMove = secondIterator.next();
     }
   }
 }

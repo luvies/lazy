@@ -150,6 +150,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#tomap" class="tsd-kind-icon">to<wbr>Map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#union" class="tsd-kind-icon">union</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#where" class="tsd-kind-icon">where</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#zip" class="tsd-kind-icon">zip</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="lazy.html#empty" class="tsd-kind-icon">empty</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="lazy.html#from" class="tsd-kind-icon">from</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="lazy.html#range" class="tsd-kind-icon">range</a></li>
@@ -171,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:742</li>
+									<li>Defined in iterators.ts:771</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -2436,6 +2437,97 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="zip" class="tsd-anchor"></a>
+					<h3>zip</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">zip&lt;TSecond&gt;<span class="tsd-signature-symbol">(</span>second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">zip&lt;TSecond, TResult&gt;<span class="tsd-signature-symbol">(</span>second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span>, selector<span class="tsd-signature-symbol">: </span><a href="../globals.html#combinefn" class="tsd-signature-type">CombineFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in iterators.ts:750</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combines 2 iterables into an iterable of tuples. This will merge elements
+										on the same index, finishing on the iterable that finishes first. If the
+										first iterable has 3 elements, and the second 4, then the result will
+									have 3 elements.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>Does not cause additional unexpected iteration.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSecond</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>second: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The iterable to zip with.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in iterators.ts:760</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combines 2 iterables using the given selector. This will merge elements
+										on the same index, finishing on the iterable that finishes first. If the
+										first iterable has 3 elements, and the second 4, then the result will
+									have 3 elements.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>Does not cause additional unexpected iteration.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSecond</h4>
+								</li>
+								<li>
+									<h4>TResult</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>second: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The iterable to zip with.</p>
+									</div>
+								</li>
+								<li>
+									<h5>selector: <a href="../globals.html#combinefn" class="tsd-signature-type">CombineFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to combine the iterables with.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 					<a name="empty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> empty</h3>
@@ -2766,6 +2858,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="lazy.html#where" class="tsd-kind-icon">where</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="lazy.html#zip" class="tsd-kind-icon">zip</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 								<a href="lazy.html#empty" class="tsd-kind-icon">empty</a>
