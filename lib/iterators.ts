@@ -1,5 +1,12 @@
 import * as aggregates from './aggregates.ts';
-import { AggFn, BoolPredicate, CallbackFn, ComparerFn, MapFn, StrFn } from './aggregates.ts';
+import {
+  AggFn,
+  BoolPredicate,
+  CallbackFn,
+  ComparerFn,
+  MapFn,
+  StrFn,
+} from './aggregates.ts';
 
 // Helpers types.
 
@@ -11,7 +18,10 @@ type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
 /**
  * A function that combines 2 types into another.
  */
-type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
+type CombineFn<TFirst, TSecond, TResult> = (
+  first: TFirst,
+  second: TSecond,
+) => TResult;
 /**
  * A function that takes in 2 values and returns the sorting number.
  */
@@ -24,8 +34,10 @@ type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
  * A function that takes in a value and an index and returns whether the
  * value is of a given type.
  */
-type IndexIsPredicate<TSource, TResult extends TSource> =
-  (element: TSource, index: number) => element is TResult;
+type IndexIsPredicate<TSource, TResult extends TSource> = (
+  element: TSource,
+  index: number,
+) => element is TResult;
 
 /**
  * A grouping of elements based on the key.
@@ -91,7 +103,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * account that some lazy iterators *require* the interable to be finite to work.
    * Check the remarks on the function you want to use to see which ones will work.
    */
-  public static repeat<TElement>(element: TElement, count?: number): Lazy<TElement> {
+  public static repeat<TElement>(
+    element: TElement,
+    count?: number,
+  ): Lazy<TElement> {
     return new LazyRepeat(element, count);
   }
 
@@ -278,8 +293,14 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterate until the condition is satisfied, or until the
    * iterable ends.
    */
-  public firstOrDefault(defaultValue: TElement, predicate: BoolPredicate<TElement>): TElement;
-  public firstOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+  public firstOrDefault(
+    defaultValue: TElement,
+    predicate: BoolPredicate<TElement>,
+  ): TElement;
+  public firstOrDefault(
+    defaultValue: TElement,
+    predicate?: BoolPredicate<TElement>,
+  ) {
     return aggregates.firstOrDefault(this, defaultValue, predicate);
   }
 
@@ -303,7 +324,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will check for both order and value, and will iterate
    * both iterables completely.
    */
-  public iterableEquals(second: Iterable<TElement>, comparer?: ComparerFn<TElement>) {
+  public iterableEquals(
+    second: Iterable<TElement>,
+    comparer?: ComparerFn<TElement>,
+  ) {
     return aggregates.iterableEquals(this, second, comparer);
   }
 
@@ -343,8 +367,14 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * satisfied the condition.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public lastOrDefault(defaultValue: TElement, predicate: BoolPredicate<TElement>): TElement;
-  public lastOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+  public lastOrDefault(
+    defaultValue: TElement,
+    predicate: BoolPredicate<TElement>,
+  ): TElement;
+  public lastOrDefault(
+    defaultValue: TElement,
+    predicate?: BoolPredicate<TElement>,
+  ) {
     return aggregates.lastOrDefault(this, defaultValue, predicate);
   }
 
@@ -394,8 +424,12 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @returns A promise that will resolve to a lazy iterable object.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public resolveAll(): Promise<TElement extends PromiseLike<infer TResult> ? Lazy<TResult> : Lazy<TElement>> {
-    return aggregates.resolveAll(this).then(iterable => Lazy.from(iterable)) as any;
+  public resolveAll(): Promise<
+    TElement extends PromiseLike<infer TResult> ? Lazy<TResult> : Lazy<TElement>
+  > {
+    return aggregates
+      .resolveAll(this)
+      .then(iterable => Lazy.from(iterable)) as any;
   }
 
   /**
@@ -421,7 +455,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterate until the condition is met or until the iterable
    * ends.
    */
-  public singleOrDefault(predicate: BoolPredicate<TElement>, defaultValue: TElement) {
+  public singleOrDefault(
+    predicate: BoolPredicate<TElement>,
+    defaultValue: TElement,
+  ) {
     return aggregates.singleOrDefault(this, predicate, defaultValue);
   }
 
@@ -482,7 +519,10 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @returns A `Map<TKey, TResult>` derived from the iterable.
    * @remarks This will cause a complete iteration of the iterable object.
    */
-  public toMap<TKey, TResult = TElement>(keyFn: MapFn<TElement, TKey>, valueFn?: MapFn<TElement, TResult>) {
+  public toMap<TKey, TResult = TElement>(
+    keyFn: MapFn<TElement, TKey>,
+    valueFn?: MapFn<TElement, TResult>,
+  ) {
     return aggregates.toMap(this, keyFn, valueFn);
   }
 
@@ -565,7 +605,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely.
    */
-  public groupBy<TKey>(keyFn: MapFn<TElement, TKey>): Lazy<IGrouping<TKey, TElement>>;
+  public groupBy<TKey>(
+    keyFn: MapFn<TElement, TKey>,
+  ): Lazy<IGrouping<TKey, TElement>>;
   /**
    * Groups the elements by key and projects each element using the given function.
    * @param keyFn The function to extract the key from each element.
@@ -591,11 +633,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     elementSelector: MapFn<TElement, TItem>,
     resultSelector: CombineFn<TKey, Iterable<TItem>, TResult>,
   ): Lazy<TResult>;
-  public groupBy<
-    TKey,
-    TItem = TElement,
-    TResult = IGrouping<TKey, TElement>
-  >(
+  public groupBy<TKey, TItem = TElement, TResult = IGrouping<TKey, TElement>>(
     keyFn: MapFn<TElement, TKey>,
     elementSelector?: MapFn<TElement, TItem>,
     resultSelector?: CombineFn<TKey, Iterable<TItem>, TResult>,
@@ -719,7 +757,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param selector The transformation function to use for each element.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public select<TResult>(selector: IndexMapFn<TElement, TResult>): Lazy<TResult> {
+  public select<TResult>(
+    selector: IndexMapFn<TElement, TResult>,
+  ): Lazy<TResult> {
     return new LazySelect(this, selector);
   }
 
@@ -730,7 +770,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * is the index that the element was at in the source iterable, *not* the resulting one.
    * @remarks Does not cause additional unexpected iteration.
    */
-  public selectMany<TResult>(selector: IndexMapFn<TElement, Iterable<TResult>>): Lazy<TResult> {
+  public selectMany<TResult>(
+    selector: IndexMapFn<TElement, Iterable<TResult>>,
+  ): Lazy<TResult> {
     return new LazySelectMany(this, selector);
   }
 
@@ -902,9 +944,7 @@ class LazyEmpty<TElement> extends Lazy<TElement> {
  * @hidden
  */
 class LazyIterator<TElement> extends Lazy<TElement> {
-  public constructor(
-    private readonly _iterable: Iterable<TElement>,
-  ) {
+  public constructor(private readonly _iterable: Iterable<TElement>) {
     super();
   }
 
@@ -960,7 +1000,10 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.first();
   }
 
-  public firstOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+  public firstOrDefault(
+    defaultValue: TElement,
+    predicate?: BoolPredicate<TElement>,
+  ) {
     if (predicate) {
       return super.firstOrDefault(defaultValue, predicate);
     }
@@ -992,7 +1035,10 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     return super.last();
   }
 
-  public lastOrDefault(defaultValue: TElement, predicate?: BoolPredicate<TElement>) {
+  public lastOrDefault(
+    defaultValue: TElement,
+    predicate?: BoolPredicate<TElement>,
+  ) {
     if (predicate) {
       return super.lastOrDefault(defaultValue, predicate);
     }
@@ -1092,9 +1138,7 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
 class LazyConcat<TElement> extends Lazy<TElement> {
   private readonly _iterables: Array<Iterable<TElement>>;
 
-  public constructor(
-    ..._iterables: Array<Iterable<TElement>>
-  ) {
+  public constructor(..._iterables: Array<Iterable<TElement>>) {
     super();
     this._iterables = _iterables;
   }
@@ -1135,7 +1179,8 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
 class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
+      element) as any,
   ) {
     super();
   }
@@ -1159,7 +1204,8 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
+      element) as any,
   ) {
     super();
   }
@@ -1189,13 +1235,17 @@ class LazyGroupBy<
   TKey,
   TElement = TSource,
   TResult = IGrouping<TKey, TElement>
-  > extends Lazy<TResult> {
+> extends Lazy<TResult> {
   public constructor(
     private readonly _iterable: Iterable<TSource>,
     private readonly _keyFn: MapFn<TSource, TKey>,
-    private readonly _elementSelector: MapFn<TSource, TElement> = source => source as any,
-    private readonly _resultSelector: CombineFn<TKey, Iterable<TElement>, TResult> =
-      (key, elements) => ({ key, elements }) as any,
+    private readonly _elementSelector: MapFn<TSource, TElement> = source =>
+      source as any,
+    private readonly _resultSelector: CombineFn<
+      TKey,
+      Iterable<TElement>,
+      TResult
+    > = (key, elements) => ({ key, elements } as any),
   ) {
     super();
   }
@@ -1261,7 +1311,8 @@ class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
+      element) as any,
   ) {
     super();
   }
@@ -1359,9 +1410,7 @@ class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
  * @hidden
  */
 class LazyReverse<TElement> extends Lazy<TElement> {
-  public constructor(
-    private readonly _iterable: Iterable<TElement>,
-  ) {
+  public constructor(private readonly _iterable: Iterable<TElement>) {
     super();
   }
 
@@ -1581,7 +1630,8 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) => element) as any,
+    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
+      element) as any,
   ) {
     super();
   }
@@ -1625,11 +1675,16 @@ class LazyWhere<TElement> extends Lazy<TElement> {
 /**
  * @hidden
  */
-class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<TResult> {
+class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<
+  TResult
+> {
   public constructor(
     private readonly _firstIterable: Iterable<TFirst>,
     private readonly _secondIterable: Iterable<TSecond>,
-    private readonly _selector: CombineFn<TFirst, TSecond, TResult> = (first, second) => [first, second] as any,
+    private readonly _selector: CombineFn<TFirst, TSecond, TResult> = (
+      first,
+      second,
+    ) => [first, second] as any,
   ) {
     super();
   }

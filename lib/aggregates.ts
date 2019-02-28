@@ -146,7 +146,7 @@ export function average<TSource>(
   if (ccount === 0) {
     throw new Error(Errors.Empty);
   }
-  return total / ccount as any;
+  return (total / ccount) as any;
 }
 
 /**
@@ -187,7 +187,7 @@ export function count<TElement>(
 function getElementAt<TElement>(
   iterable: Iterable<TElement>,
   index: number,
-): { found: false } | { found: true, element: TElement } {
+): { found: false } | { found: true; element: TElement } {
   let cindex = 0;
   for (const element of iterable) {
     if (cindex === index) {
@@ -241,7 +241,7 @@ export function elementAtOrDefault<TElement>(
 function getFirst<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement> = () => true,
-): { items: false } | { items: true, element: TElement } {
+): { items: false } | { items: true; element: TElement } {
   for (const element of iterable) {
     if (predicate(element)) {
       return { items: true, element };
@@ -331,7 +331,7 @@ export function iterableEquals<TElement>(
 function getLast<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement> = () => true,
-): { items: false } | { items: true, element: TElement } {
+): { items: false } | { items: true; element: TElement } {
   let items = false;
   let latest: TElement;
   for (const element of iterable) {
@@ -449,7 +449,9 @@ export function min<TSource>(
  */
 export function resolveAll<TElement>(
   iterable: Iterable<TElement>,
-): Promise<TElement extends PromiseLike<infer TResult> ? TResult[] : TElement[]> {
+): Promise<
+  TElement extends PromiseLike<infer TResult> ? TResult[] : TElement[]
+> {
   return Promise.all(iterable) as any;
 }
 
@@ -459,7 +461,7 @@ export function resolveAll<TElement>(
 function getSingle<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
-): { found: false } | { found: true, element: TElement } {
+): { found: false } | { found: true; element: TElement } {
   for (const element of iterable) {
     if (predicate(element)) {
       return { found: true, element };

@@ -13,11 +13,13 @@
     "prepare": "rm -rf dist/* && deno --allow-read --allow-write https://gist.githubusercontent.com/luvies/d85fc46c5b4e255b845743082bdbc3c0/raw/fcad5914596c75f72868500c87493f5cc569629e/node_prebuild.ts --in lib --out prebuild && tsc --project ./tsconfig.build.json",
     "test": "deno ./test/run_tests.ts",
     "init-types": "deno --prefetch ./test/run_tests.ts",
-    "lint": "tslint --project .",
+    "lint": "tslint --project . && prettier --check 'lib/**/*.ts' 'test/**/*.ts'",
+    "fix": "tslint --project . --fix && prettier --check --write 'lib/**/*.ts' 'test/**/*.ts'",
     "docs": "yarn prepare && typedoc --out docs ./prebuild --mode file"
   },
   "devDependencies": {
     "deno_ls_plugin": "^0.1.0",
+    "prettier": "^1.16.4",
     "tslint": "^5.13.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
