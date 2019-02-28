@@ -14,11 +14,30 @@ export enum Errors {
 
 // Function types.
 
+/**
+ * A function that maps one type to another.
+ */
 export type MapFn<TSource, TResult> = (source: TSource) => TResult;
+/**
+ * A function that takes in an accumulated result and the next value, and
+ * outputs the next result.
+ */
 export type AggFn<T, U> = (acc: U, next: T) => U;
+/**
+ * A function that takes in a value and outputs a boolean.
+ */
 export type BoolPredicate<T> = (source: T) => boolean;
+/**
+ * A function that returns whether 2 values are equal.
+ */
 export type ComparerFn<T> = (a: T, b: T) => boolean;
+/**
+ * An iterator callback function.
+ */
 export type CallbackFn<T> = (element: T, index: number) => void;
+/**
+ * A function that creates a string from the given value.
+ */
 export type StrFn<T> = (element: T) => string;
 
 // Aggregation functions.
@@ -29,7 +48,6 @@ export type StrFn<T> = (element: T) => string;
 export function aggregate<TSource>(
   iterable: Iterable<TSource>,
   agg: AggFn<TSource, TSource>,
-  seed?: undefined,
 ): TSource;
 export function aggregate<TSource, TAcc>(
   iterable: Iterable<TSource>,

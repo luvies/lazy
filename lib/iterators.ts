@@ -3,13 +3,33 @@ import { AggFn, BoolPredicate, CallbackFn, ComparerFn, MapFn, StrFn } from './ag
 
 // Helpers types.
 
+/**
+ * A function that maps one type to another, and is given the index that
+ * the iterator is currently on.
+ */
 type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
+/**
+ * A function that combines 2 types into another.
+ */
 type CombineFn<TFirst, TSecond, TResult> = (first: TFirst, second: TSecond) => TResult;
+/**
+ * A function that takes in 2 values and returns the sorting number.
+ */
 type SortFn<TSource> = (a: TSource, b: TSource) => number;
+/**
+ * A function that takes in a value and an index and returns a boolean.
+ */
 type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
+/**
+ * A function that takes in a value and an index and returns whether the
+ * value is of a given type.
+ */
 type IndexIsPredicate<TSource, TResult extends TSource> =
   (element: TSource, index: number) => element is TResult;
 
+/**
+ * A grouping of elements based on the key.
+ */
 interface IGrouping<TKey, TElement> {
   key: TKey;
   elements: Iterable<TElement>;
