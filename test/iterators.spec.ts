@@ -119,6 +119,44 @@ test(function except() {
   assert.equal(Lazy.from(orig).except([4, 5]).toArray(), [1, 2, 3]);
 });
 
+test(function groupJoin() {
+  const first = [
+    { key: 1, value: 5 },
+    { key: 2, value: 4 },
+    { key: 3, value: 3 },
+    { key: 4, value: 2 },
+    { key: 5, value: 1 },
+    { key: 8, value: 1 },
+  ];
+  const second = [
+    { key: 1, value: 'a' },
+    { key: 2, value: 'b' },
+    { key: 3, value: 'c' },
+    { key: 4, value: 'd' },
+    { key: 5, value: 'e' },
+    { key: 1, value: 'f' },
+    { key: 2, value: 'g' },
+    { key: 3, value: 'h' },
+    { key: 4, value: 'i' },
+    { key: 9, value: 'j' },
+  ];
+  assert.equal(
+    Lazy.from(first).groupJoin(
+      second,
+      f => f.key,
+      s => s.key,
+      (f, s) => ({ key: f.key, firstValue: f.value, secondValues: Array.from(s).map(v => v.value) }),
+    ).toArray(),
+    [
+      { key: 1, firstValue: 5, secondValues: ['a', 'f'] },
+      { key: 2, firstValue: 4, secondValues: ['b', 'g'] },
+      { key: 3, firstValue: 3, secondValues: ['c', 'h'] },
+      { key: 4, firstValue: 2, secondValues: ['d', 'i'] },
+      { key: 5, firstValue: 1, secondValues: ['e'] },
+    ],
+  );
+});
+
 test(function itersect() {
   const orig = [1, 2, 3, 4, 5];
   assert.equal(Lazy.from(orig).intersect([1, 2, 3]).toArray(), [1, 2, 3]);

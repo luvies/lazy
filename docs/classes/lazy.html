@@ -121,6 +121,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#first" class="tsd-kind-icon">first</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#firstordefault" class="tsd-kind-icon">first<wbr>OrDefault</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#groupjoin" class="tsd-kind-icon">group<wbr>Join</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#intersect" class="tsd-kind-icon">intersect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#iterableequals" class="tsd-kind-icon">iterable<wbr>Equals</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#join" class="tsd-kind-icon">join</a></li>
@@ -172,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:771</li>
+									<li>Defined in iterators.ts:793</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1072,6 +1073,77 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="groupjoin" class="tsd-anchor"></a>
+					<h3>group<wbr>Join</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">group<wbr>Join&lt;TSecond, TKey, TResult&gt;<span class="tsd-signature-symbol">(</span>second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span>, firstKeyFn<span class="tsd-signature-symbol">: </span><a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TKey</span><span class="tsd-signature-symbol">&gt;</span>, secondKeyFn<span class="tsd-signature-symbol">: </span><a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TKey</span><span class="tsd-signature-symbol">&gt;</span>, joinFn<span class="tsd-signature-symbol">: </span><a href="../globals.html#combinefn" class="tsd-signature-type">CombineFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in iterators.ts:550</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Joins 2 iterables on the given key and groups the results.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>This will iterate the second iterable completely once it has
+											started iteration (not before). It will not cause additional unexpected iteration
+										on the underlying iterable.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSecond</h4>
+								</li>
+								<li>
+									<h4>TKey</h4>
+								</li>
+								<li>
+									<h4>TResult</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>second: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The other iterable to group join with.</p>
+									</div>
+								</li>
+								<li>
+									<h5>firstKeyFn: <a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TKey</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function that extracts the key from an element
+										of the first iterable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>secondKeyFn: <a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TKey</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function that extracts the key from an element
+										of the second iterable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>joinFn: <a href="../globals.html#combinefn" class="tsd-signature-type">CombineFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function that takes an element from the first and an
+										iterable of elements from the second, and outputs the resulting element.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TResult</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="intersect" class="tsd-anchor"></a>
 					<h3>intersect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
@@ -1081,7 +1153,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:548</li>
+									<li>Defined in iterators.ts:570</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1179,7 +1251,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:567</li>
+									<li>Defined in iterators.ts:589</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1191,7 +1263,7 @@
 									<dt>remarks</dt>
 									<dd><p>This will iterate the second iterable completely once it has
 											started iteration (not before). It will not cause additional unexpected iteration
-										on the underlaying iterable.</p>
+										on the underlying iterable.</p>
 									</dd>
 								</dl>
 							</div>
@@ -1519,7 +1591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:585</li>
+									<li>Defined in iterators.ts:607</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1570,7 +1642,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:601</li>
+									<li>Defined in iterators.ts:623</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1621,7 +1693,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:613</li>
+									<li>Defined in iterators.ts:635</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1686,7 +1758,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:622</li>
+									<li>Defined in iterators.ts:644</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1714,7 +1786,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:631</li>
+									<li>Defined in iterators.ts:653</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1756,7 +1828,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:642</li>
+									<li>Defined in iterators.ts:664</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1888,7 +1960,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:652</li>
+									<li>Defined in iterators.ts:674</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1925,7 +1997,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:662</li>
+									<li>Defined in iterators.ts:684</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1962,7 +2034,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:672</li>
+									<li>Defined in iterators.ts:694</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2106,7 +2178,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:682</li>
+									<li>Defined in iterators.ts:704</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2143,7 +2215,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:692</li>
+									<li>Defined in iterators.ts:714</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2178,7 +2250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:702</li>
+									<li>Defined in iterators.ts:724</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2324,7 +2396,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:717</li>
+									<li>Defined in iterators.ts:739</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2378,7 +2450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:729</li>
+									<li>Defined in iterators.ts:751</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2411,7 +2483,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:737</li>
+									<li>Defined in iterators.ts:759</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2448,7 +2520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:750</li>
+									<li>Defined in iterators.ts:772</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2484,7 +2556,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in iterators.ts:760</li>
+									<li>Defined in iterators.ts:782</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2771,6 +2843,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="lazy.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="lazy.html#groupjoin" class="tsd-kind-icon">group<wbr>Join</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="lazy.html#intersect" class="tsd-kind-icon">intersect</a>

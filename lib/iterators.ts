@@ -535,6 +535,28 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Joins 2 iterables on the given key and groups the results.
+   * @param second The other iterable to group join with.
+   * @param firstKeyFn The function that extracts the key from an element
+   * of the first iterable.
+   * @param secondKeyFn The function that extracts the key from an element
+   * of the second iterable.
+   * @param joinFn The function that takes an element from the first and an
+   * iterable of elements from the second, and outputs the resulting element.
+   * @remarks This will iterate the second iterable completely once it has
+   * started iteration (not before). It will not cause additional unexpected iteration
+   * on the underlying iterable.
+   */
+  public groupJoin<TSecond, TKey, TResult>(
+    second: Iterable<TSecond>,
+    firstKeyFn: MapFn<TElement, TKey>,
+    secondKeyFn: MapFn<TSecond, TKey>,
+    joinFn: CombineFn<TElement, Iterable<TSecond>, TResult>,
+  ): Lazy<TResult> {
+    return new LazyGroupJoin(this, second, firstKeyFn, secondKeyFn, joinFn);
+  }
+
+  /**
    * Returns the set intersection between 2 iterables. This like doing an AND
    * over the 2 iterables.
    * @param second The iterable to get the intersection of.
@@ -562,7 +584,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * the first and second iterables, and outputs the resulting element.
    * @remarks This will iterate the second iterable completely once it has
    * started iteration (not before). It will not cause additional unexpected iteration
-   * on the underlaying iterable.
+   * on the underlying iterable.
    */
   public join<TSecond, TKey, TResult>(
     second: Iterable<TSecond>,
@@ -1085,6 +1107,42 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
       if (!set.has(key)) {
         set.add(key);
         yield element;
+      }
+    }
+  }
+}
+
+/**
+ * @hidden
+ */
+class LazyGroupJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
+  public constructor(
+    private readonly _firstIterable: Iterable<TFirst>,
+    private readonly _secondIterable: Iterable<TSecond>,
+    private readonly _firstKeyFn: MapFn<TFirst, TKey>,
+    private readonly _secondKeyFn: MapFn<TSecond, TKey>,
+    private readonly _joinFn: CombineFn<TFirst, Iterable<TSecond>, TResult>,
+  ) {
+    super();
+  }
+
+  public *[Symbol.iterator](): Iterator<TResult> {
+    const secondMap = new Map<TKey, TSecond[]>();
+    for (const secondElement of this._secondIterable) {
+      const key = this._secondKeyFn(secondElement);
+      let arr = secondMap.get(key);
+      if (!arr) {
+        arr = [];
+        secondMap.set(key, arr);
+      }
+      arr.push(secondElement);
+    }
+
+    for (const firstElement of this._firstIterable) {
+      const key = this._firstKeyFn(firstElement);
+      const secondElements = secondMap.get(key);
+      if (secondElements) {
+        yield this._joinFn(firstElement, secondElements);
       }
     }
   }
