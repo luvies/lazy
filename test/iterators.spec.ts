@@ -119,6 +119,50 @@ test(function except() {
   assert.equal(Lazy.from(orig).except([4, 5]).toArray(), [1, 2, 3]);
 });
 
+test(function groupBy() {
+  const objs = [
+    { key: 1, value: 'a' },
+    { key: 2, value: 'b' },
+    { key: 3, value: 'c' },
+    { key: 3, value: 'd' },
+    { key: 2, value: 'e' },
+    { key: 1, value: 'f' },
+    { key: 4, value: 'g' },
+  ];
+
+  assert.equal(
+    Lazy.from(objs).groupBy(f => f.key).toArray(),
+    [
+      { key: 1, elements: [{ key: 1, value: 'a' }, { key: 1, value: 'f' }] },
+      { key: 2, elements: [{ key: 2, value: 'b' }, { key: 2, value: 'e' }] },
+      { key: 3, elements: [{ key: 3, value: 'c' }, { key: 3, value: 'd' }] },
+      { key: 4, elements: [{ key: 4, value: 'g' }] },
+    ],
+  );
+  assert.equal(
+    Lazy.from(objs).groupBy(f => f.key, f => f.value).toArray(),
+    [
+      { key: 1, elements: ['a', 'f'] },
+      { key: 2, elements: ['b', 'e'] },
+      { key: 3, elements: ['c', 'd'] },
+      { key: 4, elements: ['g'] },
+    ],
+  );
+  assert.equal(
+    Lazy.from(objs).groupBy(
+      f => f.key,
+      f => f.value,
+      (key, f) => ({ k: key, values: Array.from(f) }),
+    ).toArray(),
+    [
+      { k: 1, values: ['a', 'f'] },
+      { k: 2, values: ['b', 'e'] },
+      { k: 3, values: ['c', 'd'] },
+      { k: 4, values: ['g'] },
+    ],
+  );
+});
+
 test(function groupJoin() {
   const first = [
     { key: 1, value: 5 },

@@ -10,6 +10,11 @@ type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
 type IndexIsPredicate<TSource, TResult extends TSource> =
   (element: TSource, index: number) => element is TResult;
 
+interface IGrouping<TKey, TElement> {
+  key: TKey;
+  elements: Iterable<TElement>;
+}
+
 // Base lazy class.
 
 /**
@@ -532,6 +537,50 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     compareOn?: MapFn<TElement, TKey>,
   ): Lazy<TElement> {
     return new LazyExcept(this, second, compareOn);
+  }
+
+  /**
+   * Groups the elements by key.
+   * @param keyFn The function to extract the key from each element.
+   * @remarks When this is iterated (not before), the underlying iterator is walked through
+   * completely.
+   */
+  public groupBy<TKey>(keyFn: MapFn<TElement, TKey>): Lazy<IGrouping<TKey, TElement>>;
+  /**
+   * Groups the elements by key and projects each element using the given function.
+   * @param keyFn The function to extract the key from each element.
+   * @param elementSelector The transformation function to use for each element.
+   * @remarks When this is iterated (not before), the underlying iterator is walked through
+   * completely.
+   */
+  public groupBy<TKey, TItem>(
+    keyFn: MapFn<TElement, TKey>,
+    elementSelector: MapFn<TElement, TItem>,
+  ): Lazy<IGrouping<TKey, TItem>>;
+  /**
+   * Groups the elements by key and projects each element using the given function.
+   * The elements of each group are projected using the given function.
+   * @param keyFn The function to extract the key from each element.
+   * @param elementSelector The transformation function to use for each element.
+   * @param resultSelector The transformation function to create the result elements with.
+   * @remarks When this is iterated (not before), the underlying iterator is walked through
+   * completely.
+   */
+  public groupBy<TKey, TItem, TResult>(
+    keyFn: MapFn<TElement, TKey>,
+    elementSelector: MapFn<TElement, TItem>,
+    resultSelector: CombineFn<TKey, Iterable<TItem>, TResult>,
+  ): Lazy<TResult>;
+  public groupBy<
+    TKey,
+    TItem = TElement,
+    TResult = IGrouping<TKey, TElement>
+  >(
+    keyFn: MapFn<TElement, TKey>,
+    elementSelector?: MapFn<TElement, TItem>,
+    resultSelector?: CombineFn<TKey, Iterable<TItem>, TResult>,
+  ): Lazy<TResult> {
+    return new LazyGroupBy(this, keyFn, elementSelector, resultSelector);
   }
 
   /**
@@ -1108,6 +1157,43 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
         set.add(key);
         yield element;
       }
+    }
+  }
+}
+
+/**
+ * @hidden
+ */
+class LazyGroupBy<
+  TSource,
+  TKey,
+  TElement = TSource,
+  TResult = IGrouping<TKey, TElement>
+  > extends Lazy<TResult> {
+  public constructor(
+    private readonly _iterable: Iterable<TSource>,
+    private readonly _keyFn: MapFn<TSource, TKey>,
+    private readonly _elementSelector: MapFn<TSource, TElement> = source => source as any,
+    private readonly _resultSelector: CombineFn<TKey, Iterable<TElement>, TResult> =
+      (key, elements) => ({ key, elements }) as any,
+  ) {
+    super();
+  }
+
+  public *[Symbol.iterator](): Iterator<TResult> {
+    const elementMap = new Map<TKey, TElement[]>();
+    for (const element of this._iterable) {
+      const key = this._keyFn(element);
+      let arr = elementMap.get(key);
+      if (!arr) {
+        arr = [];
+        elementMap.set(key, arr);
+      }
+      arr.push(this._elementSelector(element));
+    }
+
+    for (const [key, elements] of elementMap) {
+      yield this._resultSelector(key, elements);
     }
   }
 }
