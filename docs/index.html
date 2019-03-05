@@ -90,7 +90,7 @@
 				<h2 id="installation">Installation</h2>
 				<h3 id="deno">Deno</h3>
 				<p>Use the following import:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.3.0/mod.ts'</span>;</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.4.0/mod.ts'</span>;</code></pre>
 				<p>Make sure the <code>@v{version}</code> tag is the correct one you want. I&#39;d recommend against master, as it could change without notice &amp; might be broken (although I will try not to break it).</p>
 				<h3 id="node">Node</h3>
 				<p>The packge can be found here: <a href="https://www.npmjs.com/package/@luvies/lazy">https://www.npmjs.com/package/@luvies/lazy</a>.</p>
@@ -111,18 +111,20 @@
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeat</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">element: TElement, count?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;</code></pre>
 				<p>The <code>Lazy</code> class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:</p>
 				<pre><code class="language-ts"><span class="hljs-comment">// Static method import.</span>
-<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.3.0/mod.ts'</span>;
+<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.4.0/mod.ts'</span>;
 
 <span class="hljs-keyword">const</span> iterable = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
 
 <span class="hljs-comment">// Direct function import.</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.3.0/mod.ts'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v1.4.0/mod.ts'</span>;
 
 <span class="hljs-keyword">const</span> iterable = <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);</code></pre>
 				<p>After you have done this, the full power of the module is available to play with.</p>
 				<h2 id="examples">Examples</h2>
 				<p>The aim of the module is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here&#39;s a small example:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> evenSquares = Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).where(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>).select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>);</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> evenSquares = Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>)
+  .where(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>)
+  .select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>);</code></pre>
 				<p>The result of this chain is an iterator object, however nothing has actually happened yet. As with linq, things only happen exactly when you ask for it:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> num of evenSquares) {
   <span class="hljs-built_in">console</span>.log(num); <span class="hljs-comment">// 0, 4, 16, 36, 64, 100, 144...</span>
@@ -132,17 +134,24 @@
 				<p>As with C# Linq, this statement will create a new iteratable object that only returns the first 10 elements of the original iterable object. And the order of composability is not limited, every single method that returns an iterator supports chaining with every other method. On top of this, this module supports the same linq aggregation functions that linq does, for example:</p>
 				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(selectedEvenNumbers.sum()); <span class="hljs-comment">// -&gt; 1140</span></code></pre>
 				<p>These functions allow you to deal with iterable objects at a high-level, hiding the fact that not all of the values might be available until the iteration is actually done. They also handle things like short-cuts, for example:</p>
-				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).any(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i &gt; <span class="hljs-number">100</span>)) <span class="hljs-comment">// -&gt; true</span></code></pre>
+				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).any(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i &gt; <span class="hljs-number">100</span>)); <span class="hljs-comment">// -&gt; true</span></code></pre>
 				<p>This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).</p>
 				<p>A primary aim of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = getData(); <span class="hljs-comment">// Could be a large list of datapoints.</span>
 
 <span class="hljs-comment">// Native JS</span>
-<span class="hljs-keyword">const</span> points = data.map(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x).filter(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x)).map(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x));
+<span class="hljs-keyword">const</span> points = data
+  .map(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x)
+  .filter(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x))
+  .map(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x));
 <span class="hljs-keyword">const</span> avg = points.reduce(<span class="hljs-function">(<span class="hljs-params">prev, curr</span>) =&gt;</span> prev + curr) / points.length;
 
 <span class="hljs-comment">// Lazy iterators</span>
-<span class="hljs-keyword">const</span> avg = Lazy.from(data).select(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x).where(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x)).select(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x)).average();</code></pre>
+<span class="hljs-keyword">const</span> avg = Lazy.from(data)
+  .select(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x)
+  .where(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x))
+  .select(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x))
+  .average();</code></pre>
 				<p>The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation function allow for a nicer final calculation.</p>
 				<h2 id="interop-with-native">Interop with native</h2>
 				<p>While all of these functions are good, it would be difficult to integrate them without being about to easily convert back to native JS objects. Fortunately, this module provides just that. Currently there are 2 functions, <code>toArray</code> and <code>toMap</code>, which do pretty much exactly as they seem. You can end a lazy chain with one of these to make it resolve all of the iterators and output a native JS object, which can be then used in consuming code.</p>
@@ -184,7 +193,9 @@
   <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
 ];
 
-<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of (<span class="hljs-keyword">await</span> Lazy.from(list).resolveAll()).select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>)) {
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of (<span class="hljs-keyword">await</span> Lazy.from(list).resolveAll()).select(
+  <span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>,
+)) {
   <span class="hljs-built_in">console</span>.log(element);
 }
 
@@ -212,9 +223,7 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 				<h3 id="custom-implementations">Custom implementations</h3>
 				<p>This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the <code>Lazy</code> class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">class</span> LazyToString&lt;TSource&gt; <span class="hljs-keyword">extends</span> Lazy&lt;<span class="hljs-built_in">string</span>&gt; {
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params">
-    <span class="hljs-keyword">private</span> readonly _iterable: Iterable&lt;TSource&gt;,
-  </span>) {
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly _iterable: Iterable&lt;TSource&gt;</span>) {
     <span class="hljs-keyword">super</span>();
   }
 
