@@ -287,6 +287,49 @@ test(function elementAtOrDefault() {
       .elementAtOrDefault(0, 9),
     9,
   );
+
+  interface TestObj {
+    value: string;
+    key: number;
+    o: { a: string };
+  }
+  const objs: TestObj[] = [
+    { key: 0, value: 'a', o: { a: 'z' } },
+    { key: 1, value: 'b', o: { a: 'y' } },
+    { key: 2, value: 'c', o: { a: 'x' } },
+    { key: 3, value: 'd', o: { a: 'w' } },
+    { key: 4, value: 'e', o: { a: 'v' } },
+  ];
+  assert.equal(
+    Lazy.from(objs).elementAtOrDefault(2, {
+      key: 9,
+      value: 'z',
+      o: { a: 'a' },
+    }),
+    {
+      key: 2,
+      value: 'c',
+      o: { a: 'x' },
+    },
+  );
+  assert.equal(
+    Lazy.from(objs).elementAtOrDefault(10, {
+      key: 9,
+      value: 'z',
+      o: { a: 'b' },
+    }),
+    {
+      key: 9,
+      value: 'z',
+      o: { a: 'b' },
+    },
+  );
+  assert.equal(Lazy.from(objs).elementAtOrDefault(2, undefined), {
+    key: 2,
+    value: 'c',
+    o: { a: 'x' },
+  });
+  assert.equal(Lazy.from(objs).elementAtOrDefault(10, undefined), undefined);
 });
 
 test(function first() {
@@ -412,6 +455,11 @@ test(function firstOrDefault() {
       .select(v => v * 2)
       .firstOrDefault(9, i => i % 3 === 0),
     9,
+  );
+
+  assert.equal(
+    Lazy.from([1, 2, 3]).firstOrDefault(undefined, i => i >= 4),
+    undefined,
   );
 });
 
@@ -631,6 +679,11 @@ test(function lastOrDefault() {
       .lastOrDefault(9, i => i % 3 === 0),
     9,
   );
+
+  assert.equal(
+    Lazy.from([1, 2, 3]).lastOrDefault(undefined, i => i >= 4),
+    undefined,
+  );
 });
 
 test(function max() {
@@ -739,6 +792,11 @@ test(function singleOrDefault() {
   assert.equal(
     Lazy.from(orig).singleOrDefault(v => v.key === 8, { key: 9, value: 'i' }),
     { key: 9, value: 'i' },
+  );
+
+  assert.equal(
+    Lazy.from([1, 2, 3]).singleOrDefault(i => i >= 4, undefined),
+    undefined,
   );
 });
 

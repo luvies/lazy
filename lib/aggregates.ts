@@ -225,7 +225,17 @@ export function elementAtOrDefault<TElement>(
   iterable: Iterable<TElement>,
   index: number,
   defaultValue: TElement,
-): TElement {
+): TElement;
+export function elementAtOrDefault<TElement, TDefault>(
+  iterable: Iterable<TElement>,
+  index: number,
+  defaultValue: TDefault,
+): TElement | TDefault;
+export function elementAtOrDefault<TElement, TDefault = TElement>(
+  iterable: Iterable<TElement>,
+  index: number,
+  defaultValue: TDefault,
+): TElement | TDefault {
   const res = getElementAt(iterable, index);
 
   if (res.found) {
@@ -273,7 +283,17 @@ export function firstOrDefault<TElement>(
   iterable: Iterable<TElement>,
   defaultValue: TElement,
   predicate?: BoolPredicate<TElement>,
-): TElement {
+): TElement;
+export function firstOrDefault<TElement, TDefault>(
+  iterable: Iterable<TElement>,
+  defaultValue: TDefault,
+  predicate?: BoolPredicate<TElement>,
+): TElement | TDefault;
+export function firstOrDefault<TElement, TDefault = TElement>(
+  iterable: Iterable<TElement>,
+  defaultValue: TDefault,
+  predicate?: BoolPredicate<TElement>,
+): TElement | TDefault {
   const res = getFirst(iterable, predicate);
 
   if (res.items) {
@@ -370,7 +390,17 @@ export function lastOrDefault<TElement>(
   iterable: Iterable<TElement>,
   defaultValue: TElement,
   predicate?: BoolPredicate<TElement>,
-): TElement {
+): TElement;
+export function lastOrDefault<TElement, TDefault>(
+  iterable: Iterable<TElement>,
+  defaultValue: TDefault,
+  predicate?: BoolPredicate<TElement>,
+): TElement | TDefault;
+export function lastOrDefault<TElement, TDefault = TElement>(
+  iterable: Iterable<TElement>,
+  defaultValue: TDefault,
+  predicate?: BoolPredicate<TElement>,
+): TElement | TDefault {
   const res = getLast(iterable, predicate);
 
   if (res.items) {
@@ -493,7 +523,17 @@ export function singleOrDefault<TElement>(
   iterable: Iterable<TElement>,
   predicate: BoolPredicate<TElement>,
   defaultValue: TElement,
-): TElement {
+): TElement;
+export function singleOrDefault<TElement, TDefault>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+  defaultValue: TDefault,
+): TElement | TDefault;
+export function singleOrDefault<TElement, TDefault = TElement>(
+  iterable: Iterable<TElement>,
+  predicate: BoolPredicate<TElement>,
+  defaultValue: TDefault,
+): TElement | TDefault {
   const res = getSingle(iterable, predicate);
 
   if (res.found) {

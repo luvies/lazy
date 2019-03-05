@@ -251,7 +251,24 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will iterable until the specified index, or unitl the iterable
    * ends.
    */
-  public elementAtOrDefault(index: number, defaultValue: TElement) {
+  public elementAtOrDefault(index: number, defaultValue: TElement): TElement;
+  /**
+   * Returns the element at the given index of the iterable, or the given default
+   * value if out of range.
+   * @param index The index of the element to get.
+   * @param defaultValue The default value to use if the index was out of range.
+   * @returns The element at the given index.
+   * @remarks This will iterable until the specified index, or unitl the iterable
+   * ends.
+   */
+  public elementAtOrDefault<TDefault>(
+    index: number,
+    defaultValue: TDefault,
+  ): TElement | TDefault;
+  public elementAtOrDefault<TDefault = TElement>(
+    index: number,
+    defaultValue: TDefault,
+  ) {
     return aggregates.elementAtOrDefault(this, index, defaultValue);
   }
 
@@ -284,6 +301,14 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    */
   public firstOrDefault(defaultValue: TElement): TElement;
   /**
+   * Returns the first element in the iterable, or the given default value if
+   * the iterable was empty.
+   * @param defaultValue The value to use of the iterable was empty.
+   * @returns The first element in the iterable, or the default value if empty.
+   * @remarks This will only iterate a single time.
+   */
+  public firstOrDefault<TDefault>(defaultValue: TDefault): TElement | TDefault;
+  /**
    * Returns the first element in the iterable that satisfies the condition,
    * or the given default value.
    * @param defaultValue The value to use if no element satisfied the condition.
@@ -297,8 +322,22 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     defaultValue: TElement,
     predicate: BoolPredicate<TElement>,
   ): TElement;
-  public firstOrDefault(
-    defaultValue: TElement,
+  /**
+   * Returns the first element in the iterable that satisfies the condition,
+   * or the given default value.
+   * @param defaultValue The value to use if no element satisfied the condition.
+   * @param predicate The predicate to test each element with.
+   * @returns The first element in the iterable that satisfies the condition,
+   * or the default value if none satisfied it.
+   * @remarks This will iterate until the condition is satisfied, or until the
+   * iterable ends.
+   */
+  public firstOrDefault<TDefault>(
+    defaultValue: TDefault,
+    predicate: BoolPredicate<TElement>,
+  ): TElement | TDefault;
+  public firstOrDefault<TDefault = TElement>(
+    defaultValue: TDefault,
     predicate?: BoolPredicate<TElement>,
   ) {
     return aggregates.firstOrDefault(this, defaultValue, predicate);
@@ -359,6 +398,14 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    */
   public lastOrDefault(defaultValue: TElement): TElement;
   /**
+   * Returns the last element in the iterable, or the given default value if
+   * the iterable was empty.
+   * @param defaultValue The value to use of the iterable was empty.
+   * @returns The last element in the iterable, or the default value if empty.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public lastOrDefault<TDefault>(defaultValue: TDefault): TElement | TDefault;
+  /**
    * Returns the last element in the iterable that satisfies the given condition,
    * or the given default value.
    * @param defaultValue The value to use of the iterable was empty.
@@ -371,6 +418,19 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     defaultValue: TElement,
     predicate: BoolPredicate<TElement>,
   ): TElement;
+  /**
+   * Returns the last element in the iterable that satisfies the given condition,
+   * or the given default value.
+   * @param defaultValue The value to use of the iterable was empty.
+   * @param predicate The predicate to test each element with.
+   * @returns The last element in the iterable, or the default value if no element
+   * satisfied the condition.
+   * @remarks This will cause a complete iteration of the iterable object.
+   */
+  public lastOrDefault<TDefault>(
+    defaultValue: TDefault,
+    predicate: BoolPredicate<TElement>,
+  ): TElement | TDefault;
   public lastOrDefault(
     defaultValue: TElement,
     predicate?: BoolPredicate<TElement>,
@@ -458,6 +518,14 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   public singleOrDefault(
     predicate: BoolPredicate<TElement>,
     defaultValue: TElement,
+  ): TElement;
+  public singleOrDefault<TDefault>(
+    predicate: BoolPredicate<TElement>,
+    defaultValue: TDefault,
+  ): TElement | TDefault;
+  public singleOrDefault<TDefault = TElement>(
+    predicate: BoolPredicate<TElement>,
+    defaultValue: TDefault,
   ) {
     return aggregates.singleOrDefault(this, predicate, defaultValue);
   }
