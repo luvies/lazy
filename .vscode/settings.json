@@ -1,5 +1,9 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "npm.packageManager": "yarn",
-  "tslint.packageManager": "yarn"
+  "tslint.packageManager": "yarn",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
 }
