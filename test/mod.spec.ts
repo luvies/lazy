@@ -1,5 +1,6 @@
 import {
   assertEquals,
+  assertStrictEq,
   assertThrows,
 } from 'https://deno.land/std@v0.3.1/testing/asserts.ts';
 import { test } from 'https://deno.land/std@v0.3.1/testing/mod.ts';
@@ -12,6 +13,15 @@ test(function empty() {
 test(function from() {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).toArray(), orig);
+
+  const first = Lazy.from(orig);
+  assertStrictEq(Lazy.from(first), first);
+
+  const second = first.where(i => i % 2 === 0);
+  assertStrictEq(Lazy.from(second), second);
+
+  const third = second.select(i => i ** 2);
+  assertStrictEq(Lazy.from(third), third);
 });
 
 test(function range() {

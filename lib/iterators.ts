@@ -68,8 +68,13 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * Creates a lazy iterable object from the given iterable object.
    * @param iterable The object to source for lazy iteration.
    * @returns The lazy iterable object with the given iterable as the source.
+   * @remarks If you pass in a lazy iterator, then it is returned without
+   * changes.
    */
   public static from<TElement>(iterable: Iterable<TElement>): Lazy<TElement> {
+    if (iterable instanceof Lazy) {
+      return iterable;
+    }
     return new LazyIterator(iterable);
   }
 
