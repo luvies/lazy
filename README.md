@@ -17,6 +17,7 @@ This module is meant to provide memory-efficient lazy-evaluation iteration for i
   - [No additional unexpected iteration](#no-additional-unexpected-iteration)
   - [Custom implementations](#custom-implementations)
   - [Compatibility](#compatibility)
+  - [Shorthand usage](#shorthand-usage)
 - [Setting up this project](#setting-up-this-project)
 - [Footnotes](#footnotes)
 
@@ -267,6 +268,27 @@ const result = Lazy.from([1, 10, 100, 1000])
 ```
 
 Obviously this is a contrived example, since the same could be done with a single `select`, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.
+
+### Shorthand usage
+
+If you are using `Lazy.from` a lot in your code, you can use the following snippet to make usage much more ergonomic:
+
+```ts
+declare global {
+  interface Array<T> {
+    /**
+     * Returns the lazy iterator of the current array.
+     */
+    lazy: Lazy<T>;
+  }
+}
+
+Object.defineProperty(Array.prototype, 'lazy', {
+  get() {
+    return Lazy.from(this);
+  },
+});
+```
 
 ## Setting up this project
 

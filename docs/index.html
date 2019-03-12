@@ -82,6 +82,7 @@
 							<li><a href="#no-additional-unexpected-iteration">No additional unexpected iteration</a></li>
 							<li><a href="#custom-implementations">Custom implementations</a></li>
 							<li><a href="#compatibility">Compatibility</a></li>
+							<li><a href="#shorthand-usage">Shorthand usage</a></li>
 						</ul>
 					</li>
 					<li><a href="#setting-up-this-project">Setting up this project</a></li>
@@ -242,6 +243,22 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 
 <span class="hljs-comment">// result -&gt; [1, 2, 3, 4]</span></code></pre>
 				<p>Obviously this is a contrived example, since the same could be done with a single <code>select</code>, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.</p>
+				<h3 id="shorthand-usage">Shorthand usage</h3>
+				<p>If you are using <code>Lazy.from</code> a lot in your code, you can use the following snippet to make usage much more ergonomic:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">declare</span> global {
+  <span class="hljs-keyword">interface</span> Array&lt;T&gt; {
+    <span class="hljs-comment">/**
+     * Returns the lazy iterator of the current array.
+     */</span>
+    lazy: Lazy&lt;T&gt;;
+  }
+}
+
+<span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-built_in">Array</span>.prototype, <span class="hljs-string">'lazy'</span>, {
+  <span class="hljs-keyword">get</span>() {
+    <span class="hljs-keyword">return</span> Lazy.from(<span class="hljs-keyword">this</span>);
+  },
+});</code></pre>
 				<h2 id="setting-up-this-project">Setting up this project</h2>
 				<p>This project is written primarily for deno, with node support being done via a 2-step compilation process. In order to set up the project, you need to install <a href="https://github.com/denoland/deno">deno</a> globally. To make editing work in VSCode, make sure that you do the following:</p>
 				<ul>
