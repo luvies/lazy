@@ -118,6 +118,13 @@ test(function concat() {
       .toArray(),
     [1, 2, 3],
   );
+
+  assertEquals(
+    Lazy.from<number>([])
+      .concat([], [], [1], [])
+      .toArray(),
+    [1],
+  );
 });
 
 test(function defaultIfEmpty() {

@@ -7,45 +7,15 @@ import {
   MapFn,
   StrFn,
 } from './aggregates.ts';
-
-// Helpers types.
-
-/**
- * A function that maps one type to another, and is given the index that
- * the iterator is currently on.
- */
-type IndexMapFn<TSource, TResult> = (source: TSource, index: number) => TResult;
-/**
- * A function that combines 2 types into another.
- */
-type CombineFn<TFirst, TSecond, TResult> = (
-  first: TFirst,
-  second: TSecond,
-) => TResult;
-/**
- * A function that takes in 2 values and returns the sorting number.
- */
-type SortFn<TSource> = (a: TSource, b: TSource) => number;
-/**
- * A function that takes in a value and an index and returns a boolean.
- */
-type IndexPredicate<TSource> = (element: TSource, index: number) => boolean;
-/**
- * A function that takes in a value and an index and returns whether the
- * value is of a given type.
- */
-type IndexIsPredicate<TSource, TResult extends TSource> = (
-  element: TSource,
-  index: number,
-) => element is TResult;
-
-/**
- * A grouping of elements based on the key.
- */
-interface IGrouping<TKey, TElement> {
-  key: TKey;
-  elements: Iterable<TElement>;
-}
+import * as iterators from './iterators.ts';
+import {
+  CombineFn,
+  IGrouping,
+  IndexIsPredicate,
+  IndexMapFn,
+  IndexPredicate,
+  SortFn,
+} from './iterators.ts';
 
 // Base lazy class.
 
@@ -1008,8 +978,15 @@ class Queue<T> {
  * @hidden
  */
 class LazyEmpty<TElement> extends Lazy<TElement> {
-  public *[Symbol.iterator](): Iterator<TElement> {
-    // Don't yield anything for an empty enumerable.
+  public [Symbol.iterator](): Iterator<TElement> {
+    return {
+      next() {
+        return {
+          done: true,
+          value: undefined as any,
+        };
+      },
+    };
   }
 }
 
@@ -1143,15 +1120,8 @@ class LazyRange extends Lazy<number> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<number> {
-    const direction = this._end - this._start < 0 ? -1 : 1;
-    for (
-      let i = this._start;
-      direction === 1 ? i < this._end : i > this._end;
-      i += direction
-    ) {
-      yield i;
-    }
+  public [Symbol.iterator](): Iterator<number> {
+    return new iterators.LazyRangeIterator(this._start, this._end);
   }
 }
 
@@ -1169,10 +1139,8 @@ class LazyRepeat<TElement> extends Lazy<TElement> {
     }
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    for (let i = 0; i < this._count; i++) {
-      yield this._element;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyRepeatIterator(this._element, this._count);
   }
 }
 
@@ -1194,14 +1162,12 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    if (this._atStart) {
-      yield this._element;
-    }
-    yield* this._iterable;
-    if (!this._atStart) {
-      yield this._element;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyAppendPrependIterator(
+      this._iterable,
+      this._element,
+      this._atStart,
+    );
   }
 }
 
@@ -1216,10 +1182,8 @@ class LazyConcat<TElement> extends Lazy<TElement> {
     this._iterables = _iterables;
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    for (const iterable of this._iterables) {
-      yield* iterable;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyConcatIterator(this._iterables);
   }
 }
 
@@ -1234,15 +1198,11 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    let yielded = false;
-    for (const element of this._iterable) {
-      yield element;
-      yielded = true;
-    }
-    if (!yielded) {
-      yield this._defaultValue;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyDefaultIfEmptyIterator(
+      this._iterable,
+      this._defaultValue,
+    );
   }
 }
 
@@ -1258,15 +1218,8 @@ class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const found = new Map<TKey, TElement>();
-    for (const element of this._iterable) {
-      const key = this._compareOn(element);
-      if (!found.has(key)) {
-        found.set(key, element);
-        yield element;
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyDistinctIterator(this._iterable, this._compareOn);
   }
 }
 
@@ -1283,20 +1236,12 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const set = new Set<TKey>();
-    for (const element of this._secondIterable) {
-      const key = this._compareOn(element);
-      set.add(key);
-    }
-
-    for (const element of this._firstIterable) {
-      const key = this._compareOn(element);
-      if (!set.has(key)) {
-        set.add(key);
-        yield element;
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyExceptIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._compareOn,
+    );
   }
 }
 
@@ -1506,12 +1451,8 @@ class LazySelect<TSource, TResult> extends Lazy<TResult> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    let index = 0;
-    for (const element of this._iterable) {
-      yield this._selector(element, index);
-      index++;
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazySelectIterator(this._iterable, this._selector);
   }
 }
 
