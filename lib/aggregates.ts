@@ -597,7 +597,13 @@ export function sum<TSource>(
  * @hidden
  */
 export function toArray<T>(iterable: Iterable<T>): T[] {
-  return Array.from(iterable);
+  const arr: T[] = [];
+
+  for (const element of iterable) {
+    arr.push(element);
+  }
+
+  return arr;
 }
 
 /**
