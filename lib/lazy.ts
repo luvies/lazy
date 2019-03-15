@@ -982,6 +982,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
     if (Array.isArray(this._iterable)) {
       return this._iterable.length;
     }
+
     return super.count();
   }
 
@@ -994,6 +995,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
         throw new Error('Index out of array bounds');
       }
     }
+
     return super.elementAt(index);
   }
 
@@ -1006,6 +1008,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
         return defaultValue;
       }
     }
+
     return super.elementAtOrDefault(index, defaultValue);
   }
 
@@ -1022,6 +1025,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
         throw new Error(aggregates.Errors.Empty);
       }
     }
+
     return super.first();
   }
 
@@ -1041,6 +1045,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
         return defaultValue;
       }
     }
+
     return super.firstOrDefault(defaultValue);
   }
 
@@ -1057,6 +1062,7 @@ class LazyIterator<TElement> extends Lazy<TElement> {
         throw new Error(aggregates.Errors.Empty);
       }
     }
+
     return super.last();
   }
 
