@@ -89,7 +89,7 @@ function bench_select_loop() {
   }
 }
 
-console.log(`Map benchmark: ${bench(bench_map)}`);
-console.log(`Map for-of benchmark: ${bench(bench_map_loop)}`);
-console.log(`Select benchmarks: ${bench(bench_select)}`);
-console.log(`Select for-of benchmark: ${bench(bench_select_loop)}`);
+console.log(`Map benchmark: ${bench(bench_map)}ms`);
+console.log(`Map for-of benchmark: ${bench(bench_map_loop)}ms`);
+console.log(`Select benchmarks: ${bench(bench_select)}ms`);
+console.log(`Select for-of benchmark: ${bench(bench_select_loop)}ms`);
