@@ -45,6 +45,27 @@ export interface IGrouping<TKey, TElement> {
   elements: Iterable<TElement>;
 }
 
+// Done helpers.
+
+/**
+ * Always returns done: true.
+ * @hidden
+ */
+function doneNext(): IteratorResult<any> {
+  return { done: true, value: undefined };
+}
+
+/**
+ * Returns the standard done result, and sets the next function
+ * on the current iterator to done that always returns done: true.
+ * @remarks This will not modify the classes, since the next functions
+ * on them are on the prototype, and this only modifies the current object.
+ */
+function done(iterator: Iterator<any>): IteratorResult<any> {
+  iterator.next = doneNext;
+  return doneNext();
+}
+
 // Helper classes.
 
 /**
@@ -107,7 +128,7 @@ export class LazyRangeIterator implements Iterator<number> {
     if (
       this._direction > 0 ? this._index >= this._end : this._index <= this._end
     ) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       const nextResult = { done: false, value: this._index };
       this._index += this._direction;
@@ -129,7 +150,7 @@ export class LazyRepeatIterator<TElement> implements Iterator<TElement> {
 
   public next(): IteratorResult<TElement> {
     if (this._index >= this._count) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       const nextResult = { done: false, value: this._element };
       this._index++;
@@ -166,7 +187,7 @@ export class LazyAppendPrependIterator<TElement> implements Iterator<TElement> {
     }
 
     if (this._finished) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     const result = this._iterator.next();
@@ -177,7 +198,7 @@ export class LazyAppendPrependIterator<TElement> implements Iterator<TElement> {
       if (!this._atStart) {
         return { done: false, value: this._element };
       } else {
-        return { done: true, value: undefined as any };
+        return done(this);
       }
     } else {
       return result;
@@ -200,7 +221,7 @@ export class LazyConcatIterator<TElement> implements Iterator<TElement> {
 
   public next(): IteratorResult<TElement> {
     if (this._current >= this._iterators.length) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     while (this._current < this._iterators.length) {
@@ -213,7 +234,7 @@ export class LazyConcatIterator<TElement> implements Iterator<TElement> {
       }
     }
 
-    return { done: true, value: undefined as any };
+    return done(this);
   }
 }
 
@@ -235,7 +256,7 @@ export class LazyDefaultIfEmptyIterator<TElement>
 
   public next(): IteratorResult<TElement> {
     if (this._done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     const result = this._iterator.next();
@@ -276,7 +297,7 @@ export class LazyDistinctIterator<TElement, TKey>
       const result = this._iterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const key = this._compareOn(result.value);
 
@@ -314,7 +335,7 @@ export class LazyExceptIterator<TElement, TKey> implements Iterator<TElement> {
       const result = this._firstIterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const key = this._compareOn(result.value);
 
@@ -369,7 +390,7 @@ export class LazyGroupByIterator<
     const result = this._elementMapIterator.next();
 
     if (result.done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       const element = this._resultSelector(result.value[0], result.value[1]);
 
@@ -412,7 +433,7 @@ export class LazyGroupJoinIterator<TFirst, TSecond, TKey, TResult>
       const result = this._firstIterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const key = this._firstKeyFn(result.value);
         const secondElements = this._secondMap.get(key);
@@ -454,7 +475,7 @@ export class LazyIntersectIterator<TElement, TKey = TElement>
       const result = this._firstIterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const key = this._compareOn(result.value);
 
@@ -492,7 +513,7 @@ export class LazyJoinIterator<TFirst, TSecond, TKey, TResult>
       const result = this._firstIterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const key = this._firstKeyFn(result.value);
         const secondElement = this._secondMap.get(key);
@@ -522,7 +543,7 @@ export class LazyReverseIterator<TElement> implements Iterator<TElement> {
 
   public next(): IteratorResult<TElement> {
     if (this._index < 0) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       const nextResult = { done: false, value: this._arr[this._index] };
       this._index--;
@@ -545,11 +566,11 @@ export class LazySelectIterator<TSource, TResult> implements Iterator<TResult> {
     this._iterator = iterable[Symbol.iterator]();
   }
 
-  public next() {
+  public next(): IteratorResult<TResult> {
     const result = this._iterator.next();
 
     if (result.done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       const nextResult = {
         done: false,
@@ -584,7 +605,7 @@ export class LazySelectManyIterator<TSource, TResult>
         const result = this._iterator.next();
 
         if (result.done) {
-          return { done: true, value: undefined as any };
+          return done(this);
         } else {
           const element = this._selector(result.value, this._index);
           this._index++;
@@ -623,7 +644,7 @@ export class LazySkipIterator<TElement> implements Iterator<TElement> {
       const result = this._iterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         if (this._skipped < this._count) {
           this._skipped++;
@@ -654,7 +675,7 @@ export class LazySkipLastIterator<TElement> implements Iterator<TElement> {
       const result = this._iterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         this._queue.enqueue(result.value);
 
@@ -686,7 +707,7 @@ export class LazySkipWhile<TElement> implements Iterator<TElement> {
       const result = this._iterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         if (!this._yielding) {
           this._yielding = !this._predicate(result.value, this._index);
@@ -717,12 +738,17 @@ export class LazyTakeIterator<TElement> implements Iterator<TElement> {
 
   public next(): IteratorResult<TElement> {
     if (this._taken >= this._count) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     const result = this._iterator.next();
     this._taken++;
-    return result;
+
+    if (result.done) {
+      return done(this);
+    } else {
+      return result;
+    }
   }
 }
 
@@ -747,7 +773,7 @@ export class LazyTakeLastIterator<TElement> implements Iterator<TElement> {
 
   public next(): IteratorResult<TElement> {
     if (this._queue.length === 0) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       return { done: false, value: this._queue.dequeue() };
     }
@@ -772,10 +798,10 @@ export class LazyTakeWhileIterator<TElement> implements Iterator<TElement> {
     const result = this._iterator.next();
 
     if (result.done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     } else {
       if (!this._predicate(result.value, this._index)) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         this._index++;
 
@@ -804,7 +830,7 @@ export class LazyUnionIterator<TElement, TKey = TElement>
     this._secondIterator = secondIterable[Symbol.iterator]();
   }
 
-  public next() {
+  public next(): IteratorResult<TElement> {
     while (true) {
       const result = this._onSecond
         ? this._secondIterator.next()
@@ -812,7 +838,7 @@ export class LazyUnionIterator<TElement, TKey = TElement>
 
       if (result.done) {
         if (this._onSecond) {
-          return { done: true, value: undefined as any };
+          return done(this);
         } else {
           this._onSecond = true;
         }
@@ -848,7 +874,7 @@ export class LazyWhereIterator<TElement> implements Iterator<TElement> {
       const result = this._iterator.next();
 
       if (result.done) {
-        return { done: true, value: undefined as any };
+        return done(this);
       } else {
         const shouldYield = this._predicate(result.value, this._index);
         this._index++;
@@ -885,13 +911,13 @@ export class LazyZipIterator<TFirst, TSecond, TResult = [TFirst, TSecond]>
     const firstResult = this._firstIterator.next();
 
     if (firstResult.done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     const secondResult = this._secondIterator.next();
 
     if (secondResult.done) {
-      return { done: true, value: undefined as any };
+      return done(this);
     }
 
     return {
