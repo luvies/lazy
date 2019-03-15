@@ -131,12 +131,12 @@ export function average<TSource>(
 ): number;
 export function average<TSource>(
   iterable: Iterable<TSource>,
-  selector: MapFn<TSource, number> = element => element as any,
+  selector?: MapFn<TSource, number>,
 ): number | never {
   let total = 0;
   let ccount = 0;
   for (const element of iterable) {
-    const value = selector(element);
+    const value = selector ? selector(element) : element;
     if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
@@ -155,10 +155,10 @@ export function average<TSource>(
 export function contains<TElement>(
   iterable: Iterable<TElement>,
   element: TElement,
-  comparer: ComparerFn<TElement> = (a, b) => a === b,
+  comparer?: ComparerFn<TElement>,
 ): boolean {
   for (const ielement of iterable) {
-    if (comparer(element, ielement)) {
+    if (comparer ? comparer(element, ielement) : element === ielement) {
       return true;
     }
   }
@@ -170,11 +170,11 @@ export function contains<TElement>(
  */
 export function count<TElement>(
   iterable: Iterable<TElement>,
-  predicate: BoolPredicate<TElement> = () => true,
+  predicate?: BoolPredicate<TElement>,
 ): number {
   let ccount = 0;
   for (const element of iterable) {
-    if (predicate(element)) {
+    if (!predicate || predicate(element)) {
       ccount++;
     }
   }
@@ -250,10 +250,10 @@ export function elementAtOrDefault<TElement, TDefault = TElement>(
  */
 function getFirst<TElement>(
   iterable: Iterable<TElement>,
-  predicate: BoolPredicate<TElement> = () => true,
+  predicate?: BoolPredicate<TElement>,
 ): { items: false } | { items: true; element: TElement } {
   for (const element of iterable) {
-    if (predicate(element)) {
+    if (!predicate || predicate(element)) {
       return { items: true, element };
     }
   }
@@ -323,7 +323,7 @@ export function forEach<TElement>(
 export function iterableEquals<TElement>(
   firstIterable: Iterable<TElement>,
   secondIterable: Iterable<TElement>,
-  comparer: ComparerFn<TElement> = (a, b) => a === b,
+  comparer?: ComparerFn<TElement>,
 ): boolean {
   let done = false;
   const firstIter = firstIterable[Symbol.iterator]();
@@ -338,7 +338,11 @@ export function iterableEquals<TElement>(
       return false;
     } else if (firstMove.done && secondMove.done) {
       done = true;
-    } else if (!comparer(firstMove.value, secondMove.value)) {
+    } else if (
+      comparer
+        ? !comparer(firstMove.value, secondMove.value)
+        : firstMove.value !== secondMove.value
+    ) {
       return false;
     }
   } while (!done);
@@ -350,12 +354,12 @@ export function iterableEquals<TElement>(
  */
 function getLast<TElement>(
   iterable: Iterable<TElement>,
-  predicate: BoolPredicate<TElement> = () => true,
+  predicate?: BoolPredicate<TElement>,
 ): { items: false } | { items: true; element: TElement } {
   let items = false;
   let latest: TElement;
   for (const element of iterable) {
-    if (predicate(element)) {
+    if (!predicate || predicate(element)) {
       latest = element;
       items = true;
     }
@@ -422,12 +426,12 @@ export function max<TSource>(
 ): number;
 export function max<TSource>(
   iterable: Iterable<TSource>,
-  selector: MapFn<TSource, number> = element => element as any,
+  selector?: MapFn<TSource, number>,
 ): number | never {
   let cmax = -Infinity;
   let items = false;
   for (const element of iterable) {
-    const value = selector(element);
+    const value = selector ? selector(element) : element;
     if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
@@ -454,12 +458,12 @@ export function min<TSource>(
 ): number;
 export function min<TSource>(
   iterable: Iterable<TSource>,
-  selector: MapFn<TSource, number> = element => element as any,
+  selector?: MapFn<TSource, number>,
 ): number | never {
   let cmin = +Infinity;
   let items = false;
   for (const element of iterable) {
-    const value = selector(element);
+    const value = selector ? selector(element) : element;
     if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
@@ -575,12 +579,12 @@ export function sum<TSource>(
 ): number;
 export function sum<TSource>(
   iterable: Iterable<TSource>,
-  selector: MapFn<TSource, number> = element => element as any,
+  selector?: MapFn<TSource, number>,
 ): number | never {
   let total = 0;
   let items = false;
   for (const element of iterable) {
-    const value = selector(element);
+    const value = selector ? selector(element) : element;
     if (typeof value !== 'number') {
       throw new TypeError(Errors.NonNumber);
     }
@@ -612,7 +616,7 @@ export function toArray<T>(iterable: Iterable<T>): T[] {
 export function toMap<TSource, TKey, TElement = TSource>(
   iterable: Iterable<TSource>,
   keyFn: MapFn<TSource, TKey>,
-  valueFn: MapFn<TSource, TElement> = ((element: TSource) => element) as any,
+  valueFn?: MapFn<TSource, TElement>,
 ): Map<TKey, TElement> {
   const map = new Map<TKey, TElement>();
   for (const element of iterable) {
@@ -620,7 +624,7 @@ export function toMap<TSource, TKey, TElement = TSource>(
     if (map.has(key)) {
       throw new Error('Duplicate key found');
     }
-    map.set(key, valueFn(element));
+    map.set(key, valueFn ? valueFn(element) : (element as any));
   }
   return map;
 }

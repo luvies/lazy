@@ -1187,8 +1187,7 @@ class LazyDefaultIfEmpty<TElement> extends Lazy<TElement> {
 class LazyDistinct<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _iterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
-      element) as any,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     super();
   }
@@ -1205,8 +1204,7 @@ class LazyExcept<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
-      element) as any,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     super();
   }
@@ -1232,13 +1230,12 @@ class LazyGroupBy<
   public constructor(
     private readonly _iterable: Iterable<TSource>,
     private readonly _keyFn: MapFn<TSource, TKey>,
-    private readonly _elementSelector: MapFn<TSource, TElement> = source =>
-      source as any,
-    private readonly _resultSelector: CombineFn<
+    private readonly _elementSelector?: MapFn<TSource, TElement>,
+    private readonly _resultSelector?: CombineFn<
       TKey,
       Iterable<TElement>,
       TResult
-    > = (key, elements) => ({ key, elements } as any),
+    >,
   ) {
     super();
   }
@@ -1285,8 +1282,7 @@ class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
-      element) as any,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     super();
   }
@@ -1521,8 +1517,7 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
   public constructor(
     private readonly _firstIterable: Iterable<TElement>,
     private readonly _secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey> = ((element: TElement) =>
-      element) as any,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     super();
   }
@@ -1561,10 +1556,7 @@ class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<
   public constructor(
     private readonly _firstIterable: Iterable<TFirst>,
     private readonly _secondIterable: Iterable<TSecond>,
-    private readonly _selector: CombineFn<TFirst, TSecond, TResult> = (
-      first,
-      second,
-    ) => [first, second] as any,
+    private readonly _selector?: CombineFn<TFirst, TSecond, TResult>,
   ) {
     super();
   }

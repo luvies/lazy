@@ -280,14 +280,14 @@ export class LazyDefaultIfEmptyIterator<TElement>
 /**
  * @hidden
  */
-export class LazyDistinctIterator<TElement, TKey>
+export class LazyDistinctIterator<TElement, TKey = TElement>
   implements Iterator<TElement> {
   private readonly _iterator: Iterator<TElement>;
   private readonly _found = new Set<TKey>();
 
   public constructor(
     iterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey>,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     this._iterator = iterable[Symbol.iterator]();
   }
@@ -299,7 +299,9 @@ export class LazyDistinctIterator<TElement, TKey>
       if (result.done) {
         return done(this);
       } else {
-        const key = this._compareOn(result.value);
+        const key: TKey = this._compareOn
+          ? this._compareOn(result.value)
+          : (result.value as any);
 
         if (!this._found.has(key)) {
           this._found.add(key);
@@ -314,19 +316,20 @@ export class LazyDistinctIterator<TElement, TKey>
 /**
  * @hidden
  */
-export class LazyExceptIterator<TElement, TKey> implements Iterator<TElement> {
+export class LazyExceptIterator<TElement, TKey = TElement>
+  implements Iterator<TElement> {
   private readonly _firstIterator: Iterator<TElement>;
   private readonly _set = new Set<TKey>();
 
   public constructor(
     firstIterable: Iterable<TElement>,
     secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey>,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     this._firstIterator = firstIterable[Symbol.iterator]();
 
     for (const element of secondIterable) {
-      this._set.add(_compareOn(element));
+      this._set.add(_compareOn ? _compareOn(element) : (element as any));
     }
   }
 
@@ -337,7 +340,9 @@ export class LazyExceptIterator<TElement, TKey> implements Iterator<TElement> {
       if (result.done) {
         return done(this);
       } else {
-        const key = this._compareOn(result.value);
+        const key: TKey = this._compareOn
+          ? this._compareOn(result.value)
+          : (result.value as any);
 
         if (!this._set.has(key)) {
           this._set.add(key);
@@ -363,8 +368,8 @@ export class LazyGroupByIterator<
   public constructor(
     iterable: Iterable<TSource>,
     keyFn: MapFn<TSource, TKey>,
-    elementSelector: MapFn<TSource, TElement>,
-    private readonly _resultSelector: CombineFn<
+    elementSelector?: MapFn<TSource, TElement>,
+    private readonly _resultSelector?: CombineFn<
       TKey,
       Iterable<TElement>,
       TResult
@@ -373,7 +378,9 @@ export class LazyGroupByIterator<
     const elementMap = new Map<TKey, TElement[]>();
     for (const element of iterable) {
       const key = keyFn(element);
-      const result = elementSelector(element);
+      const result: TElement = elementSelector
+        ? elementSelector(element)
+        : (element as any);
 
       const arr = elementMap.get(key);
       if (!arr) {
@@ -392,7 +399,9 @@ export class LazyGroupByIterator<
     if (result.done) {
       return done(this);
     } else {
-      const element = this._resultSelector(result.value[0], result.value[1]);
+      const element: TResult = this._resultSelector
+        ? this._resultSelector(result.value[0], result.value[1])
+        : ({ key: result.value[0], elements: result.value[1] } as any);
 
       return { done: false, value: element };
     }
@@ -460,12 +469,12 @@ export class LazyIntersectIterator<TElement, TKey = TElement>
   public constructor(
     firstIterable: Iterable<TElement>,
     secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey>,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     this._firstIterator = firstIterable[Symbol.iterator]();
 
     for (const element of secondIterable) {
-      const key = _compareOn(element);
+      const key: TKey = _compareOn ? _compareOn(element) : (element as any);
       this._set.add(key);
     }
   }
@@ -477,7 +486,9 @@ export class LazyIntersectIterator<TElement, TKey = TElement>
       if (result.done) {
         return done(this);
       } else {
-        const key = this._compareOn(result.value);
+        const key: TKey = this._compareOn
+          ? this._compareOn(result.value)
+          : (result.value as any);
 
         if (this._set.has(key)) {
           this._set.delete(key);
@@ -824,7 +835,7 @@ export class LazyUnionIterator<TElement, TKey = TElement>
   public constructor(
     firstIterable: Iterable<TElement>,
     secondIterable: Iterable<TElement>,
-    private readonly _compareOn: MapFn<TElement, TKey>,
+    private readonly _compareOn?: MapFn<TElement, TKey>,
   ) {
     this._firstIterator = firstIterable[Symbol.iterator]();
     this._secondIterator = secondIterable[Symbol.iterator]();
@@ -843,7 +854,9 @@ export class LazyUnionIterator<TElement, TKey = TElement>
           this._onSecond = true;
         }
       } else {
-        const key = this._compareOn(result.value);
+        const key: TKey = this._compareOn
+          ? this._compareOn(result.value)
+          : (result.value as any);
 
         if (!this._set.has(key)) {
           this._set.add(key);
@@ -898,10 +911,7 @@ export class LazyZipIterator<TFirst, TSecond, TResult = [TFirst, TSecond]>
   public constructor(
     firstIterable: Iterable<TFirst>,
     secondIterable: Iterable<TSecond>,
-    private readonly _selector: CombineFn<TFirst, TSecond, TResult> = (
-      first,
-      second,
-    ) => [first, second] as any,
+    private readonly _selector?: CombineFn<TFirst, TSecond, TResult>,
   ) {
     this._firstIterator = firstIterable[Symbol.iterator]();
     this._secondIterator = secondIterable[Symbol.iterator]();
@@ -922,7 +932,9 @@ export class LazyZipIterator<TFirst, TSecond, TResult = [TFirst, TSecond]>
 
     return {
       done: false,
-      value: this._selector(firstResult.value, secondResult.value),
+      value: this._selector
+        ? this._selector(firstResult.value, secondResult.value)
+        : ([firstResult.value, secondResult.value] as any),
     };
   }
 }
