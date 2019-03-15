@@ -1328,32 +1328,6 @@ class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
 }
 
 /**
- * Attempts to mimic the built-in sorting as close as possible.
- * @hidden
- */
-function defaultComparer<T>(a: T, b: T): number {
-  return `${a}`.localeCompare(`${b}`);
-}
-
-/**
- * @hidden
- */
-function comparerFactory<TSource, TKey>(
-  keyFn: MapFn<TSource, TKey>,
-  reverse: boolean,
-  compareFn: SortFn<TKey> = defaultComparer,
-): (a: TSource, b: TSource) => number {
-  return (a, b) => {
-    if (reverse) {
-      const t = a;
-      a = b;
-      b = t;
-    }
-    return compareFn(keyFn(a), keyFn(b));
-  };
-}
-
-/**
  * @hidden
  */
 class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
@@ -1369,9 +1343,12 @@ class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
   // Since this iterator works via sort and the underlying iterator,
   // we don't need to use a dedicated iterator class.
   public [Symbol.iterator](): Iterator<TElement> {
-    const arr = aggregates.toArray(this._iterable);
-    arr.sort(comparerFactory(this._keyFn, this._decending, this._compareFn));
-    return arr[Symbol.iterator]();
+    return iterators.lazyOrderBy(
+      this._iterable,
+      this._keyFn,
+      this._compareFn,
+      this._decending,
+    );
   }
 }
 

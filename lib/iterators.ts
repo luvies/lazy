@@ -541,6 +541,46 @@ export class LazyJoinIterator<TFirst, TSecond, TKey, TResult>
 }
 
 /**
+ * Attempts to mimic the built-in sorting as close as possible.
+ * @hidden
+ */
+function defaultComparer<T>(a: T, b: T): number {
+  return `${a}`.localeCompare(`${b}`);
+}
+
+/**
+ * @hidden
+ */
+function comparerFactory<TSource, TKey>(
+  keyFn: MapFn<TSource, TKey>,
+  reverse: boolean,
+  compareFn: SortFn<TKey> = defaultComparer,
+): (a: TSource, b: TSource) => number {
+  return (a, b) => {
+    if (reverse) {
+      const t = a;
+      a = b;
+      b = t;
+    }
+    return compareFn(keyFn(a), keyFn(b));
+  };
+}
+
+/**
+ * @hidden
+ */
+export function lazyOrderBy<TElement, TKey>(
+  iterable: Iterable<TElement>,
+  keyFn: MapFn<TElement, TKey>,
+  compareFn: SortFn<TKey> | undefined,
+  decending: boolean,
+): Iterator<TElement> {
+  const arr = toArray(iterable);
+  arr.sort(comparerFactory(keyFn, decending, compareFn));
+  return arr[Symbol.iterator]();
+}
+
+/**
  * @hidden
  */
 export class LazyReverseIterator<TElement> implements Iterator<TElement> {
