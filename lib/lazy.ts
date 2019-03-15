@@ -947,31 +947,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   public abstract [Symbol.iterator](): Iterator<TElement>;
 }
 
-// Helper classes.
-
-/**
- * @hidden
- */
-class Queue<T> {
-  private _buffer: T[] = [];
-  private _front = 0;
-
-  public get length(): number {
-    return this._buffer.length - this._front;
-  }
-
-  public enqueue(element: T): void {
-    this._buffer.push(element);
-  }
-
-  public dequeue(): T {
-    const element = this._buffer[this._front];
-    delete this._buffer[this._front];
-    this._front++;
-    return element;
-  }
-}
-
 // Base iterators.
 
 /**
@@ -1268,21 +1243,13 @@ class LazyGroupBy<
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    const elementMap = new Map<TKey, TElement[]>();
-    for (const element of this._iterable) {
-      const key = this._keyFn(element);
-      let arr = elementMap.get(key);
-      if (!arr) {
-        arr = [];
-        elementMap.set(key, arr);
-      }
-      arr.push(this._elementSelector(element));
-    }
-
-    for (const [key, elements] of elementMap) {
-      yield this._resultSelector(key, elements);
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazyGroupByIterator(
+      this._iterable,
+      this._keyFn,
+      this._elementSelector,
+      this._resultSelector,
+    );
   }
 }
 
@@ -1300,25 +1267,14 @@ class LazyGroupJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    const secondMap = new Map<TKey, TSecond[]>();
-    for (const secondElement of this._secondIterable) {
-      const key = this._secondKeyFn(secondElement);
-      let arr = secondMap.get(key);
-      if (!arr) {
-        arr = [];
-        secondMap.set(key, arr);
-      }
-      arr.push(secondElement);
-    }
-
-    for (const firstElement of this._firstIterable) {
-      const key = this._firstKeyFn(firstElement);
-      const secondElements = secondMap.get(key);
-      if (secondElements) {
-        yield this._joinFn(firstElement, secondElements);
-      }
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazyGroupJoinIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._firstKeyFn,
+      this._secondKeyFn,
+      this._joinFn,
+    );
   }
 }
 
@@ -1335,20 +1291,12 @@ class LazyIntersect<TElement, TKey = TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const set = new Set<TKey>();
-    for (const element of this._secondIterable) {
-      const key = this._compareOn(element);
-      set.add(key);
-    }
-
-    for (const element of this._firstIterable) {
-      const key = this._compareOn(element);
-      if (set.has(key)) {
-        set.delete(key);
-        yield element;
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyIntersectIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._compareOn,
+    );
   }
 }
 
@@ -1366,15 +1314,14 @@ class LazyJoin<TFirst, TSecond, TKey, TResult> extends Lazy<TResult> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    const secondMap = aggregates.toMap(this._secondIterable, this._secondKeyFn);
-    for (const firstElement of this._firstIterable) {
-      const key = this._firstKeyFn(firstElement);
-      const secondElement = secondMap.get(key);
-      if (secondElement) {
-        yield this._joinFn(firstElement, secondElement);
-      }
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazyJoinIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._firstKeyFn,
+      this._secondKeyFn,
+      this._joinFn,
+    );
   }
 }
 
@@ -1417,6 +1364,8 @@ class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
     super();
   }
 
+  // Since this iterator works via sort and the underlying iterator,
+  // we don't need to use a dedicated iterator class.
   public [Symbol.iterator](): Iterator<TElement> {
     const arr = aggregates.toArray(this._iterable);
     arr.sort(comparerFactory(this._keyFn, this._decending, this._compareFn));
@@ -1432,11 +1381,8 @@ class LazyReverse<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const arr = aggregates.toArray(this._iterable);
-    for (let i = arr.length - 1; i >= 0; i--) {
-      yield arr[i];
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyReverseIterator(this._iterable);
   }
 }
 
@@ -1467,12 +1413,8 @@ class LazySelectMany<TSource, TResult> extends Lazy<TResult> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    let index = 0;
-    for (const outer of this._iterable) {
-      yield* this._selector(outer, index);
-      index++;
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazySelectManyIterator(this._iterable, this._selector);
   }
 }
 
@@ -1487,15 +1429,8 @@ class LazySkip<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    let skipped = 0;
-    for (const element of this._iterable) {
-      if (skipped < this._count) {
-        skipped++;
-      } else {
-        yield element;
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazySkipIterator(this._iterable, this._count);
   }
 }
 
@@ -1510,20 +1445,8 @@ class LazySkipLast<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const queue = new Queue<TElement>();
-    let yielding = false;
-    for (const element of this._iterable) {
-      queue.enqueue(element);
-
-      if (!yielding && queue.length > this._count) {
-        yielding = true;
-      }
-
-      if (yielding) {
-        yield queue.dequeue();
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazySkipLastIterator(this._iterable, this._count);
   }
 }
 
@@ -1538,18 +1461,8 @@ class LazySkipWhile<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    let yielding = false;
-    let index = 0;
-    for (const element of this._iterable) {
-      yielding = yielding || !this._predicate(element, index);
-
-      if (yielding) {
-        yield element;
-      }
-
-      index++;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazySkipWhile(this._iterable, this._predicate);
   }
 }
 
@@ -1564,18 +1477,8 @@ class LazyTake<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    if (this._count > 0) {
-      let taken = 0;
-      for (const element of this._iterable) {
-        if (taken < this._count) {
-          yield element;
-          taken++;
-        } else {
-          break;
-        }
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyTakeIterator(this._iterable, this._count);
   }
 }
 
@@ -1590,25 +1493,8 @@ class LazyTakeLast<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const queue = new Queue<TElement>();
-    let buffered = false;
-    for (const element of this._iterable) {
-      if (queue.length >= this._count) {
-        buffered = true;
-      }
-
-      if (!buffered) {
-        queue.enqueue(element);
-      } else {
-        queue.dequeue();
-        queue.enqueue(element);
-      }
-    }
-
-    while (queue.length > 0) {
-      yield queue.dequeue();
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyTakeLastIterator(this._iterable, this._count);
   }
 }
 
@@ -1623,17 +1509,8 @@ class LazyTakeWhile<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    let index = 0;
-    for (const element of this._iterable) {
-      if (!this._predicate(element, index)) {
-        break;
-      }
-
-      yield element;
-
-      index++;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyTakeWhileIterator(this._iterable, this._predicate);
   }
 }
 
@@ -1650,17 +1527,12 @@ class LazyUnion<TElement, TKey = TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    const set = new Set<TKey>();
-    for (const iter of [this._firstIterable, this._secondIterable]) {
-      for (const element of iter) {
-        const key = this._compareOn(element);
-        if (!set.has(key)) {
-          set.add(key);
-          yield element;
-        }
-      }
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyUnionIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._compareOn,
+    );
   }
 }
 
@@ -1675,14 +1547,8 @@ class LazyWhere<TElement> extends Lazy<TElement> {
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TElement> {
-    let index = 0;
-    for (const element of this._iterable) {
-      if (this._predicate(element, index)) {
-        yield element;
-      }
-      index++;
-    }
+  public [Symbol.iterator](): Iterator<TElement> {
+    return new iterators.LazyWhereIterator(this._iterable, this._predicate);
   }
 }
 
@@ -1703,15 +1569,11 @@ class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<
     super();
   }
 
-  public *[Symbol.iterator](): Iterator<TResult> {
-    const firstIterator = this._firstIterable[Symbol.iterator]();
-    let firstMove = firstIterator.next();
-    const secondIterator = this._secondIterable[Symbol.iterator]();
-    let secondMove = secondIterator.next();
-    while (!firstMove.done && !secondMove.done) {
-      yield this._selector(firstMove.value, secondMove.value);
-      firstMove = firstIterator.next();
-      secondMove = secondIterator.next();
-    }
+  public [Symbol.iterator](): Iterator<TResult> {
+    return new iterators.LazyZipIterator(
+      this._firstIterable,
+      this._secondIterable,
+      this._selector,
+    );
   }
 }
