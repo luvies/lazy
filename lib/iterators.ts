@@ -87,7 +87,7 @@ class Queue<T> {
   }
 
   public dequeue(): T {
-    if (this._buffer.length === 0) {
+    if (this.length === 0) {
       throw new Error('Cannot dequeue an empty queue');
     }
 
