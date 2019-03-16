@@ -12,3 +12,4 @@ tslint.json
 .gitignore
 scripts/
 .DS_Store
+.deno/
