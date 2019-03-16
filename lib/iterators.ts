@@ -73,14 +73,6 @@ function done(iterator: Iterator<any>): IteratorResult<any> {
  * @hidden
  */
 class Queue<T> {
-  /**
-   * For smaller iterators, we can leave the indices behind, but just
-   * with a value of undefined, as this is much quicker.
-   * However, for larger iterators, we need to make sure the indices
-   * don't build up too much, so we delete indices after this point.
-   */
-  private static readonly maxLeftOverIndices = 10000;
-
   private _buffer: T[] = [];
   private _front = 0;
 
@@ -93,20 +85,21 @@ class Queue<T> {
   }
 
   public dequeue(): T {
-    const length = this._buffer.length;
-    if (length === 0) {
+    if (this._buffer.length === 0) {
       throw new Error('Cannot dequeue an empty queue');
     }
 
     const element = this._buffer[this._front];
+    this._buffer[this._front] = undefined as any;
+    this._front++;
 
-    if (length >= Queue.maxLeftOverIndices) {
-      delete this._buffer[this._front];
-    } else {
-      this._buffer[this._front] = undefined as any;
+    // Memory & peformance enhancement thanks to
+    // http://code.iamkate.com/javascript/queues/#implementation
+    if (this._front * 2 >= this._buffer.length) {
+      this._buffer = this._buffer.slice(this._front);
+      this._front = 0;
     }
 
-    this._front++;
     return element;
   }
 }
