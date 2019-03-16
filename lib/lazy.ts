@@ -1340,8 +1340,6 @@ class LazyOrderBy<TElement, TKey> extends Lazy<TElement> {
     super();
   }
 
-  // Since this iterator works via sort and the underlying iterator,
-  // we don't need to use a dedicated iterator class.
   public [Symbol.iterator](): Iterator<TElement> {
     return iterators.lazyOrderBy(
       this._iterable,
