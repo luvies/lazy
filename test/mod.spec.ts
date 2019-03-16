@@ -1,10 +1,10 @@
+import { Lazy } from '../lib/mod.ts';
 import {
   assertEquals,
   assertStrictEq,
   assertThrows,
-} from 'https://deno.land/std@v0.3.1/testing/asserts.ts';
-import { test } from 'https://deno.land/std@v0.3.1/testing/mod.ts';
-import { Lazy } from '../lib/mod.ts';
+} from './deps/std/testing/asserts.ts';
+import { test } from './deps/std/testing/mod.ts';
 
 test(function empty() {
   assertEquals(Lazy.empty().toArray(), []);
