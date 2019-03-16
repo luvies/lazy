@@ -60,6 +60,7 @@ function doneNext(): IteratorResult<any> {
  * on the current iterator to done that always returns done: true.
  * @remarks This will not modify the classes, since the next functions
  * on them are on the prototype, and this only modifies the current object.
+ * @hidden
  */
 function done(iterator: Iterator<any>): IteratorResult<any> {
   iterator.next = doneNext;
