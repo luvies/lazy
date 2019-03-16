@@ -73,6 +73,8 @@ function done(iterator: Iterator<any>): IteratorResult<any> {
  * @hidden
  */
 class Queue<T> {
+  private static readonly maxLeftoverCount = 10000;
+
   private _buffer: T[] = [];
   private _front = 0;
 
@@ -90,14 +92,17 @@ class Queue<T> {
     }
 
     const element = this._buffer[this._front];
-    this._buffer[this._front] = undefined as any;
-    this._front++;
 
     // Memory & peformance enhancement thanks to
     // http://code.iamkate.com/javascript/queues/#implementation
-    if (this._front * 2 >= this._buffer.length) {
+    if (++this._front * 2 >= this._buffer.length) {
       this._buffer = this._buffer.slice(this._front);
       this._front = 0;
+    } else if (this._front >= Queue.maxLeftoverCount) {
+      // If the front is getting too large, start de-referencing items
+      // so that we can start GC on them and don't build up too much
+      // unused memory.
+      this._buffer[this._front] = undefined as any;
     }
 
     return element;
