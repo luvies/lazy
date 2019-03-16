@@ -1,4 +1,4 @@
-import { Lazy } from './iterators.ts';
+import { Lazy } from './lazy.ts';
 
 export { Lazy };
 
