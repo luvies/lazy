@@ -28,7 +28,7 @@ This module is meant to provide memory-efficient lazy-evaluation iteration for i
 Use the following import:
 
 ```ts
-import { Lazy } from 'https://deno.land/x/lazy@v1.4.1/mod.ts';
+import { Lazy } from 'https://deno.land/x/lazy@v1.5.0/mod.ts';
 ```
 
 Make sure the `@v{version}` tag is the correct one you want. I'd recommend against master, as it could change without notice & might be broken (although I will try not to break it).
@@ -79,12 +79,12 @@ The `Lazy` class is the root of the module, all things come from it and are deri
 
 ```ts
 // Static method import.
-import { Lazy } from 'https://deno.land/x/lazy@v1.4.1/mod.ts';
+import { Lazy } from 'https://deno.land/x/lazy@v1.5.0/mod.ts';
 
 const iterable = Lazy.from([1, 2, 3, 4, 5]);
 
 // Direct function import.
-import { from } from 'https://deno.land/x/lazy@v1.4.1/mod.ts';
+import { from } from 'https://deno.land/x/lazy@v1.5.0/mod.ts';
 
 const iterable = from([1, 2, 3, 4, 5]);
 ```
