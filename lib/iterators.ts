@@ -177,16 +177,16 @@ export class LazyAppendPrependIterator<TElement> implements Iterator<TElement> {
   }
 
   public next(): IteratorResult<TElement> {
+    if (this._finished) {
+      return done(this);
+    }
+
     if (!this._started) {
       this._started = true;
 
       if (this._atStart) {
         return { done: false, value: this._element };
       }
-    }
-
-    if (this._finished) {
-      return done(this);
     }
 
     const result = this._iterator.next();
@@ -544,7 +544,7 @@ export class LazyJoinIterator<TFirst, TSecond, TKey, TResult>
  * @hidden
  */
 function defaultComparer<T>(a: T, b: T): number {
-  return `${a}`.localeCompare(`${b}`);
+  return ('' + a).localeCompare('' + b);
 }
 
 /**
