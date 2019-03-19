@@ -660,6 +660,12 @@ test(function skip() {
       .toArray(),
     [6, 7, 8, 9],
   );
+  assertEquals(
+    Lazy.from(orig)
+      .skip(10)
+      .toArray(),
+    [],
+  );
 });
 
 test(function skipLast() {
@@ -700,6 +706,12 @@ test(function skipLast() {
       .toArray(),
     [1, 2, 3, 4],
   );
+  assertEquals(
+    Lazy.from(orig)
+      .skipLast(10)
+      .toArray(),
+    [],
+  );
 });
 
 test(function skipWhile() {
@@ -739,6 +751,12 @@ test(function skipWhile() {
       .skipWhile(v => v !== 6)
       .toArray(),
     [6, 7, 8, 9],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .skipWhile(v => v !== 10)
+      .toArray(),
+    [],
   );
 });
 
@@ -790,6 +808,12 @@ test(function take() {
 
 test(function takeLast() {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  assertEquals(
+    Lazy.from(orig)
+      .takeLast(-1)
+      .toArray(),
+    [],
+  );
   assertEquals(
     Lazy.from(orig)
       .takeLast(0)
@@ -865,6 +889,12 @@ test(function takeWhile() {
       .takeWhile(v => v !== 9)
       .toArray(),
     [1, 2, 3, 4, 5, 6, 7, 8],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .takeWhile(() => false)
+      .toArray(),
+    [],
   );
 });
 
