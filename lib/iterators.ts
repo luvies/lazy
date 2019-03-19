@@ -550,6 +550,13 @@ function defaultComparer<T>(a: T, b: T): number {
 /**
  * @hidden
  */
+export function numericComparer(a: number, b: number): number {
+  return a - b;
+}
+
+/**
+ * @hidden
+ */
 function comparerFactory<TSource, TKey>(
   keyFn: MapFn<TSource, TKey>,
   reverse: boolean,

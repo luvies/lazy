@@ -132,6 +132,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#min" class="tsd-kind-icon">min</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#orderby" class="tsd-kind-icon">order<wbr>By</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#orderbydecending" class="tsd-kind-icon">order<wbr>ByDecending</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#ordernumericallyby" class="tsd-kind-icon">order<wbr>Numerically<wbr>By</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#ordernumericallybydecending" class="tsd-kind-icon">order<wbr>Numerically<wbr>ByDecending</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#prepend" class="tsd-kind-icon">prepend</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#resolveall" class="tsd-kind-icon">resolve<wbr>All</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#reverse" class="tsd-kind-icon">reverse</a></li>
@@ -174,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:947</li>
+									<li>Defined in lazy.ts:977</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1950,7 +1952,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:757</li>
+									<li>Defined in lazy.ts:758</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1983,7 +1985,8 @@
 									<div class="tsd-comment tsd-typography">
 										<p>The function that is passed to <code>Array.prototype.sort</code> to
 											compare values and return the comparison number. If not given, a default
-										sorting function will be used.</p>
+											sorting function will be used. This sorting function will match the
+										behaviour of the standard sort comparison function.</p>
 									</div>
 								</li>
 							</ul>
@@ -2001,7 +2004,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:773</li>
+									<li>Defined in lazy.ts:775</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2034,7 +2037,88 @@
 									<div class="tsd-comment tsd-typography">
 										<p>The function that is passed to <code>Array.prototype.sort</code> to
 											compare values and return the comparison number. If not given, a default
-										sorting function will be used.</p>
+											sorting function will be used. This sorting function will match the
+										behaviour of the standard sort comparison function.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ordernumericallyby" class="tsd-anchor"></a>
+					<h3>order<wbr>Numerically<wbr>By</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">order<wbr>Numerically<wbr>By<span class="tsd-signature-symbol">(</span>keyFn<span class="tsd-signature-symbol">: </span><a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in lazy.ts:791</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sorts the iterable in acending order according to the numeric
+									result of the key function.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>When this is iterated (not before), the underlying iterator is walked through
+											completely in order to allow sorting.
+											This function is equivalent to <a href="lazy.html#orderby">orderBy</a> with a numeric comparison
+										compare function.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>keyFn: <a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function user to get the key from the given element.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ordernumericallybydecending" class="tsd-anchor"></a>
+					<h3>order<wbr>Numerically<wbr>ByDecending</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">order<wbr>Numerically<wbr>ByDecending<span class="tsd-signature-symbol">(</span>keyFn<span class="tsd-signature-symbol">: </span><a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in lazy.ts:804</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sorts the iterable in descending order according to the numeric
+									result of the key function.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>When this is iterated (not before), the underlying iterator is walked through
+											completely in order to allow sorting.
+											This function is equivalent to <a href="lazy.html#orderbydecending">orderByDecending</a> with a numeric comparison
+										compare function.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>keyFn: <a href="../globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function used to get the key from a given element.</p>
 									</div>
 								</li>
 							</ul>
@@ -2052,7 +2136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:785</li>
+									<li>Defined in lazy.ts:815</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2117,7 +2201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:794</li>
+									<li>Defined in lazy.ts:824</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2145,7 +2229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:803</li>
+									<li>Defined in lazy.ts:833</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2187,7 +2271,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:816</li>
+									<li>Defined in lazy.ts:846</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2346,7 +2430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:828</li>
+									<li>Defined in lazy.ts:858</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2383,7 +2467,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:838</li>
+									<li>Defined in lazy.ts:868</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2420,7 +2504,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:848</li>
+									<li>Defined in lazy.ts:878</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2564,7 +2648,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:858</li>
+									<li>Defined in lazy.ts:888</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2601,7 +2685,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:868</li>
+									<li>Defined in lazy.ts:898</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2636,7 +2720,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:878</li>
+									<li>Defined in lazy.ts:908</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2782,7 +2866,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:893</li>
+									<li>Defined in lazy.ts:923</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2836,7 +2920,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:905</li>
+									<li>Defined in lazy.ts:935</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2869,7 +2953,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:913</li>
+									<li>Defined in lazy.ts:943</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2906,7 +2990,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:926</li>
+									<li>Defined in lazy.ts:956</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2942,7 +3026,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:936</li>
+									<li>Defined in lazy.ts:966</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3268,6 +3352,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="lazy.html#orderbydecending" class="tsd-kind-icon">order<wbr>ByDecending</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="lazy.html#ordernumericallyby" class="tsd-kind-icon">order<wbr>Numerically<wbr>By</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="lazy.html#ordernumericallybydecending" class="tsd-kind-icon">order<wbr>Numerically<wbr>ByDecending</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="lazy.html#prepend" class="tsd-kind-icon">prepend</a>

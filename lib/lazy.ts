@@ -750,7 +750,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param keyFn The function used to get the key from a given element.
    * @param compareFn The function that is passed to `Array.prototype.sort` to
    * compare values and return the comparison number. If not given, a default
-   * sorting function will be used.
+   * sorting function will be used. This sorting function will match the
+   * behaviour of the standard sort comparison function.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow sorting.
    */
@@ -766,7 +767,8 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @param keyFn The function used to get the key from a given element.
    * @param compareFn The function that is passed to `Array.prototype.sort` to
    * compare values and return the comparison number. If not given, a default
-   * sorting function will be used.
+   * sorting function will be used. This sorting function will match the
+   * behaviour of the standard sort comparison function.
    * @remarks When this is iterated (not before), the underlying iterator is walked through
    * completely in order to allow sorting.
    */
@@ -775,6 +777,34 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     compareFn?: SortFn<TKey>,
   ): Lazy<TElement> {
     return new LazyOrderBy(this, keyFn, compareFn, true);
+  }
+
+  /**
+   * Sorts the iterable in acending order according to the numeric
+   * result of the key function.
+   * @param keyFn The function user to get the key from the given element.
+   * @remarks When this is iterated (not before), the underlying iterator is walked through
+   * completely in order to allow sorting.
+   * This function is equivalent to [[orderBy]] with a numeric comparison
+   * compare function.
+   */
+  public orderNumericallyBy(keyFn: MapFn<TElement, number>): Lazy<TElement> {
+    return this.orderBy(keyFn, iterators.numericComparer);
+  }
+
+  /**
+   * Sorts the iterable in descending order according to the numeric
+   * result of the key function.
+   * @param keyFn The function used to get the key from a given element.
+   * @remarks When this is iterated (not before), the underlying iterator is walked through
+   * completely in order to allow sorting.
+   * This function is equivalent to [[orderByDecending]] with a numeric comparison
+   * compare function.
+   */
+  public orderNumericallyByDecending(
+    keyFn: MapFn<TElement, number>,
+  ): Lazy<TElement> {
+    return this.orderByDecending(keyFn, iterators.numericComparer);
   }
 
   /**

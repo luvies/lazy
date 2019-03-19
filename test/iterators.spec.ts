@@ -357,23 +357,24 @@ test(function join() {
 });
 
 test(function orderBy() {
-  const orig = [2, 1, 5, 3, 4];
+  const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
       .orderBy(v => v)
       .toArray(),
-    [1, 2, 3, 4, 5],
+    [1, 10, 2, 20, 3, 4, 5],
   );
   assertEquals(
     Lazy.from(orig)
       .orderBy(v => v, (a, b) => a - b)
       .toArray(),
-    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5, 10, 20],
   );
 
   const objs = [
     { value: 2 },
     { value: 5 },
+    { value: 15 },
     { value: 1 },
     { value: 3 },
     { value: 7 },
@@ -382,29 +383,37 @@ test(function orderBy() {
     Lazy.from(objs)
       .orderBy(v => v.value)
       .toArray(),
-    [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 5 }, { value: 7 }],
+    [
+      { value: 1 },
+      { value: 15 },
+      { value: 2 },
+      { value: 3 },
+      { value: 5 },
+      { value: 7 },
+    ],
   );
 
   assertEquals(
-    Lazy.from([undefined, 1, 2, undefined, 3, 4, undefined, 5])
+    Lazy.from([undefined, 1, 2, 35, undefined, 3, 4, undefined, 5])
       .orderBy(v => v)
       .toArray(),
-    [1, 2, 3, 4, 5, undefined, undefined, undefined],
+    [1, 2, 3, 35, 4, 5, undefined, undefined, undefined],
   );
 });
 
 test(function orderByDecending() {
-  const orig = [2, 1, 5, 3, 4];
+  const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
       .orderByDecending(v => v)
       .toArray(),
-    [5, 4, 3, 2, 1],
+    [5, 4, 3, 20, 2, 10, 1],
   );
 
   const objs = [
     { value: 2 },
     { value: 5 },
+    { value: 15 },
     { value: 1 },
     { value: 3 },
     { value: 7 },
@@ -413,14 +422,85 @@ test(function orderByDecending() {
     Lazy.from(objs)
       .orderByDecending(v => v.value)
       .toArray(),
-    [{ value: 7 }, { value: 5 }, { value: 3 }, { value: 2 }, { value: 1 }],
+    [
+      { value: 7 },
+      { value: 5 },
+      { value: 3 },
+      { value: 2 },
+      { value: 15 },
+      { value: 1 },
+    ],
   );
 
   assertEquals(
-    Lazy.from([undefined, 1, 2, undefined, 3, 4, undefined, 5])
+    Lazy.from([undefined, 1, 35, 2, undefined, 3, 4, undefined, 5])
       .orderByDecending(v => v)
       .toArray(),
-    [5, 4, 3, 2, 1, undefined, undefined, undefined],
+    [5, 4, 35, 3, 2, 1, undefined, undefined, undefined],
+  );
+});
+
+test(function orderNumericallyBy() {
+  const orig = [2, 1, 5, 3, 4, 10, 20];
+  assertEquals(
+    Lazy.from(orig)
+      .orderNumericallyBy(v => v)
+      .toArray(),
+    [1, 2, 3, 4, 5, 10, 20],
+  );
+
+  const objs = [
+    { value: 2 },
+    { value: 5 },
+    { value: 15 },
+    { value: 1 },
+    { value: 3 },
+    { value: 7 },
+  ];
+  assertEquals(
+    Lazy.from(objs)
+      .orderNumericallyBy(v => v.value)
+      .toArray(),
+    [
+      { value: 1 },
+      { value: 2 },
+      { value: 3 },
+      { value: 5 },
+      { value: 7 },
+      { value: 15 },
+    ],
+  );
+});
+
+test(function orderNumericallyByDecending() {
+  const orig = [2, 1, 5, 3, 4, 10, 20];
+  assertEquals(
+    Lazy.from(orig)
+      .orderNumericallyByDecending(v => v)
+      .toArray(),
+    [20, 10, 5, 4, 3, 2, 1],
+  );
+
+  const objs = [
+    { value: 2 },
+    { value: 5 },
+    { value: 15 },
+    { value: 1 },
+    { value: 3 },
+    { value: 7 },
+  ];
+  assertEquals(
+    Lazy.from(objs)
+      .orderNumericallyByDecending(v => v.value)
+      .toArray(),
+    [
+      { value: 15 },
+      { value: 7 },
+      { value: 5 },
+      { value: 3 },
+      { value: 2 },
+      { value: 1 },
+    ],
   );
 });
 
