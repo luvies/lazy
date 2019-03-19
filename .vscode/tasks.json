@@ -7,7 +7,12 @@
       "label": "test",
       "type": "npm",
       "script": "test",
-      "problemMatcher": [],
+      "problemMatcher": []
     },
+    {
+      "type": "npm",
+      "script": "docs",
+      "problemMatcher": []
+    }
   ],
 }
