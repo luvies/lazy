@@ -208,6 +208,51 @@ export class LazyAppendPrependIterator<TElement> implements Iterator<TElement> {
 /**
  * @hidden
  */
+export class LazyBatchInIterator<TElement>
+  implements Iterator<Iterable<TElement>> {
+  private readonly _iterator: Iterator<TElement>;
+  private _done = false;
+
+  public constructor(
+    iterable: Iterable<TElement>,
+    private readonly _batchSize: number,
+    private readonly _includeIncomplete: boolean,
+  ) {
+    this._iterator = iterable[Symbol.iterator]();
+  }
+
+  public next(): IteratorResult<Iterable<TElement>> {
+    if (this._done) {
+      return done(this);
+    }
+
+    const batch: TElement[] = [];
+
+    while (true) {
+      const result = this._iterator.next();
+
+      if (result.done) {
+        this._done = true;
+
+        if (batch.length > 0 && this._includeIncomplete) {
+          return { done: false, value: batch };
+        } else {
+          return done(this);
+        }
+      } else {
+        batch.push(result.value);
+
+        if (batch.length === this._batchSize) {
+          return { done: false, value: batch };
+        }
+      }
+    }
+  }
+}
+
+/**
+ * @hidden
+ */
 export class LazyConcatIterator<TElement> implements Iterator<TElement> {
   private readonly _iterators: Array<Iterator<TElement>> = [];
   private _current = 0;

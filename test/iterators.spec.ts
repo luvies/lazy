@@ -93,6 +93,132 @@ test(function apply() {
   );
 });
 
+test(function batchIn() {
+  const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(1)
+      .toArray(),
+    [[1], [2], [3], [4], [5], [6], [7], [8], [9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(2)
+      .toArray(),
+    [[1, 2], [3, 4], [5, 6], [7, 8], [9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(3)
+      .toArray(),
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(4)
+      .toArray(),
+    [[1, 2, 3, 4], [5, 6, 7, 8], [9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(5)
+      .toArray(),
+    [[1, 2, 3, 4, 5], [6, 7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(6)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6], [7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(7)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7], [8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(8)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7, 8], [9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(9)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(10)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7, 8, 9]],
+  );
+
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(1, false)
+      .toArray(),
+    [[1], [2], [3], [4], [5], [6], [7], [8], [9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(2, false)
+      .toArray(),
+    [[1, 2], [3, 4], [5, 6], [7, 8]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(3, false)
+      .toArray(),
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(4, false)
+      .toArray(),
+    [[1, 2, 3, 4], [5, 6, 7, 8]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(5, false)
+      .toArray(),
+    [[1, 2, 3, 4, 5]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(6, false)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(7, false)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(8, false)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7, 8]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(9, false)
+      .toArray(),
+    [[1, 2, 3, 4, 5, 6, 7, 8, 9]],
+  );
+  assertEquals(
+    Lazy.from(orig)
+      .batchIn(10, false)
+      .toArray(),
+    [],
+  );
+});
+
 test(function concat() {
   let first = [1, 2, 3, 4];
   let second = [5, 6, 7, 8];

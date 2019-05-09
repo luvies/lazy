@@ -595,6 +595,22 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
   }
 
   /**
+   * Batches elements in groups of the given batch size.
+   * @param batchSize The size of each batch.
+   * @param includeIncomplete Whether to include batches
+   * that are smaller than the target size. This only applies
+   * to the final batch of the iterable if the total size is
+   * not a multiple of the batch size.
+   * @remarks Does not cause additional unexpected iteration.
+   */
+  public batchIn(
+    batchSize: number,
+    includeIncomplete = true,
+  ): Lazy<Iterable<TElement>> {
+    return new LazyBatchIn(this, batchSize, includeIncomplete);
+  }
+
+  /**
    * Concatinates multiple iterables in order.
    * @param iterables The other iterables to concatinate with.
    * @remarks Does not cause additional unexpected iteration.
@@ -1178,6 +1194,27 @@ class LazyAppendPrepend<TElement> extends Lazy<TElement> {
       this._iterable,
       this._element,
       this._atStart,
+    );
+  }
+}
+
+/**
+ * @hidden
+ */
+class LazyBatchIn<TElement> extends Lazy<Iterable<TElement>> {
+  public constructor(
+    private readonly _iterable: Iterable<TElement>,
+    private readonly _batchSize: number,
+    private readonly _includeComplete: boolean,
+  ) {
+    super();
+  }
+
+  public [Symbol.iterator](): Iterator<Iterable<TElement>> {
+    return new iterators.LazyBatchInIterator(
+      this._iterable,
+      this._batchSize,
+      this._includeComplete,
     );
   }
 }
