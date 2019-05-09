@@ -10,7 +10,7 @@
   "author": "luvies",
   "license": "MIT",
   "scripts": {
-    "prepare": "rm -rf dist/* && deno --allow-read --allow-write https://gist.githubusercontent.com/luvies/d85fc46c5b4e255b845743082bdbc3c0/raw/f0340de811500af3e935340f2dafabb7c9aebb59/node_prebuild.ts --in lib --out prebuild && tsc --project ./tsconfig.build.json",
+    "prepare": "rm -rf dist/* && deno run --allow-read --allow-write https://s.luvies.io/node_prebuild.ts --in lib --out prebuild && tsc --project ./tsconfig.build.json",
     "test": "deno run ./test/run_tests.ts",
     "init-types": "deno --prefetch ./test/run_tests.ts",
     "lint": "tslint --project . && prettier --check 'lib/**/*.ts' 'test/**/*.ts'",
