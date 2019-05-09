@@ -110,6 +110,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#append" class="tsd-kind-icon">append</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="lazy.html#apply" class="tsd-kind-icon">apply</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#average" class="tsd-kind-icon">average</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#batchin" class="tsd-kind-icon">batch<wbr>In</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#cache" class="tsd-kind-icon">cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#concat" class="tsd-kind-icon">concat</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#contains" class="tsd-kind-icon">contains</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lazy.html#count" class="tsd-kind-icon">count</a></li>
@@ -176,7 +178,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:977</li>
+									<li>Defined in lazy.ts:1015</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -381,7 +383,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:579</li>
+									<li>Defined in lazy.ts:582</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,7 +419,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:591</li>
+									<li>Defined in lazy.ts:594</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -536,6 +538,89 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="batchin" class="tsd-anchor"></a>
+					<h3>batch<wbr>In</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">batch<wbr>In<span class="tsd-signature-symbol">(</span>batchSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, includeIncomplete<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in lazy.ts:609</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Batches elements in groups of the given batch size.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>Does not cause additional unexpected iteration.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>batchSize: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The size of each batch.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> includeIncomplete: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Whether to include batches
+											that are smaller than the target size. This only applies
+											to the final batch of the iterable if the total size is
+										not a multiple of the batch size.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cache" class="tsd-anchor"></a>
+					<h3>cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in lazy.ts:631</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves the underlaying iterable completely and returns a lazy
+									of the result.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>This will completely iterate the underlaying iterable,
+											and return a completely new lazy object of the result. This allows
+											for some optimisation when a chain has become complex and iteration
+											of it is needed multiple times (as the resulting iterable will only be
+											calulated once, and then reused). This can also be used to ensure
+											that side-effects of the chain are only done once, which can be useful
+											in more complicated computations.
+											Since this will return a completely new Lazy iterable, it means that,
+											if no other references exist, then the previous chain (and even the
+											original iterable) can be freed for garbage collection, potentially
+										helping with memory.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="lazy.html" class="tsd-signature-type">Lazy</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="concat" class="tsd-anchor"></a>
 					<h3>concat</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -545,7 +630,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:602</li>
+									<li>Defined in lazy.ts:640</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -687,7 +772,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:612</li>
+									<li>Defined in lazy.ts:650</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -724,7 +809,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:623</li>
+									<li>Defined in lazy.ts:661</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -900,7 +985,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:638</li>
+									<li>Defined in lazy.ts:676</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1219,7 +1304,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:651</li>
+									<li>Defined in lazy.ts:689</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1253,7 +1338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:661</li>
+									<li>Defined in lazy.ts:699</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1296,7 +1381,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:674</li>
+									<li>Defined in lazy.ts:712</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1358,7 +1443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:700</li>
+									<li>Defined in lazy.ts:738</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1429,7 +1514,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:720</li>
+									<li>Defined in lazy.ts:758</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1527,7 +1612,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:739</li>
+									<li>Defined in lazy.ts:777</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1952,7 +2037,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:758</li>
+									<li>Defined in lazy.ts:796</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2004,7 +2089,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:775</li>
+									<li>Defined in lazy.ts:813</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2056,7 +2141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:791</li>
+									<li>Defined in lazy.ts:829</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2096,7 +2181,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:804</li>
+									<li>Defined in lazy.ts:842</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2136,7 +2221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:815</li>
+									<li>Defined in lazy.ts:853</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2172,7 +2257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:462</li>
+									<li>Defined in lazy.ts:465</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2182,7 +2267,10 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
-									<dd><p>This will cause a complete iteration of the iterable object.</p>
+									<dd><p>This will cause a complete iteration of the iterable object.
+											This will behave similar to <a href="lazy.html#cache">cache</a>, in that the original lazy iterable
+											will be resolved completely and then discarded, in favour of the resolved
+										iterable.</p>
 									</dd>
 								</dl>
 							</div>
@@ -2201,7 +2289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:824</li>
+									<li>Defined in lazy.ts:862</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2229,7 +2317,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:833</li>
+									<li>Defined in lazy.ts:871</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2271,7 +2359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:846</li>
+									<li>Defined in lazy.ts:884</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2315,7 +2403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:479</li>
+									<li>Defined in lazy.ts:482</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2358,7 +2446,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:493</li>
+									<li>Defined in lazy.ts:496</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2395,7 +2483,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:497</li>
+									<li>Defined in lazy.ts:500</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -2430,7 +2518,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:858</li>
+									<li>Defined in lazy.ts:896</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2467,7 +2555,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:868</li>
+									<li>Defined in lazy.ts:906</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2504,7 +2592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:878</li>
+									<li>Defined in lazy.ts:916</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2541,7 +2629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:516</li>
+									<li>Defined in lazy.ts:519</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2586,7 +2674,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:526</li>
+									<li>Defined in lazy.ts:529</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2608,7 +2696,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:534</li>
+									<li>Defined in lazy.ts:537</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2648,7 +2736,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:888</li>
+									<li>Defined in lazy.ts:926</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2685,7 +2773,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:898</li>
+									<li>Defined in lazy.ts:936</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2720,7 +2808,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:908</li>
+									<li>Defined in lazy.ts:946</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2757,7 +2845,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:543</li>
+									<li>Defined in lazy.ts:546</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2784,7 +2872,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:553</li>
+									<li>Defined in lazy.ts:556</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2813,7 +2901,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:565</li>
+									<li>Defined in lazy.ts:568</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2866,7 +2954,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:923</li>
+									<li>Defined in lazy.ts:961</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2920,7 +3008,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:935</li>
+									<li>Defined in lazy.ts:973</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2953,7 +3041,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:943</li>
+									<li>Defined in lazy.ts:981</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -2990,7 +3078,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:956</li>
+									<li>Defined in lazy.ts:994</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3026,7 +3114,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lazy.ts:966</li>
+									<li>Defined in lazy.ts:1004</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -3286,6 +3374,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="lazy.html#average" class="tsd-kind-icon">average</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="lazy.html#batchin" class="tsd-kind-icon">batch<wbr>In</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="lazy.html#cache" class="tsd-kind-icon">cache</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="lazy.html#concat" class="tsd-kind-icon">concat</a>
