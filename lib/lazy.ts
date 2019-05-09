@@ -458,6 +458,9 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * iterable from the result.
    * @returns A promise that will resolve to a lazy iterable object.
    * @remarks This will cause a complete iteration of the iterable object.
+   * This will behave similar to [[cache]], in that the original lazy iterable
+   * will be resolved completely and then discarded, in favour of the resolved
+   * iterable.
    */
   public resolveAll(): Promise<
     TElement extends PromiseLike<infer TResult> ? Lazy<TResult> : Lazy<TElement>
@@ -608,6 +611,25 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     includeIncomplete = true,
   ): Lazy<Iterable<TElement>> {
     return new LazyBatchIn(this, batchSize, includeIncomplete);
+  }
+
+  /**
+   * Resolves the underlaying iterable completely and returns a lazy
+   * of the result.
+   * @remarks This will completely iterate the underlaying iterable,
+   * and return a completely new lazy object of the result. This allows
+   * for some optimisation when a chain has become complex and iteration
+   * of it is needed multiple times (as the resulting iterable will only be
+   * calulated once, and then reused). This can also be used to ensure
+   * that side-effects of the chain are only done once, which can be useful
+   * in more complicated computations.
+   * Since this will return a completely new Lazy iterable, it means that,
+   * if no other references exist, then the previous chain (and even the
+   * original iterable) can be freed for garbage collection, potentially
+   * helping with memory.
+   */
+  public cache(): Lazy<TElement> {
+    return Lazy.from(this.toArray());
   }
 
   /**

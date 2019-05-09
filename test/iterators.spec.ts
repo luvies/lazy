@@ -219,6 +219,38 @@ test(function batchIn() {
   );
 });
 
+test(function cache() {
+  const orig = [1, 2, 3, 4, 5];
+
+  assertEquals(
+    Lazy.from(orig)
+      .cache()
+      .toArray(),
+    orig,
+  );
+
+  let calls = 0;
+  const chain = Lazy.from(orig).select(i => {
+    calls++;
+    return i * 2;
+  });
+
+  // Without caching.
+  assertEquals(chain.toArray(), [2, 4, 6, 8, 10]);
+  assertEquals(calls, 5);
+  chain.toArray();
+  assertEquals(calls, 10);
+
+  calls = 0;
+  const cached = chain.cache();
+
+  // With caching.
+  assertEquals(cached.toArray(), [2, 4, 6, 8, 10]);
+  assertEquals(calls, 5);
+  cached.toArray();
+  assertEquals(calls, 5);
+});
+
 test(function concat() {
   let first = [1, 2, 3, 4];
   let second = [5, 6, 7, 8];
