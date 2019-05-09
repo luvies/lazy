@@ -1,6 +1,6 @@
 # Lazy Iteration
 
-[![Build Status](https://travis-ci.com/luvies/lazy.svg?branch=master)](https://travis-ci.com/luvies/lazy)
+[![Build Status](https://travis-ci.com/luvies/lazy.svg?branch=master)](https://travis-ci.com/luvies/lazy) [![npm version](https://badge.fury.io/js/%40luvies%2Flazy.svg)](https://badge.fury.io/js/%40luvies%2Flazy)
 
 This module is meant to provide memory-efficient lazy-evaluation iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).
 
