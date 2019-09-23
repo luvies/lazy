@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": "./node_modules/@luvies/config/eslint.base.json",
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "max-classes-per-file": "off",
+    "no-constant-condition": "off",
+    "no-duplicate-imports": "off",
+    "no-implicit-coercion": "off",
+    "no-param-reassign": "off",
+    "prefer-template": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unnecessary-condition": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/unbound-method": "off"
+  }
+}

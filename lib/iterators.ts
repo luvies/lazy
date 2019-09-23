@@ -73,7 +73,7 @@ function done(iterator: Iterator<any>): IteratorResult<any> {
  * @hidden
  */
 class Queue<T> {
-  private static readonly maxLeftoverCount = 10000;
+  private static readonly _maxLeftoverCount = 10000;
 
   private _buffer: T[] = [];
   private _front = 0;
@@ -98,7 +98,7 @@ class Queue<T> {
     if (++this._front * 2 >= this._buffer.length) {
       this._buffer = this._buffer.slice(this._front);
       this._front = 0;
-    } else if (this._front >= Queue.maxLeftoverCount) {
+    } else if (this._front >= Queue._maxLeftoverCount) {
       // If the front is getting too large, start de-referencing items
       // so that we can start GC on them and don't build up too much
       // unused memory.

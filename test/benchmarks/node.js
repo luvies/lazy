@@ -1,9 +1,5 @@
-const {
-  Lazy
-} = require('../../dist/mod');
-const {
-  performance
-} = require('perf_hooks');
+const { Lazy } = require('../../dist/mod');
+const { performance } = require('perf_hooks');
 
 const arr = Lazy.range(0, 10000).toArray();
 
@@ -28,7 +24,7 @@ function bench(fn, iters = 10000) {
   return Lazy.from(benches).average();
 }
 
-let result
+let result;
 
 function bench_map() {
   result = arr
@@ -55,7 +51,7 @@ function bench_map_loop() {
 
   let i;
   for (const v of result) {
-    i = v
+    i = v;
   }
 }
 
@@ -85,7 +81,7 @@ function bench_select_loop() {
 
   let i;
   for (const v of result) {
-    i = v
+    i = v;
   }
 }
 

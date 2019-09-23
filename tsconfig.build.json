@@ -3,11 +3,6 @@
   "compilerOptions": {
     "rootDir": "prebuild"
   },
-  "include": [
-    "prebuild/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib"
-  ]
+  "include": ["prebuild/**/*.ts"],
+  "exclude": ["node_modules", "lib"]
 }

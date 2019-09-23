@@ -1,24 +1,12 @@
 {
+  "extends": "@luvies/config/tsconfig.lib.json",
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2015",
     "lib": ["es2015"],
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "outDir": "./dist",
-    "alwaysStrict": true,
+    "outDir": "dist",
     "baseUrl": ".",
+    "incremental": false,
     "plugins": [
       {
         "name": "deno_ls_plugin"
