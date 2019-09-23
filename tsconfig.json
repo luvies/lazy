@@ -22,18 +22,13 @@
     "plugins": [
       {
         "name": "deno_ls_plugin"
-      },
+      }
     ],
     "paths": {
       "http://*": ["../../../../.deno/deps/http/*"],
-      "https://*": ["../../../../.deno/deps/https/*"],
-    },
+      "https://*": ["../../../../.deno/deps/https/*"]
+    }
   },
-  "include": [
-    "lib/**/*.ts",
-    "types/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["lib/**/*.ts", "types/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }

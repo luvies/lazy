@@ -129,7 +129,7 @@ export class LazyRangeIterator implements Iterator<number> {
     ) {
       return done(this);
     } else {
-      const nextResult = { done: false, value: this._index };
+      const nextResult = { done: false, value: this._index } as const;
       this._index += this._direction;
       return nextResult;
     }
@@ -151,7 +151,7 @@ export class LazyRepeatIterator<TElement> implements Iterator<TElement> {
     if (this._index >= this._count) {
       return done(this);
     } else {
-      const nextResult = { done: false, value: this._element };
+      const nextResult = { done: false, value: this._element } as const;
       this._index++;
       return nextResult;
     }
@@ -647,7 +647,10 @@ export class LazyReverseIterator<TElement> implements Iterator<TElement> {
     if (this._index < 0) {
       return done(this);
     } else {
-      const nextResult = { done: false, value: this._arr[this._index] };
+      const nextResult = {
+        done: false,
+        value: this._arr[this._index],
+      } as const;
       this._index--;
       return nextResult;
     }
@@ -677,7 +680,7 @@ export class LazySelectIterator<TSource, TResult> implements Iterator<TResult> {
       const nextResult = {
         done: false,
         value: this._selector(result.value, this._index),
-      };
+      } as const;
       this._index++;
 
       return nextResult;

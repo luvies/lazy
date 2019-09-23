@@ -81,7 +81,7 @@ export function aggregate<TSource, TAcc>(
     if (!items) {
       throw new Error(Errors.Empty);
     }
-    return acc;
+    return acc!;
   }
 }
 
