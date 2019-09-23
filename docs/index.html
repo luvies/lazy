@@ -64,10 +64,14 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="lazy-iteration">Lazy Iteration</h1>
+				<a href="#lazy-iteration" id="lazy-iteration" style="color: inherit; text-decoration: none;">
+					<h1>Lazy Iteration</h1>
+				</a>
 				<p><a href="https://travis-ci.com/luvies/lazy"><img src="https://travis-ci.com/luvies/lazy.svg?branch=master" alt="Build Status"></a> <a href="https://badge.fury.io/js/%40luvies%2Flazy"><img src="https://badge.fury.io/js/%40luvies%2Flazy.svg" alt="npm version"></a></p>
 				<p>This module is meant to provide memory-efficient lazy-evaluation iteration for iterable objects. The aim of this project is to support deno, node and browser, and support all native JavaScript systems for iteration (for-of, for-await-of, etc).</p>
-				<h2 id="contents">Contents</h2>
+				<a href="#contents" id="contents" style="color: inherit; text-decoration: none;">
+					<h2>Contents</h2>
+				</a>
 				<ul>
 					<li><a href="#installation">Installation</a><ul>
 							<li><a href="#deno">Deno</a></li>
@@ -88,12 +92,18 @@
 					<li><a href="#setting-up-this-project">Setting up this project</a></li>
 					<li><a href="#footnotes">Footnotes</a></li>
 				</ul>
-				<h2 id="installation">Installation</h2>
-				<h3 id="deno">Deno</h3>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<a href="#deno" id="deno" style="color: inherit; text-decoration: none;">
+					<h3>Deno</h3>
+				</a>
 				<p>Use the following import:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v{version}/mod.ts'</span>;</code></pre>
 				<p>Make sure the <code>@v{version}</code> tag is the correct one you want. I&#39;d recommend against master, as it could change without notice &amp; might be broken (although I will try not to break it).</p>
-				<h3 id="node">Node</h3>
+				<a href="#node" id="node" style="color: inherit; text-decoration: none;">
+					<h3>Node</h3>
+				</a>
 				<p>The packge can be found here: <a href="https://www.npmjs.com/package/@luvies/lazy">https://www.npmjs.com/package/@luvies/lazy</a>.</p>
 				<p>Install via</p>
 				<pre><code><span class="hljs-selector-tag">yarn</span> <span class="hljs-selector-tag">add</span> @<span class="hljs-keyword">luvies</span>/<span class="hljs-keyword">lazy</span></code></pre><p>or</p>
@@ -101,7 +111,9 @@
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@luvies/lazy'</span>;</code></pre>
 				<p>or</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Lazy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@luvies/lazy'</span>);</code></pre>
-				<h2 id="overview">Overview</h2>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
 				<p>At a base level, this module provides the following exports:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> Lazy&lt;TElement&gt; {...}
 
@@ -121,7 +133,9 @@
 
 <span class="hljs-keyword">const</span> iterable = <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);</code></pre>
 				<p>After you have done this, the full power of the module is available to play with.</p>
-				<h2 id="examples">Examples</h2>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
 				<p>The aim of the module is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here&#39;s a small example:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> evenSquares = Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>)
   .where(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>)
@@ -154,15 +168,21 @@
   .select(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x))
   .average();</code></pre>
 				<p>The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation function allow for a nicer final calculation.</p>
-				<h2 id="interop-with-native">Interop with native</h2>
+				<a href="#interop-with-native" id="interop-with-native" style="color: inherit; text-decoration: none;">
+					<h2>Interop with native</h2>
+				</a>
 				<p>While all of these functions are good, it would be difficult to integrate them without being about to easily convert back to native JS objects. Fortunately, this module provides just that. Currently there are 2 functions, <code>toArray</code> and <code>toMap</code>, which do pretty much exactly as they seem. You can end a lazy chain with one of these to make it resolve all of the iterators and output a native JS object, which can be then used in consuming code.</p>
 				<p>On top of this, the entire module is build upon the native JS iteration protocol, meaning that any object that implements that can be used with it with no other changes. Just drop the object into a <code>Lazy.from(...)</code> call, and everything will be available.</p>
 				<p>The <code>Lazy</code> class is also JSON-serialisable (as a list), meaning that you can simply pass the result of a chain into <code>JSON.stringify</code> and it will stringify correctly.</p>
-				<h2 id="api">API</h2>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
 				<p>Visit <a href="https://luvies.github.io/lazy/">https://luvies.github.io/lazy/</a> for the full documentation.</p>
 				<p>For an overview of the reference I use for developing this module, visit the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable">.NET Linq docs</a>.</p>
 				<p>As an aside, all of the functions exported from <a href="lib/aggregates.ts">aggregates.ts</a> support taking in any object that implements the <code>Iterator&lt;T&gt;</code> iterface, so you can use them without wrapping the iterable around <code>Lazy</code> first if you so wish (although I&#39;d recommend using them through <code>Lazy</code>).</p>
-				<h3 id="promises">Promises</h3>
+				<a href="#promises" id="promises" style="color: inherit; text-decoration: none;">
+					<h3>Promises</h3>
+				</a>
 				<p>This module fully supports promises, and things like for-await-of. As an example (taken from the tests):</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
   <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
@@ -219,9 +239,13 @@
 ]; <span class="hljs-comment">// type -&gt; Array&lt;number | Promise&lt;number&gt;&gt;</span>
 
 Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt;Lazy&lt;number&gt;&gt;</span></code></pre>
-				<h3 id="-no-additional-unexpected-iteration-">&#39;No additional unexpected iteration&#39;</h3>
+				<a href="#39no-additional-unexpected-iteration39" id="39no-additional-unexpected-iteration39" style="color: inherit; text-decoration: none;">
+					<h3>&#39;No additional unexpected iteration&#39;</h3>
+				</a>
 				<p>For any function on <code>Lazy</code> that uses this term, it simply means &#39;if you start iteration on the resulting object, it will not perform any iteration you did not ask for&#39;. To put it another way, when you call the iterator function, nothing will happen until you explicitly ask for the next element. This term is used since, for some functions, additional iteration is needed in order to perform the action required. An example of this would be the <code>reverse</code> method; you cannot iterate the first element of the result until you know what the last element of the underlying iterable is, so it has to iterate it completely first before returning the first element. In contrast, the <code>select</code> method will only iterate to the next element when you ask it to, thus it doesn&#39;t perform any additional unexpected iteration.</p>
-				<h3 id="custom-implementations">Custom implementations</h3>
+				<a href="#custom-implementations" id="custom-implementations" style="color: inherit; text-decoration: none;">
+					<h3>Custom implementations</h3>
+				</a>
 				<p>This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the <code>Lazy</code> class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">class</span> LazyToString&lt;TSource&gt; <span class="hljs-keyword">extends</span> Lazy&lt;<span class="hljs-built_in">string</span>&gt; {
   <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly _iterable: Iterable&lt;TSource&gt;</span>) {
@@ -243,7 +267,9 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 
 <span class="hljs-comment">// result -&gt; [1, 2, 3, 4]</span></code></pre>
 				<p>Obviously this is a contrived example, since the same could be done with a single <code>select</code>, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.</p>
-				<h3 id="shorthand-usage">Shorthand usage</h3>
+				<a href="#shorthand-usage" id="shorthand-usage" style="color: inherit; text-decoration: none;">
+					<h3>Shorthand usage</h3>
+				</a>
 				<p>If you are using <code>Lazy.from</code> a lot in your code, you can use the following snippet to make usage much more ergonomic:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">declare</span> global {
   <span class="hljs-keyword">interface</span> Array&lt;T&gt; {
@@ -259,7 +285,9 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
     <span class="hljs-keyword">return</span> Lazy.from(<span class="hljs-keyword">this</span>);
   },
 });</code></pre>
-				<h2 id="setting-up-this-project">Setting up this project</h2>
+				<a href="#setting-up-this-project" id="setting-up-this-project" style="color: inherit; text-decoration: none;">
+					<h2>Setting up this project</h2>
+				</a>
 				<p>This project is written primarily for deno, with node support being done via a 2-step compilation process. In order to set up the project, you need to install <a href="https://github.com/denoland/deno">deno</a> globally. To make editing work in VSCode, make sure that you do the following:</p>
 				<ul>
 					<li>Run <code>yarn</code> to install the dependencies that VSCode needs to edit properly</li>
@@ -272,9 +300,13 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 						</ul>
 					</li>
 				</ul>
-				<h3 id="compatibility">Compatibility</h3>
+				<a href="#compatibility" id="compatibility" style="color: inherit; text-decoration: none;">
+					<h3>Compatibility</h3>
+				</a>
 				<p>As mentioned before, this module is fully compatible with normal ES2015 iterators and native arrays/maps. It targets ES2015, meaning that if you need to support ES5 &amp; earlier, you will need to use a transpiler like babel. For Node.js, it requires about v6 or higher (not properly tested on this version though).</p>
-				<h2 id="footnotes">Footnotes</h2>
+				<a href="#footnotes" id="footnotes" style="color: inherit; text-decoration: none;">
+					<h2>Footnotes</h2>
+				</a>
 				<p>Massive thanks to the .NET Core team and their work on Linq, the source reference was invaluable when implementing some of the methods here.</p>
 			</div>
 		</div>
@@ -356,6 +388,7 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -404,7 +437,7 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
