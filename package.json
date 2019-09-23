@@ -11,8 +11,8 @@
   "license": "MIT",
   "scripts": {
     "prepare": "yarn docs",
-    "test": "deno run ./test/run_tests.ts",
-    "init-types": "deno --prefetch ./test/run_tests.ts",
+    "test": "deno test --allow-net test/*.spec.ts",
+    "init-types": "deno fetch ./test/types.ts",
     "lint": "tslint --project . && prettier --check 'lib/**/*.ts' 'test/**/*.ts'",
     "fix": "tslint --project . --fix && prettier --check --write 'lib/**/*.ts' 'test/**/*.ts'",
     "docs": "yarn build && typedoc --out docs ./prebuild --mode file",
