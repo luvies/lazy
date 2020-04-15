@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Deno
-        run: curl -L https://deno.land/x/install/install.sh | sh -s v0.18.0
+        run: curl -L https://deno.land/x/install/install.sh | sh -s v0.40.0
       - name: npm install, build, and test
         run: |
           export PATH=$HOME/.deno/bin:$PATH
