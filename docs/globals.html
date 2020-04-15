@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>@luvies/lazy</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for @luvies/lazy">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> @luvies/lazy</h1>
+			<h1>@luvies/lazy</h1>
 		</div>
 	</div>
 </header>
@@ -104,6 +104,20 @@
 								<li class="tsd-kind-variable"><a href="globals.html#repeat" class="tsd-kind-icon">repeat</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#aggregate" class="tsd-kind-icon">aggregate</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#average" class="tsd-kind-icon">average</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#elementatordefault" class="tsd-kind-icon">element<wbr>AtOr<wbr>Default</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#firstordefault" class="tsd-kind-icon">first<wbr>OrDefault</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#lastordefault" class="tsd-kind-icon">last<wbr>OrDefault</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#max" class="tsd-kind-icon">max</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#min" class="tsd-kind-icon">min</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#singleordefault" class="tsd-kind-icon">single<wbr>OrDefault</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#sum" class="tsd-kind-icon">sum</a></li>
+							</ul>
+						</section>
 					</div>
 				</section>
 			</section>
@@ -112,7 +126,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="aggfn" class="tsd-anchor"></a>
 					<h3>Agg<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Agg<wbr>Fn&lt;T, U&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Agg<wbr>Fn&lt;T, U&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">U</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:25</li>
@@ -136,8 +150,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>acc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -161,7 +175,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="boolpredicate" class="tsd-anchor"></a>
 					<h3>Bool<wbr>Predicate</h3>
-					<div class="tsd-signature tsd-kind-icon">Bool<wbr>Predicate&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Bool<wbr>Predicate&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:29</li>
@@ -181,8 +195,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -203,7 +217,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="callbackfn" class="tsd-anchor"></a>
 					<h3>Callback<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Callback<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Callback<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:37</li>
@@ -223,8 +237,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -248,7 +262,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="combinefn" class="tsd-anchor"></a>
 					<h3>Combine<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Combine<wbr>Fn&lt;TFirst, TSecond, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Combine<wbr>Fn&lt;TFirst, TSecond, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TFirst</span>, second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">TResult</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in iterators.ts:16</li>
@@ -274,8 +288,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TFirst</span>, second<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSecond</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TResult</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -299,7 +313,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="comparerfn" class="tsd-anchor"></a>
 					<h3>Comparer<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Comparer<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Comparer<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:33</li>
@@ -319,8 +333,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -344,7 +358,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="indexispredicate" class="tsd-anchor"></a>
 					<h3>Index<wbr>IsPredicate</h3>
-					<div class="tsd-signature tsd-kind-icon">Index<wbr>IsPredicate&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Index<wbr>IsPredicate&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">element</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type">TResult</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in iterators.ts:35</li>
@@ -368,9 +382,9 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">element</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type">TResult</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -383,7 +397,7 @@
 												<h5>index: <span class="tsd-signature-type">number</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">element</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type">TResult</span></h4>
 									</li>
 								</ul>
 							</li>
@@ -393,7 +407,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="indexmapfn" class="tsd-anchor"></a>
 					<h3>Index<wbr>Map<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Index<wbr>Map<wbr>Fn&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Index<wbr>Map<wbr>Fn&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">TResult</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in iterators.ts:9</li>
@@ -417,8 +431,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TResult</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -442,7 +456,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="indexpredicate" class="tsd-anchor"></a>
 					<h3>Index<wbr>Predicate</h3>
-					<div class="tsd-signature tsd-kind-icon">Index<wbr>Predicate&lt;TSource&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Index<wbr>Predicate&lt;TSource&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in iterators.ts:27</li>
@@ -462,8 +476,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -487,7 +501,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="mapfn" class="tsd-anchor"></a>
 					<h3>Map<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Map<wbr>Fn&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Map<wbr>Fn&lt;TSource, TResult&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">TResult</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:20</li>
@@ -510,8 +524,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TResult</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -532,7 +546,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="sortfn" class="tsd-anchor"></a>
 					<h3>Sort<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Sort<wbr>Fn&lt;TSource&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Sort<wbr>Fn&lt;TSource&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in iterators.ts:23</li>
@@ -552,8 +566,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -577,7 +591,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="strfn" class="tsd-anchor"></a>
 					<h3>Str<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Str<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">Str<wbr>Fn&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in aggregates.ts:41</li>
@@ -597,8 +611,8 @@
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -622,7 +636,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="empty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> empty</h3>
-					<div class="tsd-signature tsd-kind-icon">empty<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#empty" class="tsd-signature-type">empty</a><span class="tsd-signature-symbol"> =&nbsp;Lazy.empty</span></div>
+					<div class="tsd-signature tsd-kind-icon">empty<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#empty" class="tsd-signature-type">empty</a><span class="tsd-signature-symbol"> = Lazy.empty</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in mod.ts:8</li>
@@ -639,7 +653,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="from" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> from</h3>
-					<div class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#from" class="tsd-signature-type">from</a><span class="tsd-signature-symbol"> =&nbsp;Lazy.from</span></div>
+					<div class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#from" class="tsd-signature-type">from</a><span class="tsd-signature-symbol"> = Lazy.from</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in mod.ts:13</li>
@@ -656,7 +670,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="range" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> range</h3>
-					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#range" class="tsd-signature-type">range</a><span class="tsd-signature-symbol"> =&nbsp;Lazy.range</span></div>
+					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#range" class="tsd-signature-type">range</a><span class="tsd-signature-symbol"> = Lazy.range</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in mod.ts:18</li>
@@ -673,7 +687,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="repeat" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> repeat</h3>
-					<div class="tsd-signature tsd-kind-icon">repeat<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#repeat" class="tsd-signature-type">repeat</a><span class="tsd-signature-symbol"> =&nbsp;Lazy.repeat</span></div>
+					<div class="tsd-signature tsd-kind-icon">repeat<span class="tsd-signature-symbol">:</span> <a href="classes/lazy.html#repeat" class="tsd-signature-type">repeat</a><span class="tsd-signature-symbol"> = Lazy.repeat</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in mod.ts:23</li>
@@ -686,6 +700,327 @@
 							</dd>
 						</dl>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="aggregate" class="tsd-anchor"></a>
+					<h3>aggregate</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">aggregate&lt;TSource, TAcc&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span>, agg<span class="tsd-signature-symbol">: </span><a href="globals.html#aggfn" class="tsd-signature-type">AggFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TAcc</span><span class="tsd-signature-symbol">&gt;</span>, seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TAcc</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TAcc</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:52</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSource</h4>
+								</li>
+								<li>
+									<h4>TAcc</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>agg: <a href="globals.html#aggfn" class="tsd-signature-type">AggFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TAcc</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>seed: <span class="tsd-signature-type">TAcc</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TAcc</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="average" class="tsd-anchor"></a>
+					<h3>average</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">average&lt;TSource&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span>, selector<span class="tsd-signature-symbol">: </span><a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:128</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSource</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>selector: <a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="elementatordefault" class="tsd-anchor"></a>
+					<h3>element<wbr>AtOr<wbr>Default</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">element<wbr>AtOr<wbr>Default&lt;TElement, TDefault&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TDefault</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:229</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TElement</h4>
+								</li>
+								<li>
+									<h4>TDefault</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>index: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">TDefault</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="firstordefault" class="tsd-anchor"></a>
+					<h3>first<wbr>OrDefault</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">first<wbr>OrDefault&lt;TElement, TDefault&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TDefault</span>, predicate<span class="tsd-signature-symbol">?: </span><a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:287</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TElement</h4>
+								</li>
+								<li>
+									<h4>TDefault</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">TDefault</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> predicate: <a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="lastordefault" class="tsd-anchor"></a>
+					<h3>last<wbr>OrDefault</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">last<wbr>OrDefault&lt;TElement, TDefault&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TDefault</span>, predicate<span class="tsd-signature-symbol">?: </span><a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:398</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TElement</h4>
+								</li>
+								<li>
+									<h4>TDefault</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">TDefault</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> predicate: <a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="max" class="tsd-anchor"></a>
+					<h3>max</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">max&lt;TSource&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span>, selector<span class="tsd-signature-symbol">: </span><a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:423</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSource</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>selector: <a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="min" class="tsd-anchor"></a>
+					<h3>min</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">min&lt;TSource&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span>, selector<span class="tsd-signature-symbol">: </span><a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:455</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSource</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>selector: <a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="singleordefault" class="tsd-anchor"></a>
+					<h3>single<wbr>OrDefault</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">single<wbr>OrDefault&lt;TElement, TDefault&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span>, predicate<span class="tsd-signature-symbol">: </span><a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span>, defaultValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TDefault</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:531</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TElement</h4>
+								</li>
+								<li>
+									<h4>TDefault</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>predicate: <a href="globals.html#boolpredicate" class="tsd-signature-type">BoolPredicate</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>defaultValue: <span class="tsd-signature-type">TDefault</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TDefault</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="sum" class="tsd-anchor"></a>
+					<h3>sum</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">sum&lt;TSource&gt;<span class="tsd-signature-symbol">(</span>iterable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span>, selector<span class="tsd-signature-symbol">: </span><a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in aggregates.ts:576</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TSource</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>iterable: <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>selector: <a href="globals.html#mapfn" class="tsd-signature-type">MapFn</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TSource</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -750,6 +1085,33 @@
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#repeat" class="tsd-kind-icon">repeat</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#aggregate" class="tsd-kind-icon">aggregate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#average" class="tsd-kind-icon">average</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#elementatordefault" class="tsd-kind-icon">element<wbr>AtOr<wbr>Default</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#firstordefault" class="tsd-kind-icon">first<wbr>OrDefault</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#lastordefault" class="tsd-kind-icon">last<wbr>OrDefault</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#max" class="tsd-kind-icon">max</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#min" class="tsd-kind-icon">min</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#singleordefault" class="tsd-kind-icon">single<wbr>OrDefault</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#sum" class="tsd-kind-icon">sum</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -760,57 +1122,13 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
