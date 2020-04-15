@@ -4,7 +4,8 @@ import {
   assertEquals,
   assertThrows,
 } from './deps/std/testing/asserts.ts';
-import { test } from './deps/std/testing/mod.ts';
+
+const test = Deno.test;
 
 test(function aggregate() {
   assertEquals(

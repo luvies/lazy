@@ -4,7 +4,8 @@ import {
   assertStrictEq,
   assertThrows,
 } from './deps/std/testing/asserts.ts';
-import { test } from './deps/std/testing/mod.ts';
+
+const test = Deno.test;
 
 test(function empty() {
   assertEquals(Lazy.empty().toArray(), []);

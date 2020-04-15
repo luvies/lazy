@@ -12,6 +12,7 @@
   "scripts": {
     "prepare": "yarn docs",
     "test": "deno test --allow-net test/*.spec.ts",
+    "types": "deno types > ./types/deno.d.ts",
     "init-types": "deno fetch ./test/types.ts",
     "lint": "./node_modules/@luvies/config/scripts/lint.sh lint 'lib'",
     "fix": "./node_modules/@luvies/config/scripts/lint.sh fix 'lib'",
@@ -20,17 +21,17 @@
     "build": "rm -rf dist/* && deno run --allow-read --allow-write https://s.luvies.io/node_prebuild.ts --in lib --out prebuild && tsc --project ./tsconfig.build.json"
   },
   "devDependencies": {
-    "@luvies/config": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^2.3.1",
-    "@typescript-eslint/parser": "^2.3.1",
+    "@luvies/config": "^2.0.4",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "deno_ls_plugin": "^0.1.0",
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^6.3.0",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-sort-imports-es6-autofix": "^0.5.0",
-    "prettier": "^1.18.2",
-    "typedoc": "^0.15.0",
-    "typescript": "^3.6.3"
+    "prettier": "^2.0.4",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.8.3"
   },
   "keywords": [
     "deno",

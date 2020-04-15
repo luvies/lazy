@@ -1,6 +1,7 @@
 import { Lazy } from '../lib/mod.ts';
 import { assertEquals } from './deps/std/testing/asserts.ts';
-import { test } from './deps/std/testing/mod.ts';
+
+const test = Deno.test;
 
 test(function append() {
   let orig = [1, 2, 3, 4];
