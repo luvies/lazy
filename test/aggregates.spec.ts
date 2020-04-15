@@ -31,19 +31,49 @@ test(function aggregate() {
 });
 
 test(function all() {
-  assertEquals(Lazy.from([true, true, true, true]).all(v => v), true);
-  assertEquals(Lazy.from([false, true, true, true]).all(v => v), false);
-  assertEquals(Lazy.from([true, false, true, true]).all(v => v), false);
-  assertEquals(Lazy.from([true, true, false, true]).all(v => v), false);
-  assertEquals(Lazy.from([true, true, true, false]).all(v => v), false);
+  assertEquals(
+    Lazy.from([true, true, true, true]).all(v => v),
+    true,
+  );
+  assertEquals(
+    Lazy.from([false, true, true, true]).all(v => v),
+    false,
+  );
+  assertEquals(
+    Lazy.from([true, false, true, true]).all(v => v),
+    false,
+  );
+  assertEquals(
+    Lazy.from([true, true, false, true]).all(v => v),
+    false,
+  );
+  assertEquals(
+    Lazy.from([true, true, true, false]).all(v => v),
+    false,
+  );
 });
 
 test(function any() {
-  assertEquals(Lazy.from([true, true, true, true]).any(v => v), true);
-  assertEquals(Lazy.from([false, true, true, true]).any(v => v), true);
-  assertEquals(Lazy.from([false, false, true, true]).any(v => v), true);
-  assertEquals(Lazy.from([false, false, false, true]).any(v => v), true);
-  assertEquals(Lazy.from([false, false, false, false]).any(v => v), false);
+  assertEquals(
+    Lazy.from([true, true, true, true]).any(v => v),
+    true,
+  );
+  assertEquals(
+    Lazy.from([false, true, true, true]).any(v => v),
+    true,
+  );
+  assertEquals(
+    Lazy.from([false, false, true, true]).any(v => v),
+    true,
+  );
+  assertEquals(
+    Lazy.from([false, false, false, true]).any(v => v),
+    true,
+  );
+  assertEquals(
+    Lazy.from([false, false, false, false]).any(v => v),
+    false,
+  );
 
   assertEquals(Lazy.from([]).any(), false);
   assertEquals(Lazy.from([1]).any(), true);
@@ -105,11 +135,26 @@ test(function count() {
   assertEquals(Lazy.from([1, 2, 3]).count(), 3);
   assertEquals(Lazy.from([1, 2, 3, 4]).count(), 4);
 
-  assertEquals(Lazy.from([]).count(i => i % 2 === 0), 0);
-  assertEquals(Lazy.from([1]).count(i => i % 2 === 0), 0);
-  assertEquals(Lazy.from([1, 2]).count(i => i % 2 === 0), 1);
-  assertEquals(Lazy.from([1, 2, 3]).count(i => i % 2 === 0), 1);
-  assertEquals(Lazy.from([1, 2, 3, 4]).count(i => i % 2 === 0), 2);
+  assertEquals(
+    Lazy.from([]).count(i => i % 2 === 0),
+    0,
+  );
+  assertEquals(
+    Lazy.from([1]).count(i => i % 2 === 0),
+    0,
+  );
+  assertEquals(
+    Lazy.from([1, 2]).count(i => i % 2 === 0),
+    1,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3]).count(i => i % 2 === 0),
+    1,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3, 4]).count(i => i % 2 === 0),
+    2,
+  );
 
   // Test iterated array access.
   assertEquals(
@@ -345,9 +390,18 @@ test(function first() {
   assertEquals(Lazy.from([3, 2, 1]).first(), 3);
   assertThrows(() => Lazy.from([]).first());
 
-  assertEquals(Lazy.from([1, 2, 3]).first(i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([2, 3, 1]).first(i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([3, 2, 1]).first(i => i % 2 === 0), 2);
+  assertEquals(
+    Lazy.from([1, 2, 3]).first(i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([2, 3, 1]).first(i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([3, 2, 1]).first(i => i % 2 === 0),
+    2,
+  );
   assertThrows(() => Lazy.from([]).first(i => i % 2 === 0));
 
   // Test iterated array access.
@@ -407,10 +461,22 @@ test(function firstOrDefault() {
   assertEquals(Lazy.from([3, 2, 1]).firstOrDefault(9), 3);
   assertEquals(Lazy.from<number>([]).firstOrDefault(9), 9);
 
-  assertEquals(Lazy.from([1, 2, 3]).firstOrDefault(9, i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([2, 3, 1]).firstOrDefault(9, i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([3, 2, 1]).firstOrDefault(9, i => i % 2 === 0), 2);
-  assertEquals(Lazy.from<number>([]).firstOrDefault(9, i => i % 2 === 0), 9);
+  assertEquals(
+    Lazy.from([1, 2, 3]).firstOrDefault(9, i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([2, 3, 1]).firstOrDefault(9, i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([3, 2, 1]).firstOrDefault(9, i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from<number>([]).firstOrDefault(9, i => i % 2 === 0),
+    9,
+  );
 
   // Test iterated array access.
   assertEquals(
@@ -514,10 +580,22 @@ test(function last() {
   assertThrows(() => Lazy.from([]).last());
 
   assertThrows(() => Lazy.from([1]).last(i => i % 2 === 0));
-  assertEquals(Lazy.from([1, 2]).last(i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([1, 2, 3]).last(i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([1, 2, 3, 4]).last(i => i % 2 === 0), 4);
-  assertEquals(Lazy.from([1, 2, 3, 4, 5]).last(i => i % 2 === 0), 4);
+  assertEquals(
+    Lazy.from([1, 2]).last(i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3]).last(i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3, 4]).last(i => i % 2 === 0),
+    4,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3, 4, 5]).last(i => i % 2 === 0),
+    4,
+  );
   assertThrows(() => Lazy.from([]).last(i => i % 2 === 0));
 
   // Test iterated array access.
@@ -601,15 +679,30 @@ test(function lastOrDefault() {
   assertEquals(Lazy.from([1, 2, 3, 4, 5]).lastOrDefault(9), 5);
   assertEquals(Lazy.from<number>([]).lastOrDefault(9), 9);
 
-  assertEquals(Lazy.from([1]).lastOrDefault(9, i => i % 2 === 0), 9);
-  assertEquals(Lazy.from([1, 2]).lastOrDefault(9, i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([1, 2, 3]).lastOrDefault(9, i => i % 2 === 0), 2);
-  assertEquals(Lazy.from([1, 2, 3, 4]).lastOrDefault(9, i => i % 2 === 0), 4);
+  assertEquals(
+    Lazy.from([1]).lastOrDefault(9, i => i % 2 === 0),
+    9,
+  );
+  assertEquals(
+    Lazy.from([1, 2]).lastOrDefault(9, i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3]).lastOrDefault(9, i => i % 2 === 0),
+    2,
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3, 4]).lastOrDefault(9, i => i % 2 === 0),
+    4,
+  );
   assertEquals(
     Lazy.from([1, 2, 3, 4, 5]).lastOrDefault(9, i => i % 2 === 0),
     4,
   );
-  assertEquals(Lazy.from<number>([]).lastOrDefault(9, i => i % 2 === 0), 9);
+  assertEquals(
+    Lazy.from<number>([]).lastOrDefault(9, i => i % 2 === 0),
+    9,
+  );
 
   // Test iterated array access.
   assertEquals(
@@ -707,7 +800,10 @@ test(function max() {
     { value: 4 },
     { value: 5 },
   ];
-  assertEquals(Lazy.from(objs).max(o => o.value), 5);
+  assertEquals(
+    Lazy.from(objs).max(o => o.value),
+    5,
+  );
 });
 
 test(function min() {
@@ -725,7 +821,10 @@ test(function min() {
     { value: 4 },
     { value: 5 },
   ];
-  assertEquals(Lazy.from(objs).min(o => o.value), 1);
+  assertEquals(
+    Lazy.from(objs).min(o => o.value),
+    1,
+  );
 });
 
 test(async function resolveAll() {
@@ -762,18 +861,27 @@ test(function single() {
     { key: 2, value: 'b' },
     { key: 3, value: 'c' },
   ];
-  assertEquals(Lazy.from(orig).single(v => v.key === 1), {
-    key: 1,
-    value: 'a',
-  });
-  assertEquals(Lazy.from(orig).single(v => v.key === 2), {
-    key: 2,
-    value: 'b',
-  });
-  assertEquals(Lazy.from(orig).single(v => v.key === 3), {
-    key: 3,
-    value: 'c',
-  });
+  assertEquals(
+    Lazy.from(orig).single(v => v.key === 1),
+    {
+      key: 1,
+      value: 'a',
+    },
+  );
+  assertEquals(
+    Lazy.from(orig).single(v => v.key === 2),
+    {
+      key: 2,
+      value: 'b',
+    },
+  );
+  assertEquals(
+    Lazy.from(orig).single(v => v.key === 3),
+    {
+      key: 3,
+      value: 'c',
+    },
+  );
   assertThrows(() => Lazy.from(orig).single(v => v.key === 4));
 });
 
@@ -819,10 +927,22 @@ test(function stringJoin() {
   assertEquals(Lazy.from([1, 2, 3]).stringJoin(','), '1,2,3');
   assertEquals(Lazy.from([1, 2, 3, 4]).stringJoin(','), '1,2,3,4');
 
-  assertEquals(Lazy.from([]).stringJoin(',', i => `${i * 2}`), '');
-  assertEquals(Lazy.from([1]).stringJoin(',', i => `${i * 2}`), '2');
-  assertEquals(Lazy.from([1, 2]).stringJoin(',', i => `${i * 2}`), '2,4');
-  assertEquals(Lazy.from([1, 2, 3]).stringJoin(',', i => `${i * 2}`), '2,4,6');
+  assertEquals(
+    Lazy.from([]).stringJoin(',', i => `${i * 2}`),
+    '',
+  );
+  assertEquals(
+    Lazy.from([1]).stringJoin(',', i => `${i * 2}`),
+    '2',
+  );
+  assertEquals(
+    Lazy.from([1, 2]).stringJoin(',', i => `${i * 2}`),
+    '2,4',
+  );
+  assertEquals(
+    Lazy.from([1, 2, 3]).stringJoin(',', i => `${i * 2}`),
+    '2,4,6',
+  );
   assertEquals(
     Lazy.from([1, 2, 3, 4]).stringJoin(',', i => `${i * 2}`),
     '2,4,6,8',
@@ -844,7 +964,10 @@ test(function sum() {
     { value: 4 },
     { value: 5 },
   ];
-  assertEquals(Lazy.from(objs).sum(o => o.value), 15);
+  assertEquals(
+    Lazy.from(objs).sum(o => o.value),
+    15,
+  );
 });
 
 test(function toJSON() {
@@ -874,7 +997,10 @@ test(function toMap() {
   const map1 = new Map<number, string>(
     orig.map<[number, string]>(v => [v.key, v.value]),
   );
-  for (const [key, value] of Lazy.from(orig).toMap(v => v.key, v => v.value)) {
+  for (const [key, value] of Lazy.from(orig).toMap(
+    v => v.key,
+    v => v.value,
+  )) {
     assert(map1.has(key));
     assertEquals(map1.get(key), value);
   }
@@ -882,7 +1008,10 @@ test(function toMap() {
   const map2 = new Map<number, { key: number; value: string }>(
     orig.map<[number, { key: number; value: string }]>(v => [v.key, v]),
   );
-  for (const [key, value] of Lazy.from(orig).toMap(v => v.key, v => v)) {
+  for (const [key, value] of Lazy.from(orig).toMap(
+    v => v.key,
+    v => v,
+  )) {
     assert(map2.has(key));
     assertEquals(map2.get(key), value);
   }
