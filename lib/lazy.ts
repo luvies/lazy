@@ -1,6 +1,6 @@
 import * as aggregates from './aggregates.ts';
 import * as iterators from './iterators.ts';
-import {
+import type {
   AggFn,
   BoolPredicate,
   CallbackFn,
@@ -8,7 +8,7 @@ import {
   MapFn,
   StrFn,
 } from './aggregates.ts';
-import {
+import type {
   CombineFn,
   IGrouping,
   IndexIsPredicate,
