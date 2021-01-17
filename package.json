@@ -16,7 +16,7 @@
     "init-types": "deno fetch ./test/types.ts",
     "lint": "./node_modules/@luvies/config/scripts/lint.sh lint 'lib'",
     "fix": "./node_modules/@luvies/config/scripts/lint.sh fix 'lib'",
-    "docs": "yarn build && typedoc --out docs ./prebuild --mode file",
+    "docs": "yarn build && typedoc ./prebuild/mod.ts --out docs --tsconfig ./tsconfig.build.json",
     "postpublish": "git push && git push --tags",
     "build": "rm -rf dist/* && deno run --allow-read --allow-write https://s.luvies.io/node_prebuild.ts --in lib --out prebuild && tsc --project ./tsconfig.build.json"
   },

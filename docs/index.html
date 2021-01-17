@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for @luvies/lazy">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -40,8 +41,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -51,12 +50,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1>@luvies/lazy</h1>
+			<h1>Project @luvies/lazy</h1>
 		</div>
 	</div>
 </header>
@@ -99,74 +93,89 @@
 					<h3>Deno</h3>
 				</a>
 				<p>Use the following import:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v{version}/mod.ts'</span>;</code></pre>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Lazy</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://deno.land/x/lazy@v{version}/mod.ts&#039;</span><span style="color: #000000">;</span>
+</code></pre>
 				<p>Make sure the <code>@v{version}</code> tag is the correct one you want. I&#39;d recommend against master, as it could change without notice &amp; might be broken (although I will try not to break it).</p>
 				<a href="#node" id="node" style="color: inherit; text-decoration: none;">
 					<h3>Node</h3>
 				</a>
 				<p>The packge can be found here: <a href="https://www.npmjs.com/package/@luvies/lazy">https://www.npmjs.com/package/@luvies/lazy</a>.</p>
 				<p>Install via</p>
-				<pre><code>yarn add <span class="hljs-keyword">@luvies</span>/<span class="hljs-keyword">lazy</span></code></pre><p>or</p>
-				<pre><code><span class="hljs-built_in">npm</span> install @luvies/lazy</code></pre><p>Import using</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@luvies/lazy'</span>;</code></pre>
+				<pre><code><span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">luvies</span><span style="color: #000000">/</span><span style="color: #001080">lazy</span>
+</code></pre>
 				<p>or</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Lazy } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@luvies/lazy'</span>);</code></pre>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> @</span><span style="color: #001080">luvies</span><span style="color: #000000">/</span><span style="color: #001080">lazy</span>
+</code></pre>
+				<p>Import using</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Lazy</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@luvies/lazy&#039;</span><span style="color: #000000">;</span>
+</code></pre>
+				<p>or</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">Lazy</span><span style="color: #000000"> } = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;@luvies/lazy&#039;</span><span style="color: #000000">);</span>
+</code></pre>
 				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
 					<h2>Overview</h2>
 				</a>
 				<p>At a base level, this module provides the following exports:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> Lazy&lt;TElement&gt; {...}
+				<pre><code class="language-ts"><span style="color: #0000FF">abstract</span><span style="color: #000000"> </span><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt; {...}</span>
 
-<span class="hljs-comment">// These are provided to allow direct imports, but are just aliases over the static class methods.</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">from</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">iterable: Iterable&lt;TElement&gt;</span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">empty</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params"></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">range</span>(<span class="hljs-params">start: <span class="hljs-built_in">number</span>, end?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">number</span>&gt;</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeat</span>&lt;<span class="hljs-title">TElement</span>&gt;(<span class="hljs-params">element: TElement, count?: <span class="hljs-built_in">number</span></span>): <span class="hljs-title">Lazy</span>&lt;<span class="hljs-title">TElement</span>&gt;</span>;</code></pre>
+<span style="color: #008000">// These are provided to allow direct imports, but are just aliases over the static class methods.</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">from</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;(</span><span style="color: #001080">iterable</span><span style="color: #000000">: </span><span style="color: #267F99">Iterable</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;): </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;;</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">empty</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;(): </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;;</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">range</span><span style="color: #000000">(</span><span style="color: #001080">start</span><span style="color: #000000">: </span><span style="color: #267F99">number</span><span style="color: #000000">, </span><span style="color: #001080">end</span><span style="color: #000000">?: </span><span style="color: #267F99">number</span><span style="color: #000000">): </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">number</span><span style="color: #000000">&gt;;</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">repeat</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;(</span><span style="color: #001080">element</span><span style="color: #000000">: </span><span style="color: #267F99">TElement</span><span style="color: #000000">, </span><span style="color: #001080">count</span><span style="color: #000000">?: </span><span style="color: #267F99">number</span><span style="color: #000000">): </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TElement</span><span style="color: #000000">&gt;;</span>
+</code></pre>
 				<p>The <code>Lazy</code> class is the root of the module, all things come from it and are derived off it. To start using it, do something like the following:</p>
-				<pre><code class="language-ts"><span class="hljs-comment">// Static method import.</span>
-<span class="hljs-keyword">import</span> { Lazy } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v{version}/mod.ts'</span>;
+				<pre><code class="language-ts"><span style="color: #008000">// Static method import.</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Lazy</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://deno.land/x/lazy@v{version}/mod.ts&#039;</span><span style="color: #000000">;</span>
 
-<span class="hljs-keyword">const</span> iterable = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">iterable</span><span style="color: #000000"> = </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">([</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">, </span><span style="color: #098658">5</span><span style="color: #000000">]);</span>
 
-<span class="hljs-comment">// Direct function import.</span>
-<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'https://deno.land/x/lazy@v{version}/mod.ts'</span>;
+<span style="color: #008000">// Direct function import.</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">from</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;https://deno.land/x/lazy@v{version}/mod.ts&#039;</span><span style="color: #000000">;</span>
 
-<span class="hljs-keyword">const</span> iterable = <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]);</code></pre>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">iterable</span><span style="color: #000000"> = </span><span style="color: #795E26">from</span><span style="color: #000000">([</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">, </span><span style="color: #098658">5</span><span style="color: #000000">]);</span>
+</code></pre>
 				<p>After you have done this, the full power of the module is available to play with.</p>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 					<h2>Examples</h2>
 				</a>
 				<p>The aim of the module is to support the full suite of Linq methods the C# provides, as it covers a large surface area with the possible use-cases. Not only does it aim to provide them, it aims to act like them. Nothing is is executed until you call the iterator and start walking through the elements of the list. Here&#39;s a small example:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> evenSquares = Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>)
-  .where(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>)
-  .select(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>);</code></pre>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">evenSquares</span><span style="color: #000000"> = </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">range</span><span style="color: #000000">(</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1000</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> % </span><span style="color: #098658">2</span><span style="color: #000000"> === </span><span style="color: #098658">0</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">select</span><span style="color: #000000">(</span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> ** </span><span style="color: #098658">2</span><span style="color: #000000">);</span>
+</code></pre>
 				<p>The result of this chain is an iterator object, however nothing has actually happened yet. As with linq, things only happen exactly when you ask for it:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> num of evenSquares) {
-  <span class="hljs-built_in">console</span>.log(num); <span class="hljs-comment">// 0, 4, 16, 36, 64, 100, 144...</span>
-}</code></pre>
+				<pre><code class="language-ts"><span style="color: #AF00DB">for</span><span style="color: #000000"> (</span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">num</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #001080">evenSquares</span><span style="color: #000000">) {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">num</span><span style="color: #000000">); </span><span style="color: #008000">// 0, 4, 16, 36, 64, 100, 144...</span>
+<span style="color: #000000">}</span>
+</code></pre>
 				<p>A huge part of what makes linq so powerful is its composability, which this module provides at a base level:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> selectedEvenNumbers = evenNumbers.take(<span class="hljs-number">10</span>);</code></pre>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">selectedEvenNumbers</span><span style="color: #000000"> = </span><span style="color: #001080">evenNumbers</span><span style="color: #000000">.</span><span style="color: #795E26">take</span><span style="color: #000000">(</span><span style="color: #098658">10</span><span style="color: #000000">);</span>
+</code></pre>
 				<p>As with C# Linq, this statement will create a new iteratable object that only returns the first 10 elements of the original iterable object. And the order of composability is not limited, every single method that returns an iterator supports chaining with every other method. On top of this, this module supports the same linq aggregation functions that linq does, for example:</p>
-				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(selectedEvenNumbers.sum()); <span class="hljs-comment">// -&gt; 1140</span></code></pre>
+				<pre><code class="language-ts"><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">selectedEvenNumbers</span><span style="color: #000000">.</span><span style="color: #795E26">sum</span><span style="color: #000000">()); </span><span style="color: #008000">// -&gt; 1140</span>
+</code></pre>
 				<p>These functions allow you to deal with iterable objects at a high-level, hiding the fact that not all of the values might be available until the iteration is actually done. They also handle things like short-cuts, for example:</p>
-				<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(Lazy.range(<span class="hljs-number">0</span>, <span class="hljs-number">1000</span>).any(<span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i &gt; <span class="hljs-number">100</span>)); <span class="hljs-comment">// -&gt; true</span></code></pre>
+				<pre><code class="language-ts"><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">range</span><span style="color: #000000">(</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1000</span><span style="color: #000000">).</span><span style="color: #795E26">any</span><span style="color: #000000">(</span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> &gt; </span><span style="color: #098658">100</span><span style="color: #000000">)); </span><span style="color: #008000">// -&gt; true</span>
+</code></pre>
 				<p>This function knows that as soon as the condition is fulfilled, it can stop iterating and hand back the result, saving time with iterating the entire list (which would be easy to forget otherwise).</p>
 				<p>A primary aim of this library is to allow complex transformations on large datasets without having to deal with the copying that JavaScript normally does, for example:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> data = getData(); <span class="hljs-comment">// Could be a large list of datapoints.</span>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">data</span><span style="color: #000000"> = </span><span style="color: #795E26">getData</span><span style="color: #000000">(); </span><span style="color: #008000">// Could be a large list of datapoints.</span>
 
-<span class="hljs-comment">// Native JS</span>
-<span class="hljs-keyword">const</span> points = data
-  .map(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x)
-  .filter(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x))
-  .map(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x));
-<span class="hljs-keyword">const</span> avg = points.reduce(<span class="hljs-function">(<span class="hljs-params">prev, curr</span>) =&gt;</span> prev + curr) / points.length;
+<span style="color: #008000">// Native JS</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">points</span><span style="color: #000000"> = </span><span style="color: #001080">data</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">d</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">d</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">filter</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">selectPoint</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">))</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">adjustPoint</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">));</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">avg</span><span style="color: #000000"> = </span><span style="color: #001080">points</span><span style="color: #000000">.</span><span style="color: #795E26">reduce</span><span style="color: #000000">((</span><span style="color: #001080">prev</span><span style="color: #000000">, </span><span style="color: #001080">curr</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">prev</span><span style="color: #000000"> + </span><span style="color: #001080">curr</span><span style="color: #000000">) / </span><span style="color: #001080">points</span><span style="color: #000000">.</span><span style="color: #001080">length</span><span style="color: #000000">;</span>
 
-<span class="hljs-comment">// Lazy iterators</span>
-<span class="hljs-keyword">const</span> avg = Lazy.from(data)
-  .select(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x)
-  .where(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> selectPoint(x))
-  .select(<span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> adjustPoint(x))
-  .average();</code></pre>
+<span style="color: #008000">// Lazy iterators</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">avg</span><span style="color: #000000"> = </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">select</span><span style="color: #000000">(</span><span style="color: #001080">d</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">d</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">selectPoint</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">))</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">select</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">adjustPoint</span><span style="color: #000000">(</span><span style="color: #001080">x</span><span style="color: #000000">))</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">average</span><span style="color: #000000">();</span>
+</code></pre>
 				<p>The native version will create 3 copies of the array, non of which are used beyond the last to calculate the final average, after which point it is also usless. In contrast, the lazy iterator will only apply the transformations/filters at the exact point they are needed, so no copies are done, and the built-in aggregation function allow for a nicer final calculation.</p>
 				<a href="#interop-with-native" id="interop-with-native" style="color: inherit; text-decoration: none;">
 					<h2>Interop with native</h2>
@@ -184,61 +193,64 @@
 					<h3>Promises</h3>
 				</a>
 				<p>This module fully supports promises, and things like for-await-of. As an example (taken from the tests):</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">2</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">4</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
-];
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">list</span><span style="color: #000000"> = [</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">2</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">3</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">4</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">5</span><span style="color: #000000">),</span>
+<span style="color: #000000">];</span>
 
-<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> element of Lazy.from(list)) {
-  <span class="hljs-built_in">console</span>.log(element);
-}
+<span style="color: #AF00DB">for</span><span style="color: #000000"> </span><span style="color: #AF00DB">await</span><span style="color: #000000"> (</span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">element</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">list</span><span style="color: #000000">)) {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">element</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
 
-<span class="hljs-comment">/*
-  Output:
+<span style="color: #008000">/*</span>
+<span style="color: #008000">  Output:</span>
 
-  -&gt; 1
-  -&gt; 2
-  -&gt; 3
-  -&gt; 4
-  -&gt; 5
-*/</span></code></pre>
+<span style="color: #008000">  -&gt; 1</span>
+<span style="color: #008000">  -&gt; 2</span>
+<span style="color: #008000">  -&gt; 3</span>
+<span style="color: #008000">  -&gt; 4</span>
+<span style="color: #008000">  -&gt; 5</span>
+<span style="color: #008000">*/</span>
+</code></pre>
 				<p>However, it also supports resolving all promises in the iterable to their values all at once, using the help of <code>Promise.all</code>:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">2</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">4</span>),
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
-];
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">list</span><span style="color: #000000"> = [</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">2</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">3</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">4</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">5</span><span style="color: #000000">),</span>
+<span style="color: #000000">];</span>
 
-<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of (<span class="hljs-keyword">await</span> Lazy.from(list).resolveAll()).select(
-  <span class="hljs-function"><span class="hljs-params">i</span> =&gt;</span> i ** <span class="hljs-number">2</span>,
-)) {
-  <span class="hljs-built_in">console</span>.log(element);
-}
+<span style="color: #AF00DB">for</span><span style="color: #000000"> (</span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">element</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> (</span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">list</span><span style="color: #000000">).</span><span style="color: #795E26">resolveAll</span><span style="color: #000000">()).</span><span style="color: #795E26">select</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> ** </span><span style="color: #098658">2</span><span style="color: #000000">,</span>
+<span style="color: #000000">)) {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">element</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
 
-<span class="hljs-comment">/*
-  Output:
+<span style="color: #008000">/*</span>
+<span style="color: #008000">  Output:</span>
 
-  -&gt; 1
-  -&gt; 4
-  -&gt; 9
-  -&gt; 16
-  -&gt; 25
-*/</span></code></pre>
+<span style="color: #008000">  -&gt; 1</span>
+<span style="color: #008000">  -&gt; 4</span>
+<span style="color: #008000">  -&gt; 9</span>
+<span style="color: #008000">  -&gt; 16</span>
+<span style="color: #008000">  -&gt; 25</span>
+<span style="color: #008000">*/</span>
+</code></pre>
 				<p>For TypeScript users, the <code>resolveAll</code> function all also correctly determines the resulting object type, even if there is a mix of promises and non promises:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">const</span> list = [
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">1</span>),
-  <span class="hljs-number">2</span>
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">3</span>),
-  <span class="hljs-number">4</span>
-  <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">5</span>),
-]; <span class="hljs-comment">// type -&gt; Array&lt;number | Promise&lt;number&gt;&gt;</span>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">list</span><span style="color: #000000"> = [</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #098658">2</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">3</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #098658">4</span>
+<span style="color: #000000">  </span><span style="color: #267F99">Promise</span><span style="color: #000000">.</span><span style="color: #795E26">resolve</span><span style="color: #000000">(</span><span style="color: #098658">5</span><span style="color: #000000">),</span>
+<span style="color: #000000">]; </span><span style="color: #008000">// type -&gt; Array&lt;number | Promise&lt;number&gt;&gt;</span>
 
-Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt;Lazy&lt;number&gt;&gt;</span></code></pre>
+<span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">list</span><span style="color: #000000">).</span><span style="color: #795E26">resolveAll</span><span style="color: #000000">() </span><span style="color: #008000">// type -&gt; Promise&lt;Lazy&lt;number&gt;&gt;</span>
+</code></pre>
 				<a href="#39no-additional-unexpected-iteration39" id="39no-additional-unexpected-iteration39" style="color: inherit; text-decoration: none;">
 					<h3>&#39;No additional unexpected iteration&#39;</h3>
 				</a>
@@ -247,44 +259,46 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 					<h3>Custom implementations</h3>
 				</a>
 				<p>This module supports using your own lazy iterable implementations in the chain. This is because of the way all of the functions are implemented, which is that they return a new object that extends the <code>Lazy</code> class and only contains the exact properties needed to perform the iteration. This allows you to write a custom implementation that does something unique to the problem you need to solve, and then integrate it into the normal chain. Here is an example implementation:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">class</span> LazyToString&lt;TSource&gt; <span class="hljs-keyword">extends</span> Lazy&lt;<span class="hljs-built_in">string</span>&gt; {
-  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly _iterable: Iterable&lt;TSource&gt;</span>) {
-    <span class="hljs-keyword">super</span>();
-  }
+				<pre><code class="language-ts"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">LazyToString</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TSource</span><span style="color: #000000">&gt; </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">public</span><span style="color: #000000"> </span><span style="color: #0000FF">constructor</span><span style="color: #000000">(</span><span style="color: #0000FF">private</span><span style="color: #000000"> </span><span style="color: #0000FF">readonly</span><span style="color: #000000"> </span><span style="color: #001080">_iterable</span><span style="color: #000000">: </span><span style="color: #267F99">Iterable</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TSource</span><span style="color: #000000">&gt;) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">super</span><span style="color: #000000">();</span>
+<span style="color: #000000">  }</span>
 
-  <span class="hljs-keyword">public</span> *[Symbol.iterator](): Iterator&lt;<span class="hljs-built_in">string</span>&gt; {
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> element of <span class="hljs-keyword">this</span>._iterable) {
-      <span class="hljs-keyword">yield</span> <span class="hljs-string">`<span class="hljs-subst">${element}</span>`</span>;
-    }
-  }
-}
-<span class="hljs-keyword">const</span> iterableToString = &lt;TSource&gt;<span class="hljs-function">(<span class="hljs-params">t: Iterable&lt;TSource&gt;</span>) =&gt;</span> <span class="hljs-keyword">new</span> LazyToString(t);
+<span style="color: #000000">  </span><span style="color: #0000FF">public</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000">[</span><span style="color: #267F99">Symbol</span><span style="color: #000000">.</span><span style="color: #001080">iterator</span><span style="color: #000000">](): </span><span style="color: #267F99">Iterator</span><span style="color: #000000">&lt;</span><span style="color: #267F99">string</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">for</span><span style="color: #000000"> (</span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">element</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">_iterable</span><span style="color: #000000">) {</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">yield</span><span style="color: #000000"> </span><span style="color: #A31515">`</span><span style="color: #0000FF">${</span><span style="color: #001080">element</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">}</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">iterableToString</span><span style="color: #000000"> = &lt;</span><span style="color: #267F99">TSource</span><span style="color: #000000">&gt;(</span><span style="color: #001080">t</span><span style="color: #000000">: </span><span style="color: #267F99">Iterable</span><span style="color: #000000">&lt;</span><span style="color: #267F99">TSource</span><span style="color: #000000">&gt;) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">LazyToString</span><span style="color: #000000">(</span><span style="color: #001080">t</span><span style="color: #000000">);</span>
 
-<span class="hljs-keyword">const</span> result = Lazy.from([<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1000</span>])
-  .apply&lt;LazyToString&lt;<span class="hljs-built_in">number</span>&gt;, <span class="hljs-built_in">string</span>&gt;(iterableToString)
-  .select(<span class="hljs-function"><span class="hljs-params">s</span> =&gt;</span> s.length)
-  .toArray();
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">result</span><span style="color: #000000"> = </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">([</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">10</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000">, </span><span style="color: #098658">1000</span><span style="color: #000000">])</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">apply</span><span style="color: #000000">&lt;</span><span style="color: #267F99">LazyToString</span><span style="color: #000000">&lt;</span><span style="color: #267F99">number</span><span style="color: #000000">&gt;, </span><span style="color: #267F99">string</span><span style="color: #000000">&gt;(</span><span style="color: #001080">iterableToString</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">select</span><span style="color: #000000">(</span><span style="color: #001080">s</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">s</span><span style="color: #000000">.</span><span style="color: #001080">length</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">toArray</span><span style="color: #000000">();</span>
 
-<span class="hljs-comment">// result -&gt; [1, 2, 3, 4]</span></code></pre>
+<span style="color: #008000">// result -&gt; [1, 2, 3, 4]</span>
+</code></pre>
 				<p>Obviously this is a contrived example, since the same could be done with a single <code>select</code>, but you see the power that is available. You can make any custom implementation at all, and it will chain as if it was part of the API itself.</p>
 				<a href="#shorthand-usage" id="shorthand-usage" style="color: inherit; text-decoration: none;">
 					<h3>Shorthand usage</h3>
 				</a>
 				<p>If you are using <code>Lazy.from</code> a lot in your code, you can use the following snippet to make usage much more ergonomic:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">declare</span> global {
-  <span class="hljs-keyword">interface</span> Array&lt;T&gt; {
-    <span class="hljs-comment">/**
-     * Returns the lazy iterator of the current array.
-     */</span>
-    lazy: Lazy&lt;T&gt;;
-  }
-}
+				<pre><code class="language-ts"><span style="color: #0000FF">declare</span><span style="color: #000000"> </span><span style="color: #001080">global</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">Array</span><span style="color: #000000">&lt;</span><span style="color: #267F99">T</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">    </span><span style="color: #008000">/**</span>
+<span style="color: #008000">     * Returns the lazy iterator of the current array.</span>
+<span style="color: #008000">     */</span>
+<span style="color: #000000">    </span><span style="color: #001080">lazy</span><span style="color: #000000">: </span><span style="color: #267F99">Lazy</span><span style="color: #000000">&lt;</span><span style="color: #267F99">T</span><span style="color: #000000">&gt;;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">}</span>
 
-<span class="hljs-built_in">Object</span>.defineProperty(<span class="hljs-built_in">Array</span>.prototype, <span class="hljs-string">'lazy'</span>, {
-  <span class="hljs-keyword">get</span>() {
-    <span class="hljs-keyword">return</span> Lazy.from(<span class="hljs-keyword">this</span>);
-  },
-});</code></pre>
+<span style="color: #267F99">Object</span><span style="color: #000000">.</span><span style="color: #795E26">defineProperty</span><span style="color: #000000">(</span><span style="color: #267F99">Array</span><span style="color: #000000">.</span><span style="color: #001080">prototype</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;lazy&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #795E26">get</span><span style="color: #000000">() {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">Lazy</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #0000FF">this</span><span style="color: #000000">);</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">});</span>
+</code></pre>
 				<a href="#setting-up-this-project" id="setting-up-this-project" style="color: inherit; text-decoration: none;">
 					<h2>Setting up this project</h2>
 				</a>
@@ -313,8 +327,8 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
 					</li>
 				</ul>
 			</nav>
@@ -323,80 +337,17 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/lazy.html" class="tsd-kind-icon">Lazy</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/igrouping.html" class="tsd-kind-icon">IGrouping</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#aggfn" class="tsd-kind-icon">Agg<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#boolpredicate" class="tsd-kind-icon">Bool<wbr>Predicate</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#callbackfn" class="tsd-kind-icon">Callback<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#combinefn" class="tsd-kind-icon">Combine<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#comparerfn" class="tsd-kind-icon">Comparer<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#indexispredicate" class="tsd-kind-icon">Index<wbr>IsPredicate</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#indexmapfn" class="tsd-kind-icon">Index<wbr>Map<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#indexpredicate" class="tsd-kind-icon">Index<wbr>Predicate</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#mapfn" class="tsd-kind-icon">Map<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#sortfn" class="tsd-kind-icon">Sort<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#strfn" class="tsd-kind-icon">Str<wbr>Fn</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#empty" class="tsd-kind-icon">empty</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#from" class="tsd-kind-icon">from</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#range" class="tsd-kind-icon">range</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#repeat" class="tsd-kind-icon">repeat</a>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#empty" class="tsd-kind-icon">empty</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#aggregate" class="tsd-kind-icon">aggregate</a>
+						<a href="modules.html#from" class="tsd-kind-icon">from</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#range" class="tsd-kind-icon">range</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#average" class="tsd-kind-icon">average</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#elementatordefault" class="tsd-kind-icon">element<wbr>AtOr<wbr>Default</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#firstordefault" class="tsd-kind-icon">first<wbr>OrDefault</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#lastordefault" class="tsd-kind-icon">last<wbr>OrDefault</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#max" class="tsd-kind-icon">max</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#min" class="tsd-kind-icon">min</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#singleordefault" class="tsd-kind-icon">single<wbr>OrDefault</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#sum" class="tsd-kind-icon">sum</a>
+						<a href="modules.html#repeat" class="tsd-kind-icon">repeat</a>
 					</li>
 				</ul>
 			</nav>
@@ -407,9 +358,6 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
@@ -424,6 +372,5 @@ Lazy.from(list).resolveAll() <span class="hljs-comment">// type -&gt; Promise&lt
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
