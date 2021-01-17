@@ -1,4 +1,5 @@
-import { MapFn, toArray, toMap } from './aggregates.ts';
+import type { MapFn } from './aggregates.ts';
+import { toArray, toMap } from './aggregates.ts';
 
 // Helpers types.
 
@@ -589,6 +590,7 @@ export class LazyJoinIterator<TFirst, TSecond, TKey, TResult>
  * @hidden
  */
 function defaultComparer<T>(a: T, b: T): number {
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   return ('' + a).localeCompare('' + b);
 }
 

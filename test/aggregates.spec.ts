@@ -7,7 +7,7 @@ import {
 
 const test = Deno.test;
 
-test(function aggregate() {
+test('aggregate', () => {
   assertEquals(
     Lazy.from([1, 2, 3]).aggregate((acc, curr) => acc + curr, 0),
     1 + 2 + 3,
@@ -30,7 +30,7 @@ test(function aggregate() {
   );
 });
 
-test(function all() {
+test('all', () => {
   assertEquals(
     Lazy.from([true, true, true, true]).all(v => v),
     true,
@@ -53,7 +53,7 @@ test(function all() {
   );
 });
 
-test(function any() {
+test('any', () => {
   assertEquals(
     Lazy.from([true, true, true, true]).any(v => v),
     true,
@@ -79,7 +79,7 @@ test(function any() {
   assertEquals(Lazy.from([1]).any(), true);
 });
 
-test(function average() {
+test('average', () => {
   const avg = (lst: number[]) =>
     lst.reduce((prev, curr) => prev + curr) / lst.length;
 
@@ -107,7 +107,7 @@ test(function average() {
   );
 });
 
-test(function contains() {
+test('contains', () => {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).contains(1), true);
   assertEquals(Lazy.from(orig).contains(2), true);
@@ -127,7 +127,7 @@ test(function contains() {
   assertEquals(Lazy.from(orig).contains('7' as any, comparer), false);
 });
 
-test(function count() {
+test('count', () => {
   // Test direct array access.
   assertEquals(Lazy.from([]).count(), 0);
   assertEquals(Lazy.from([1]).count(), 1);
@@ -220,7 +220,7 @@ test(function count() {
   );
 });
 
-test(function elementAt() {
+test('elementAt', () => {
   // Test direct array access.
   let orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).elementAt(0), 1);
@@ -279,7 +279,7 @@ test(function elementAt() {
   );
 });
 
-test(function elementAtOrDefault() {
+test('elementAtOrDefault', () => {
   // Test direct array access.
   let orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).elementAtOrDefault(0, 9), 1);
@@ -383,7 +383,7 @@ test(function elementAtOrDefault() {
   assertEquals(Lazy.from(objs).elementAtOrDefault(10, undefined), undefined);
 });
 
-test(function first() {
+test('first', () => {
   // Test direct array access.
   assertEquals(Lazy.from([1, 2, 3]).first(), 1);
   assertEquals(Lazy.from([2, 3, 1]).first(), 2);
@@ -454,7 +454,7 @@ test(function first() {
   );
 });
 
-test(function firstOrDefault() {
+test('firstOrDefault', () => {
   // Test direct array access.
   assertEquals(Lazy.from([1, 2, 3]).firstOrDefault(9), 1);
   assertEquals(Lazy.from([2, 3, 1]).firstOrDefault(9), 2);
@@ -535,7 +535,7 @@ test(function firstOrDefault() {
   );
 });
 
-test(function forEach() {
+test('forEach', () => {
   const items: Array<{ v: number; i: number }> = [];
   Lazy.from([1, 2, 3, 4, 5]).forEach((v, i) => items.push({ v, i }));
   assertEquals(items, [
@@ -547,7 +547,7 @@ test(function forEach() {
   ]);
 });
 
-test(function iterableEquals() {
+test('iterableEquals', () => {
   assertEquals(Lazy.from([1]).iterableEquals([1]), true);
   assertEquals(Lazy.from([1, 2]).iterableEquals([1, 2]), true);
   assertEquals(Lazy.from([1, 2, 3]).iterableEquals([1, 2, 3]), true);
@@ -570,7 +570,7 @@ test(function iterableEquals() {
   );
 });
 
-test(function last() {
+test('last', () => {
   // Test direct array access.
   assertEquals(Lazy.from([1]).last(), 1);
   assertEquals(Lazy.from([1, 2]).last(), 2);
@@ -670,7 +670,7 @@ test(function last() {
   );
 });
 
-test(function lastOrDefault() {
+test('lastOrDefault', () => {
   // Test direct array access.
   assertEquals(Lazy.from([1]).lastOrDefault(9), 1);
   assertEquals(Lazy.from([1, 2]).lastOrDefault(9), 2);
@@ -785,7 +785,7 @@ test(function lastOrDefault() {
   );
 });
 
-test(function max() {
+test('max', () => {
   assertEquals(Lazy.from([1, 2, 3, 4, 5]).max(), 5);
   assertEquals(Lazy.from([1, 2, 3, 4]).max(), 4);
   assertEquals(Lazy.from([1, 2, 3]).max(), 3);
@@ -806,7 +806,7 @@ test(function max() {
   );
 });
 
-test(function min() {
+test('min', () => {
   assertEquals(Lazy.from([1, 2, 3, 4, 5]).min(), 1);
   assertEquals(Lazy.from([2, 3, 4, 5]).min(), 2);
   assertEquals(Lazy.from([3, 4, 5]).min(), 3);
@@ -827,7 +827,7 @@ test(function min() {
   );
 });
 
-test(async function resolveAll() {
+test('resolveAll', async () => {
   const orig = [
     Promise.resolve(1),
     Promise.resolve(2),
@@ -855,7 +855,7 @@ test(async function resolveAll() {
   );
 });
 
-test(function single() {
+test('single', () => {
   const orig = [
     { key: 1, value: 'a' },
     { key: 2, value: 'b' },
@@ -885,7 +885,7 @@ test(function single() {
   assertThrows(() => Lazy.from(orig).single(v => v.key === 4));
 });
 
-test(function singleOrDefault() {
+test('singleOrDefault', () => {
   const orig = [
     { key: 1, value: 'a' },
     { key: 2, value: 'b' },
@@ -914,7 +914,7 @@ test(function singleOrDefault() {
   );
 });
 
-test(function stringJoin() {
+test('stringJoin', () => {
   assertEquals(Lazy.from([]).stringJoin(), '');
   assertEquals(Lazy.from([1]).stringJoin(), '1');
   assertEquals(Lazy.from([1, 2]).stringJoin(), '12');
@@ -949,7 +949,7 @@ test(function stringJoin() {
   );
 });
 
-test(function sum() {
+test('sum', () => {
   assertEquals(Lazy.from([1]).sum(), 1);
   assertEquals(Lazy.from([1, 2]).sum(), 3);
   assertEquals(Lazy.from([1, 2, 3]).sum(), 6);
@@ -970,7 +970,7 @@ test(function sum() {
   );
 });
 
-test(function toJSON() {
+test('toJSON', () => {
   const s = JSON.stringify;
 
   assertEquals(s(Lazy.from([1, 2, 3, 4, 5])), s([1, 2, 3, 4, 5]));
@@ -985,7 +985,7 @@ test(function toJSON() {
   );
 });
 
-test(function toMap() {
+test('toMap', () => {
   const orig = [
     { key: 1, value: 'a' },
     { key: 2, value: 'b' },

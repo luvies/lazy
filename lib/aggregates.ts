@@ -553,7 +553,7 @@ export function singleOrDefault<TElement, TDefault = TElement>(
 export function stringJoin<TElement>(
   iterable: Iterable<TElement>,
   separator = '',
-  strFn: StrFn<TElement> = element => `${element}`,
+  strFn: StrFn<TElement> = String,
 ): string {
   let str = '';
   let started = false;

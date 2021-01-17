@@ -8,16 +8,20 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [10.x, 12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install Deno
-        run: curl -L https://deno.land/x/install/install.sh | sh -s v0.40.0
+
+      - uses: denolib/setup-deno@v2
+        with:
+          deno-version: 1.x
+
       - name: npm install, build, and test
         run: |
           export PATH=$HOME/.deno/bin:$PATH

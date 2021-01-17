@@ -1,5 +1,4 @@
 import * as aggregates from './aggregates.ts';
-import * as iterators from './iterators.ts';
 import type {
   AggFn,
   BoolPredicate,
@@ -8,6 +7,7 @@ import type {
   MapFn,
   StrFn,
 } from './aggregates.ts';
+import * as iterators from './iterators.ts';
 import type {
   CombineFn,
   IGrouping,
@@ -43,7 +43,7 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    */
   public static from<TElement>(iterable: Iterable<TElement>): Lazy<TElement> {
     if (iterable instanceof Lazy) {
-      return iterable;
+      return iterable as Lazy<TElement>;
     }
     return new LazyIterator(iterable);
   }
@@ -108,7 +108,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * This will cause a complete iteration of the iterable object.
    */
   public aggregate<TAcc>(agg: AggFn<TElement, TAcc>, seed: TAcc): TAcc;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public aggregate<TAcc>(agg: AggFn<TElement, TAcc | TElement>, seed?: TAcc) {
     if (arguments.length >= 2) {
       return aggregates.aggregate(this, agg as any, seed);
@@ -168,7 +167,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public average(selector: MapFn<TElement, number>): number;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public average(selector?: MapFn<TElement, number>) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return aggregates.average(this, selector as any);
@@ -204,7 +202,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * This will cause a complete iteration of the iterable object.
    */
   public count(predicate: BoolPredicate<TElement>): number;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public count(predicate?: BoolPredicate<TElement>) {
     return aggregates.count(this, predicate);
   }
@@ -244,7 +241,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     index: number,
     defaultValue: TDefault,
   ): TElement | TDefault;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public elementAtOrDefault<TDefault = TElement>(
     index: number,
     defaultValue: TDefault,
@@ -316,7 +312,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     defaultValue: TDefault,
     predicate: BoolPredicate<TElement>,
   ): TElement | TDefault;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public firstOrDefault<TDefault = TElement>(
     defaultValue: TDefault,
     predicate?: BoolPredicate<TElement>,
@@ -412,7 +407,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     defaultValue: TDefault,
     predicate: BoolPredicate<TElement>,
   ): TElement | TDefault;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public lastOrDefault(
     defaultValue: TElement,
     predicate?: BoolPredicate<TElement>,
@@ -436,7 +430,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public max(selector: MapFn<TElement, number>): number;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public max(selector?: MapFn<TElement, number>) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return aggregates.max(this, selector as any);
@@ -458,7 +451,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public min(selector: MapFn<TElement, number>): number;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public min(selector?: MapFn<TElement, number>) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return aggregates.min(this, selector as any);
@@ -522,7 +514,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
     predicate: BoolPredicate<TElement>,
     defaultValue: TDefault,
   ): TElement | TDefault;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public singleOrDefault<TDefault = TElement>(
     predicate: BoolPredicate<TElement>,
     defaultValue: TDefault,
@@ -557,7 +548,6 @@ export abstract class Lazy<TElement> implements Iterable<TElement> {
    * @remarks This will cause a complete iteration of the iterable object.
    */
   public sum(selector: MapFn<TElement, number>): number;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   public sum(selector?: MapFn<TElement, number>) {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return aggregates.sum(this, selector as any);
@@ -1644,9 +1634,11 @@ class LazyWhere<TElement> extends Lazy<TElement> {
 /**
  * @hidden
  */
-class LazyZip<TFirst, TSecond, TResult = [TFirst, TSecond]> extends Lazy<
-  TResult
-> {
+class LazyZip<
+  TFirst,
+  TSecond,
+  TResult = [TFirst, TSecond]
+> extends Lazy<TResult> {
   public constructor(
     private readonly _firstIterable: Iterable<TFirst>,
     private readonly _secondIterable: Iterable<TSecond>,

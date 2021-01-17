@@ -1,31 +1,31 @@
 import { Lazy } from '../lib/mod.ts';
 import {
   assertEquals,
-  assertStrictEq,
+  assertStrictEquals,
   assertThrows,
 } from './deps/std/testing/asserts.ts';
 
 const test = Deno.test;
 
-test(function empty() {
+test('empty', () => {
   assertEquals(Lazy.empty().toArray(), []);
 });
 
-test(function from() {
+test('from', () => {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).toArray(), orig);
 
   const first = Lazy.from(orig);
-  assertStrictEq(Lazy.from(first), first);
+  assertStrictEquals(Lazy.from(first), first);
 
   const second = first.where(i => i % 2 === 0);
-  assertStrictEq(Lazy.from(second), second);
+  assertStrictEquals(Lazy.from(second), second);
 
   const third = second.select(i => i ** 2);
-  assertStrictEq(Lazy.from(third), third);
+  assertStrictEquals(Lazy.from(third), third);
 });
 
-test(function range() {
+test('range', () => {
   assertEquals(Lazy.range(0, 5).toArray(), [0, 1, 2, 3, 4]);
   assertEquals(Lazy.range(0, 0).toArray(), []);
   assertEquals(Lazy.range(0, 1).toArray(), [0]);
@@ -40,7 +40,7 @@ test(function range() {
   assertEquals(Lazy.range(4).take(5).toArray(), [4, 5, 6, 7, 8]);
 });
 
-test(function repeat() {
+test('repeat', () => {
   assertEquals(Lazy.repeat('a', 1).toArray(), ['a']);
   assertEquals(Lazy.repeat('a', 2).toArray(), ['a', 'a']);
   assertEquals(Lazy.repeat('a', 3).toArray(), ['a', 'a', 'a']);
@@ -55,7 +55,7 @@ test(function repeat() {
   assertEquals(Lazy.repeat('a').take(5).toArray(), ['a', 'a', 'a', 'a', 'a']);
 });
 
-test(async function _forAwait() {
+test('_forAwait', async () => {
   // This isn't a test of any specific implementation, just of functionality.
 
   const orig = [

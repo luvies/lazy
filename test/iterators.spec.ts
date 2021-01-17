@@ -3,7 +3,7 @@ import { assertEquals } from './deps/std/testing/asserts.ts';
 
 const test = Deno.test;
 
-test(function append() {
+test('append', () => {
   let orig = [1, 2, 3, 4];
   assertEquals(Lazy.from(orig).append(5).toArray(), [...orig, 5]);
 
@@ -14,7 +14,7 @@ test(function append() {
   assertEquals(Lazy.from(orig).append(0).toArray(), [...orig, 0]);
 });
 
-test(function apply() {
+test('apply', () => {
   class LazyNumberToString extends Lazy<string> {
     public constructor(
       private readonly _iterable: Iterable<number>,
@@ -79,7 +79,7 @@ test(function apply() {
   );
 });
 
-test(function batchIn() {
+test('batchIn', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   assertEquals(Lazy.from(orig).batchIn(1).toArray(), [
@@ -175,7 +175,7 @@ test(function batchIn() {
   assertEquals(Lazy.from(orig).batchIn(10, false).toArray(), []);
 });
 
-test(function cache() {
+test('cache', () => {
   const orig = [1, 2, 3, 4, 5];
 
   assertEquals(Lazy.from(orig).cache().toArray(), orig);
@@ -202,7 +202,7 @@ test(function cache() {
   assertEquals(calls, 5);
 });
 
-test(function concat() {
+test('concat', () => {
   let first = [1, 2, 3, 4];
   let second = [5, 6, 7, 8];
   assertEquals(Lazy.from(first).concat(second).toArray(), [
@@ -222,7 +222,7 @@ test(function concat() {
   assertEquals(Lazy.from<number>([]).concat([], [], [1], []).toArray(), [1]);
 });
 
-test(function defaultIfEmpty() {
+test('defaultIfEmpty', () => {
   let orig = [1, 2, 3];
   assertEquals(Lazy.from(orig).defaultIfEmpty(9).toArray(), orig);
 
@@ -230,7 +230,7 @@ test(function defaultIfEmpty() {
   assertEquals(Lazy.from(orig).defaultIfEmpty(9).toArray(), [9]);
 });
 
-test(function distinct() {
+test('distinct', () => {
   let orig = [1, 2, 3, 1, 2, 3];
   assertEquals(Lazy.from(orig).distinct().toArray(), [1, 2, 3]);
 
@@ -252,14 +252,14 @@ test(function distinct() {
   );
 });
 
-test(function except() {
+test('except', () => {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).except([2, 4]).toArray(), [1, 3, 5]);
   assertEquals(Lazy.from(orig).except([1]).toArray(), [2, 3, 4, 5]);
   assertEquals(Lazy.from(orig).except([4, 5]).toArray(), [1, 2, 3]);
 });
 
-test(function groupBy() {
+test('groupBy', () => {
   const objs = [
     { key: 1, value: 'a' },
     { key: 2, value: 'b' },
@@ -330,7 +330,7 @@ test(function groupBy() {
   );
 });
 
-test(function groupJoin() {
+test('groupJoin', () => {
   const first = [
     { key: 1, value: 5 },
     { key: 2, value: 4 },
@@ -374,7 +374,7 @@ test(function groupJoin() {
   );
 });
 
-test(function itersect() {
+test('itersect', () => {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).intersect([1, 2, 3]).toArray(), [1, 2, 3]);
   assertEquals(Lazy.from(orig).intersect([2, 3, 4]).toArray(), [2, 3, 4]);
@@ -382,7 +382,7 @@ test(function itersect() {
   assertEquals(Lazy.from(orig).intersect([1, 3, 5, 7, 9]).toArray(), [1, 3, 5]);
 });
 
-test(function join() {
+test('join', () => {
   const first = [
     { key: 1, value1: 'a1' },
     { key: 2, value1: 'b1' },
@@ -417,7 +417,7 @@ test(function join() {
   );
 });
 
-test(function orderBy() {
+test('orderBy', () => {
   const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
@@ -465,7 +465,7 @@ test(function orderBy() {
   );
 });
 
-test(function orderByDecending() {
+test('orderByDecending', () => {
   const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
@@ -504,7 +504,7 @@ test(function orderByDecending() {
   );
 });
 
-test(function orderNumericallyBy() {
+test('orderNumericallyBy', () => {
   const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
@@ -536,7 +536,7 @@ test(function orderNumericallyBy() {
   );
 });
 
-test(function orderNumericallyByDecending() {
+test('orderNumericallyByDecending', () => {
   const orig = [2, 1, 5, 3, 4, 10, 20];
   assertEquals(
     Lazy.from(orig)
@@ -568,7 +568,7 @@ test(function orderNumericallyByDecending() {
   );
 });
 
-test(function prepend() {
+test('prepend', () => {
   let orig = [1, 2, 3, 4];
   assertEquals(Lazy.from(orig).prepend(5).toArray(), [5, ...orig]);
 
@@ -579,13 +579,13 @@ test(function prepend() {
   assertEquals(Lazy.from(orig).prepend(0).toArray(), [0, ...orig]);
 });
 
-test(function reverse() {
+test('reverse', () => {
   const orig = [1, 2, 3, 4, 5];
   assertEquals(Lazy.from(orig).reverse().toArray(), [5, 4, 3, 2, 1]);
   assertEquals(Lazy.from(orig).reverse().reverse().toArray(), orig);
 });
 
-test(function select() {
+test('select', () => {
   let orig = [
     { value: 1 },
     { value: 2 },
@@ -615,7 +615,7 @@ test(function select() {
   );
 });
 
-test(function selectMany() {
+test('selectMany', () => {
   let orig = [
     { value: [1] },
     { value: [2] },
@@ -664,7 +664,7 @@ test(function selectMany() {
   );
 });
 
-test(function skip() {
+test('skip', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(Lazy.from(orig).skip(0).toArray(), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
   assertEquals(Lazy.from(orig).skip(1).toArray(), [2, 3, 4, 5, 6, 7, 8, 9]);
@@ -675,7 +675,7 @@ test(function skip() {
   assertEquals(Lazy.from(orig).skip(10).toArray(), []);
 });
 
-test(function skipLast() {
+test('skipLast', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(Lazy.from(orig).skipLast(0).toArray(), [
     1,
@@ -696,7 +696,7 @@ test(function skipLast() {
   assertEquals(Lazy.from(orig).skipLast(10).toArray(), []);
 });
 
-test(function skipWhile() {
+test('skipWhile', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(
     Lazy.from(orig)
@@ -742,7 +742,7 @@ test(function skipWhile() {
   );
 });
 
-test(function take() {
+test('take', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(Lazy.from(orig).take(-1).toArray(), []);
   assertEquals(Lazy.from(orig).take(0).toArray(), []);
@@ -753,7 +753,7 @@ test(function take() {
   assertEquals(Lazy.from(orig).take(5).toArray(), [1, 2, 3, 4, 5]);
 });
 
-test(function takeLast() {
+test('takeLast', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(Lazy.from(orig).takeLast(-1).toArray(), []);
   assertEquals(Lazy.from(orig).takeLast(0).toArray(), []);
@@ -764,7 +764,7 @@ test(function takeLast() {
   assertEquals(Lazy.from(orig).takeLast(5).toArray(), [5, 6, 7, 8, 9]);
 });
 
-test(function takeWhile() {
+test('takeWhile', () => {
   const orig = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   assertEquals(
     Lazy.from(orig)
@@ -810,7 +810,7 @@ test(function takeWhile() {
   );
 });
 
-test(function union() {
+test('union', () => {
   assertEquals(Lazy.from([1, 2, 3]).union([3, 4, 5]).toArray(), [
     1,
     2,
@@ -841,7 +841,7 @@ test(function union() {
   ]);
 });
 
-test(function where() {
+test('where', () => {
   assertEquals(
     Lazy.from([1, 2, 3, 4, 5])
       .where(v => v === 1)
@@ -927,7 +927,7 @@ test(function where() {
   );
 });
 
-test(function zip() {
+test('zip', () => {
   assertEquals(Lazy.from([1, 2, 3, 4]).zip([4, 3, 2, 1]).toArray(), [
     [1, 4],
     [2, 3],
