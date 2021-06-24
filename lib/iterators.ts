@@ -682,7 +682,7 @@ export class LazySelectIterator<TSource, TResult> implements Iterator<TResult> {
       const nextResult = {
         done: false,
         value: this._selector(result.value, this._index),
-      } as const;
+      };
       this._index++;
 
       return nextResult;

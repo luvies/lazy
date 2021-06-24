@@ -5,5 +5,8 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
+  },
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
   }
 }
